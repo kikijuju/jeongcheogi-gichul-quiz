@@ -14,6 +14,28 @@ const state = {
 
 const CONCEPT_CATEGORIES = ["소프트웨어공학", "SQL/DB", "네트워크", "보안", "디자인패턴", "기타"];
 
+const BRAND_STORAGE_KEY = "itq-brand-v1";
+const BRAND_TEXT = {
+  goguma: { title: "정처기고구마", start: "🍠 퀴즈 시작", retry: "🍠 오답만 다시 풀기", toggle: "📘 심플 테마" },
+  plain: { title: "정처기 실기 기출 학습", start: "퀴즈 시작", retry: "오답만 다시 풀기", toggle: "🍠 고구마 테마" },
+};
+
+function applyBrand(brand) {
+  document.documentElement.setAttribute("data-brand", brand);
+  const t = BRAND_TEXT[brand];
+  document.title = t.title;
+  document.querySelector(".brand-text h1").textContent = t.title;
+  document.getElementById("start-btn").textContent = t.start;
+  document.getElementById("retry-wrong-btn").textContent = t.retry;
+  document.getElementById("brand-toggle").textContent = t.toggle;
+  localStorage.setItem(BRAND_STORAGE_KEY, brand);
+}
+
+document.getElementById("brand-toggle").addEventListener("click", () => {
+  const current = document.documentElement.getAttribute("data-brand") || "goguma";
+  applyBrand(current === "goguma" ? "plain" : "goguma");
+});
+
 function loadProgress() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
@@ -312,9 +334,6 @@ function conceptGroups() {
 
 function renderConcepts() {
   const catWrap = document.getElementById("concept-category-filter");
-  if (state.conceptCategories.size === 0) {
-    CONCEPT_CATEGORIES.forEach((c) => state.conceptCategories.add(c));
-  }
   catWrap.innerHTML = "";
   CONCEPT_CATEGORIES.forEach((cat) => {
     const label = document.createElement("label");
@@ -447,6 +466,7 @@ document.getElementById("reset-stats-btn").addEventListener("click", () => {
 // ---------- init ----------
 
 (async function init() {
+  applyBrand(localStorage.getItem(BRAND_STORAGE_KEY) || "goguma");
   await loadQuestions();
   state.progress = loadProgress();
   renderHome();

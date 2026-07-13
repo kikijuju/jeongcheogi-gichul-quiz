@@ -4,12 +4,38 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta name="robots" content="noindex, nofollow" />
-<title>정처기 실기 기출 학습</title>
+<title>정처기고구마</title>
+<link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍠</text></svg>" />
 <link rel="stylesheet" href="css/style.css" />
 </head>
 <body>
 <header class="topbar">
-  <h1>정처기 실기 기출 학습</h1>
+  <div class="brand">
+    <svg class="mascot" viewBox="0 0 120 132" aria-hidden="true">
+      <ellipse cx="65" cy="100" rx="34" ry="14" fill="#3a2418" opacity="0.08"/>
+      <path d="M60,15 C40,15 22,30 18,55 C14,80 25,106 45,119 C55,125 65,125 75,119 C95,106 106,80 102,55 C98,30 80,15 60,15 Z"
+            fill="#a8567f" stroke="#7c3a56" stroke-width="3"/>
+      <path d="M78,45 C92,50 100,68 96,86 C93,100 82,112 70,117 C86,106 96,84 92,58 C90,50 84,46 78,45 Z"
+            fill="#7c3a56" opacity="0.45"/>
+      <path d="M56,16 C50,6 38,3 31,9 C40,15 48,18 57,16 Z" fill="#5f9a45"/>
+      <path d="M63,15 C69,4 81,2 88,9 C79,15 71,17 63,15 Z" fill="#84c25f"/>
+      <path d="M25,80 C13,84 8,96 14,106" fill="none" stroke="#7c3a56" stroke-width="4" stroke-linecap="round"/>
+      <path d="M95,80 C107,84 112,96 106,106" fill="none" stroke="#7c3a56" stroke-width="4" stroke-linecap="round"/>
+      <path d="M46,118 L42,129" fill="none" stroke="#7c3a56" stroke-width="4" stroke-linecap="round"/>
+      <path d="M74,118 L78,129" fill="none" stroke="#7c3a56" stroke-width="4" stroke-linecap="round"/>
+      <ellipse cx="34" cy="82" rx="7" ry="4.5" fill="#f0a7bd" opacity="0.7"/>
+      <ellipse cx="86" cy="82" rx="7" ry="4.5" fill="#f0a7bd" opacity="0.7"/>
+      <circle cx="45" cy="68" r="5.5" fill="#2b1a12"/>
+      <circle cx="75" cy="68" r="5.5" fill="#2b1a12"/>
+      <circle cx="43" cy="66" r="1.6" fill="#fff"/>
+      <circle cx="73" cy="66" r="1.6" fill="#fff"/>
+      <path d="M50,86 Q60,94 70,86" fill="none" stroke="#2b1a12" stroke-width="3.2" stroke-linecap="round"/>
+    </svg>
+    <div class="brand-text">
+      <h1>정처기고구마</h1>
+      <p class="tagline">군고구마처럼 천천히, 꾸준히 파는 정처기 실기 기출</p>
+    </div>
+  </div>
   <nav class="tabs">
     <button class="tab-btn active" data-view="home">홈</button>
     <button class="tab-btn" data-view="quiz">퀴즈</button>
@@ -17,6 +43,7 @@
     <button class="tab-btn" data-view="concepts">개념정리</button>
     <button class="tab-btn" data-view="stats">통계</button>
   </nav>
+  <button id="brand-toggle" class="brand-toggle-btn" type="button">📘 심플 테마</button>
 </header>
 
 <main id="app">
@@ -44,7 +71,7 @@
         <span class="filter-label">선택된 문제</span>
         <span id="selected-count" class="selected-count">0문제</span>
       </div>
-      <button id="start-btn" class="primary-btn">퀴즈 시작</button>
+      <button id="start-btn" class="primary-btn">🍠 퀴즈 시작</button>
     </div>
   </section>
 
@@ -77,7 +104,7 @@
     <div class="card">
       <h2>오답노트</h2>
       <p id="wrong-empty" class="empty-msg hidden">아직 틀린 문제가 없습니다.</p>
-      <button id="retry-wrong-btn" class="primary-btn">오답만 다시 풀기</button>
+      <button id="retry-wrong-btn" class="primary-btn">🍠 오답만 다시 풀기</button>
       <div id="wrong-list" class="wrong-list"></div>
     </div>
   </section>

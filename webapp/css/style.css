@@ -1,4 +1,70 @@
 :root {
+  --bg: #fbf1e3;
+  --surface: #fffaf1;
+  --text: #3a2418;
+  --text-muted: #8a6f5c;
+  --border: #ecdcc3;
+  --accent: #9c4f6e;
+  --accent-text: #ffffff;
+  --correct: #5a8f3d;
+  --wrong: #d1592f;
+  --chip-bg: #f3e4cd;
+  --chip-active-bg: #9c4f6e;
+  --chip-active-text: #ffffff;
+  --code-bg: #f7ecdd;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #241811;
+    --surface: #2f2018;
+    --text: #f5e6d6;
+    --text-muted: #c2a48b;
+    --border: #4a3526;
+    --accent: #e0899f;
+    --accent-text: #2b1a12;
+    --correct: #7bc760;
+    --wrong: #f08a5d;
+    --chip-bg: #3a2a1e;
+    --chip-active-bg: #e0899f;
+    --chip-active-text: #2b1a12;
+    --code-bg: #1c130c;
+  }
+}
+
+:root[data-theme="dark"] {
+  --bg: #241811;
+  --surface: #2f2018;
+  --text: #f5e6d6;
+  --text-muted: #c2a48b;
+  --border: #4a3526;
+  --accent: #e0899f;
+  --accent-text: #2b1a12;
+  --correct: #7bc760;
+  --wrong: #f08a5d;
+  --chip-bg: #3a2a1e;
+  --chip-active-bg: #e0899f;
+  --chip-active-text: #2b1a12;
+  --code-bg: #1c130c;
+}
+
+:root[data-theme="light"] {
+  --bg: #fbf1e3;
+  --surface: #fffaf1;
+  --text: #3a2418;
+  --text-muted: #8a6f5c;
+  --border: #ecdcc3;
+  --accent: #9c4f6e;
+  --accent-text: #ffffff;
+  --correct: #5a8f3d;
+  --wrong: #d1592f;
+  --chip-bg: #f3e4cd;
+  --chip-active-bg: #9c4f6e;
+  --chip-active-text: #ffffff;
+  --code-bg: #f7ecdd;
+}
+
+:root[data-brand="plain"] {
   --bg: #f5f6f8;
   --surface: #ffffff;
   --text: #1c1e21;
@@ -15,7 +81,7 @@
 }
 
 @media (prefers-color-scheme: dark) {
-  :root {
+  :root[data-brand="plain"] {
     --bg: #16181c;
     --surface: #1f2227;
     --text: #ecedee;
@@ -32,7 +98,7 @@
   }
 }
 
-:root[data-theme="dark"] {
+:root[data-brand="plain"][data-theme="dark"] {
   --bg: #16181c;
   --surface: #1f2227;
   --text: #ecedee;
@@ -48,7 +114,7 @@
   --code-bg: #14161a;
 }
 
-:root[data-theme="light"] {
+:root[data-brand="plain"][data-theme="light"] {
   --bg: #f5f6f8;
   --surface: #ffffff;
   --text: #1c1e21;
@@ -62,6 +128,25 @@
   --chip-active-bg: #2f6feb;
   --chip-active-text: #ffffff;
   --code-bg: #f0f1f3;
+}
+
+[data-brand="plain"] .mascot,
+[data-brand="plain"] .tagline {
+  display: none;
+}
+
+[data-brand="plain"] .card {
+  border-radius: 10px;
+  box-shadow: none;
+}
+
+[data-brand="plain"] .primary-btn,
+[data-brand="plain"] .secondary-btn,
+[data-brand="plain"] .nav-btn,
+[data-brand="plain"] .correct-btn,
+[data-brand="plain"] .wrong-btn,
+[data-brand="plain"] .danger-btn {
+  border-radius: 6px;
 }
 
 * { box-sizing: border-box; }
@@ -88,14 +173,42 @@ body {
   gap: 10px;
 }
 
-.topbar h1 {
+.brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.mascot {
+  width: 46px;
+  height: 51px;
+  flex-shrink: 0;
+}
+
+.brand-text h1 {
   font-size: 18px;
   margin: 0;
+}
+
+.tagline {
+  margin: 2px 0 0;
+  font-size: 12px;
+  color: var(--text-muted);
 }
 
 .tabs {
   display: flex;
   gap: 6px;
+}
+
+.brand-toggle-btn {
+  border: 1px dashed var(--border);
+  background: transparent;
+  color: var(--text-muted);
+  padding: 6px 12px;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 12px;
 }
 
 .tab-btn {
@@ -126,9 +239,10 @@ body {
 .card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: 12px;
+  border-radius: 18px;
   padding: 18px 20px;
   margin-bottom: 16px;
+  box-shadow: 0 2px 10px rgba(120, 72, 40, 0.06);
 }
 
 .card h2 {
@@ -212,7 +326,7 @@ body {
 
 .primary-btn, .secondary-btn, .nav-btn, .correct-btn, .wrong-btn, .danger-btn {
   border: none;
-  border-radius: 8px;
+  border-radius: 12px;
   padding: 10px 18px;
   font-size: 14px;
   cursor: pointer;
