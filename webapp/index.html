@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta name="robots" content="noindex, nofollow" />
+<title>정처기 실기 기출 학습</title>
+<link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+<header class="topbar">
+  <h1>정처기 실기 기출 학습</h1>
+  <nav class="tabs">
+    <button class="tab-btn active" data-view="home">홈</button>
+    <button class="tab-btn" data-view="quiz">퀴즈</button>
+    <button class="tab-btn" data-view="wrong">오답노트</button>
+    <button class="tab-btn" data-view="concepts">개념정리</button>
+    <button class="tab-btn" data-view="stats">통계</button>
+  </nav>
+</header>
+
+<main id="app">
+
+  <section id="view-home" class="view active">
+    <div class="card">
+      <h2>회차 선택</h2>
+      <div id="round-grid" class="round-grid"></div>
+    </div>
+
+    <div class="card">
+      <h2>필터 설정</h2>
+      <div class="filter-row">
+        <span class="filter-label">카테고리</span>
+        <div id="category-filter" class="chip-group"></div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">출제 순서</span>
+        <div id="order-filter" class="chip-group">
+          <label class="chip active"><input type="radio" name="order" value="sequential" checked /> 순차</label>
+          <label class="chip"><input type="radio" name="order" value="random" /> 랜덤</label>
+        </div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">선택된 문제</span>
+        <span id="selected-count" class="selected-count">0문제</span>
+      </div>
+      <button id="start-btn" class="primary-btn">퀴즈 시작</button>
+    </div>
+  </section>
+
+  <section id="view-quiz" class="view">
+    <div class="quiz-progress">
+      <span id="quiz-progress-text">0 / 0</span>
+      <div class="progress-bar"><div id="quiz-progress-fill" class="progress-fill"></div></div>
+    </div>
+    <div class="card quiz-card">
+      <div id="quiz-meta" class="quiz-meta"></div>
+      <div id="quiz-prompt" class="quiz-prompt"></div>
+      <textarea id="quiz-answer-input" class="answer-input" placeholder="여기에 정답을 직접 적어보세요 (채점되지 않고, 스스로 비교하는 용도입니다)"></textarea>
+      <div id="quiz-answer-reveal" class="answer-reveal hidden">
+        <h3>정답</h3>
+        <div id="quiz-answer-text" class="answer-text"></div>
+      </div>
+      <div class="quiz-actions">
+        <button id="reveal-btn" class="secondary-btn">정답 보기</button>
+        <button id="mark-correct-btn" class="correct-btn hidden">맞았음</button>
+        <button id="mark-wrong-btn" class="wrong-btn hidden">틀렸음</button>
+      </div>
+      <div class="quiz-nav">
+        <button id="prev-btn" class="nav-btn">이전</button>
+        <button id="next-btn" class="nav-btn">다음</button>
+      </div>
+    </div>
+  </section>
+
+  <section id="view-wrong" class="view">
+    <div class="card">
+      <h2>오답노트</h2>
+      <p id="wrong-empty" class="empty-msg hidden">아직 틀린 문제가 없습니다.</p>
+      <button id="retry-wrong-btn" class="primary-btn">오답만 다시 풀기</button>
+      <div id="wrong-list" class="wrong-list"></div>
+    </div>
+  </section>
+
+  <section id="view-concepts" class="view">
+    <div class="card">
+      <h2>주관식 개념 정리</h2>
+      <p class="empty-msg">코드 추적 문제(C/Java/Python)를 제외한 암기형 개념 문제를 모아, 같은 문장은 하나로 묶고 자주 나온 순서로 정리했습니다.</p>
+      <div class="filter-row">
+        <span class="filter-label">카테고리</span>
+        <div id="concept-category-filter" class="chip-group"></div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">검색</span>
+        <input id="concept-search" type="text" class="search-input" placeholder="키워드로 검색 (문제/정답 내용)" />
+      </div>
+      <div id="concept-count" class="selected-count"></div>
+    </div>
+    <div id="concept-list"></div>
+  </section>
+
+  <section id="view-stats" class="view">
+    <div class="card">
+      <h2>진도 요약</h2>
+      <div id="stats-summary" class="stats-summary"></div>
+    </div>
+    <div class="card">
+      <h2>카테고리별 정답률</h2>
+      <div id="stats-category" class="stats-bars"></div>
+    </div>
+    <div class="card">
+      <h2>회차별 진도</h2>
+      <div id="stats-round" class="stats-bars"></div>
+    </div>
+    <button id="reset-stats-btn" class="danger-btn">전체 기록 초기화</button>
+  </section>
+
+</main>
+
+<script src="js/app.js"></script>
+</body>
+</html>
