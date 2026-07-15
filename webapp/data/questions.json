@@ -55,7 +55,7 @@
     "round": 1,
     "number": 6,
     "category": "SQL/DB",
-    "prompt_html": "<p>6. STUDENT 테이블에서 컴퓨터과 학생 50명, 인터넷과 학생 100명, 사무자동화과 학생 50명의 정보가 저장되어 있을 때, 다음 SQL문의 실행 결과에 따른 튜플의 수는? (단, DEPT 칼럼은 학과명이다.)</p>\n<p>1) SELECT DERP FROM STUDENT;</p>\n<p>2) SELECT DISTINCT DEPT FROM STUDENT;</p>\n<p>3) SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '컴퓨터과';</p>",
+    "prompt_html": "<p>6. STUDENT 테이블에서 컴퓨터과 학생 50명, 인터넷과 학생 100명, 사무자동화과 학생 50명의 정보가 저장되어 있을 때, 다음 SQL문의 실행 결과에 따른 튜플의 수는? (단, DEPT 칼럼은 학과명이다.)</p>\n<pre><code>1) SELECT DERP FROM STUDENT;</code></pre>\n<pre><code>2) SELECT DISTINCT DEPT FROM STUDENT;</code></pre>\n<pre><code>3) SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '컴퓨터과';</code></pre>",
     "prompt_text": "6. STUDENT 테이블에서 컴퓨터과 학생 50명, 인터넷과 학생 100명, 사무자동화과 학생 50명의 정보가 저장되어 있을 때, 다음 SQL문의 실행 결과에 따른 튜플의 수는? (단, DEPT 칼럼은 학과명이다.) 1) SELECT DERP FROM STUDENT; 2) SELECT DISTINCT DEPT FROM STUDENT; 3) SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '컴퓨터과';",
     "answer": "1. 200\n2. 3\n3. 1"
   },
@@ -855,7 +855,7 @@
     "round": 1,
     "number": 6,
     "category": "SQL/DB",
-    "prompt_html": "<p>6. 다음 SQL 실행 결과를 숫자만 쓰시오.</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr>\n<td style=\"width: 50%; text-align: center;\">EMPNO</td>\n<td style=\"width: 50%; text-align: center;\">SAL</td>\n</tr>\n<tr>\n<td style=\"width: 50%; text-align: center;\">100</td>\n<td style=\"width: 50%; text-align: center;\">1000</td>\n</tr>\n<tr>\n<td style=\"width: 50%; text-align: center;\">200</td>\n<td style=\"width: 50%; text-align: center;\">3000</td>\n</tr>\n<tr>\n<td style=\"width: 50%; text-align: center;\">300</td>\n<td style=\"width: 50%; text-align: center;\">1500</td>\n</tr>\n</tbody>\n</table>\n<p>SELECT COUNT(*) FROM 급여</p>\n<p>WHERE EMPNO &gt; 100 AND SAL &gt;= 3000 OR EMPNO = 200;</p>",
+    "prompt_html": "<p>6. 다음 SQL 실행 결과를 숫자만 쓰시오.</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr>\n<td style=\"width: 50%; text-align: center;\">EMPNO</td>\n<td style=\"width: 50%; text-align: center;\">SAL</td>\n</tr>\n<tr>\n<td style=\"width: 50%; text-align: center;\">100</td>\n<td style=\"width: 50%; text-align: center;\">1000</td>\n</tr>\n<tr>\n<td style=\"width: 50%; text-align: center;\">200</td>\n<td style=\"width: 50%; text-align: center;\">3000</td>\n</tr>\n<tr>\n<td style=\"width: 50%; text-align: center;\">300</td>\n<td style=\"width: 50%; text-align: center;\">1500</td>\n</tr>\n</tbody>\n</table>\n<pre><code>SELECT COUNT(*) FROM 급여\nWHERE EMPNO &gt; 100 AND SAL &gt;= 3000 OR EMPNO = 200;</code></pre>",
     "prompt_text": "6. 다음 SQL 실행 결과를 숫자만 쓰시오. EMPNO SAL 100 1000 200 3000 300 1500 SELECT COUNT(*) FROM 급여 WHERE EMPNO > 100 AND SAL >= 3000 OR EMPNO = 200;",
     "answer": "답 : 1"
   },
@@ -1055,7 +1055,7 @@
     "round": 2,
     "number": 6,
     "category": "SQL/DB",
-    "prompt_html": "<p>6. 다음 SQL 보기에서 JOIN할 경우 괄호안에 알맞는 문장을 작성하시오.</p>\n<p>SELECT .... FROM 학생정보 a JOIN 학과정보 b (   1   ) a.학과 = b.(   2   )</p>",
+    "prompt_html": "<p>6. 다음 SQL 보기에서 JOIN할 경우 괄호안에 알맞는 문장을 작성하시오.</p>\n<pre><code>SELECT .... FROM 학생정보 a JOIN 학과정보 b (   1   ) a.학과 = b.(   2   )</code></pre>",
     "prompt_text": "6. 다음 SQL 보기에서 JOIN할 경우 괄호안에 알맞는 문장을 작성하시오. SELECT .... FROM 학생정보 a JOIN 학과정보 b (   1   ) a.학과 = b.(   2   )",
     "answer": "1. ON\n2. 학과"
   },
@@ -1095,7 +1095,7 @@
     "round": 2,
     "number": 10,
     "category": "SQL/DB",
-    "prompt_html": "<p>10. SQL문에서 괄호안에 알맞은 답안을 작성하시오. (실제 시험에는 결과 이미지가 있습니다.)</p>\n<p>('이름'이란 컬럼에 '이'로 시작하는 문자열을 '내림차순'하는 쿼리 결과 내용입니다.)</p>\n<p>SELECT .... FROM ... WHERE '이름' LIKE (   1   )  ORDER BY  '컬럼명'  (    2    )</p>",
+    "prompt_html": "<p>10. SQL문에서 괄호안에 알맞은 답안을 작성하시오. (실제 시험에는 결과 이미지가 있습니다.)</p>\n<p>('이름'이란 컬럼에 '이'로 시작하는 문자열을 '내림차순'하는 쿼리 결과 내용입니다.)</p>\n<pre><code>SELECT .... FROM ... WHERE '이름' LIKE (   1   )  ORDER BY  '컬럼명'  (    2    )</code></pre>",
     "prompt_text": "10. SQL문에서 괄호안에 알맞은 답안을 작성하시오. (실제 시험에는 결과 이미지가 있습니다.) ('이름'이란 컬럼에 '이'로 시작하는 문자열을 '내림차순'하는 쿼리 결과 내용입니다.) SELECT .... FROM ... WHERE '이름' LIKE (   1   )  ORDER BY  '컬럼명'  (    2    )",
     "answer": "1. 이%\n2. DESC"
   },
@@ -1385,7 +1385,7 @@
     "round": 1,
     "number": 4,
     "category": "SQL/DB",
-    "prompt_html": "<p>4. 다음 SQL 결과에 알맞는 쿼리을 작성하시오.</p>\n<p>SELECT name, score FROM 성적 ( 1 ) BY ( 2 ) ( 3 )</p>",
+    "prompt_html": "<p>4. 다음 SQL 결과에 알맞는 쿼리을 작성하시오.</p>\n<pre><code>SELECT name, score FROM 성적 ( 1 ) BY ( 2 ) ( 3 )</code></pre>",
     "prompt_text": "4. 다음 SQL 결과에 알맞는 쿼리을 작성하시오. SELECT name, score FROM 성적 ( 1 ) BY ( 2 ) ( 3 )",
     "answer": "1. ORDER\n2. score\n3. DESC"
   },
@@ -1565,7 +1565,7 @@
     "round": 2,
     "number": 3,
     "category": "SQL/DB",
-    "prompt_html": "<p>3. H회사의 전체 제품 단가 보다 큰 제품 출력을 하고자 한다. 괄호안에 들어갈 알맞는 용어를 작성하시오.</p>\n<p>[제품테이블]</p>\n<p>SELECT 제조사, 제품명, 단가 FROM 제품 WHERE 단가 &gt; ( ) (SELECT 단가 FROM 제품 WHERE 제조사='H')</p>",
+    "prompt_html": "<p>3. H회사의 전체 제품 단가 보다 큰 제품 출력을 하고자 한다. 괄호안에 들어갈 알맞는 용어를 작성하시오.</p>\n<p>[제품테이블]</p>\n<pre><code>SELECT 제조사, 제품명, 단가 FROM 제품 WHERE 단가 &gt; ( ) (SELECT 단가 FROM 제품 WHERE 제조사='H')</code></pre>",
     "prompt_text": "3. H회사의 전체 제품 단가 보다 큰 제품 출력을 하고자 한다. 괄호안에 들어갈 알맞는 용어를 작성하시오. [제품테이블] SELECT 제조사, 제품명, 단가 FROM 제품 WHERE 단가 > ( ) (SELECT 단가 FROM 제품 WHERE 제조사='H')",
     "answer": "ALL"
   },
@@ -1575,7 +1575,7 @@
     "round": 2,
     "number": 4,
     "category": "SQL/DB",
-    "prompt_html": "<p>4. 다음 SQL 결과에 알맞는 답을 작성하시오.</p>\n<p>[TABLE]</p>\n<p>SELECT count(col2) FROM TABLE WHERE col1 in(2,3) or col2 in(3,5);</p>",
+    "prompt_html": "<p>4. 다음 SQL 결과에 알맞는 답을 작성하시오.</p>\n<p>[TABLE]</p>\n<pre><code>SELECT count(col2) FROM TABLE WHERE col1 in(2,3) or col2 in(3,5);</code></pre>",
     "prompt_text": "4. 다음 SQL 결과에 알맞는 답을 작성하시오. [TABLE] SELECT count(col2) FROM TABLE WHERE col1 in(2,3) or col2 in(3,5);",
     "answer": "4"
   },
@@ -1835,7 +1835,7 @@
     "round": 3,
     "number": 12,
     "category": "SQL/DB",
-    "prompt_html": "<p>12. STUDENT 테이블에서 컴퓨터과 학생 50명, 전기과 학생 100명, 인터넷과 학생 50명의 정보가 저장되어 있을 때, 다음 SQL문의 실행 결과에 따른 튜플의 수는? (단, DEPT 칼럼은 학과명이다.)</p>\n<p>1) SELECT DERP FROM STUDENT;</p>\n<p>2) SELECT DISTINCT DEPT FROM STUDENT;</p>\n<p>3) SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '인터넷과';</p>",
+    "prompt_html": "<p>12. STUDENT 테이블에서 컴퓨터과 학생 50명, 전기과 학생 100명, 인터넷과 학생 50명의 정보가 저장되어 있을 때, 다음 SQL문의 실행 결과에 따른 튜플의 수는? (단, DEPT 칼럼은 학과명이다.)</p>\n<pre><code>1) SELECT DERP FROM STUDENT;</code></pre>\n<pre><code>2) SELECT DISTINCT DEPT FROM STUDENT;</code></pre>\n<pre><code>3) SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '인터넷과';</code></pre>",
     "prompt_text": "12. STUDENT 테이블에서 컴퓨터과 학생 50명, 전기과 학생 100명, 인터넷과 학생 50명의 정보가 저장되어 있을 때, 다음 SQL문의 실행 결과에 따른 튜플의 수는? (단, DEPT 칼럼은 학과명이다.) 1) SELECT DERP FROM STUDENT; 2) SELECT DISTINCT DEPT FROM STUDENT; 3) SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '인터넷과';",
     "answer": "1) 200\n2) 3\n3) 1"
   },
@@ -2155,7 +2155,7 @@
     "round": 2,
     "number": 4,
     "category": "SQL/DB",
-    "prompt_html": "<p>4. 다음은 테이블에 데이터를 삽입하기 위한 과정이다. 보기의 조건식에 맞게 데이터 삽입을 위한 SQL문을 작성하시오.</p>\n<p>보기</p>\n<p>CREATE TABLE 학생 ( 학번 int, 이름 varchar(20), 학년 int, 전공 varchar(30), 전화번호varchar(20) );</p>\n<p>결과값</p>\n<p>[학생]</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr>\n<td>학번</td>\n<td>이름</td>\n<td>학년</td>\n<td>전공</td>\n<td>전화번호</td>\n</tr>\n<tr>\n<td>9830287</td>\n<td>뉴진스</td>\n<td>3</td>\n<td>경영학개론</td>\n<td>010-1234-1234</td>\n</tr>\n</tbody>\n</table>\n<p>조건</p>\n<p>문자열일 경우 작은따음표 (작은따음표가 아니라 다른 단어로 명시되었습니다.)</p>",
+    "prompt_html": "<p>4. 다음은 테이블에 데이터를 삽입하기 위한 과정이다. 보기의 조건식에 맞게 데이터 삽입을 위한 SQL문을 작성하시오.</p>\n<p>보기</p>\n<pre><code>CREATE TABLE 학생 ( 학번 int, 이름 varchar(20), 학년 int, 전공 varchar(30), 전화번호varchar(20) );</code></pre>\n<p>결과값</p>\n<p>[학생]</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr>\n<td>학번</td>\n<td>이름</td>\n<td>학년</td>\n<td>전공</td>\n<td>전화번호</td>\n</tr>\n<tr>\n<td>9830287</td>\n<td>뉴진스</td>\n<td>3</td>\n<td>경영학개론</td>\n<td>010-1234-1234</td>\n</tr>\n</tbody>\n</table>\n<p>조건</p>\n<p>문자열일 경우 작은따음표 (작은따음표가 아니라 다른 단어로 명시되었습니다.)</p>",
     "prompt_text": "4. 다음은 테이블에 데이터를 삽입하기 위한 과정이다. 보기의 조건식에 맞게 데이터 삽입을 위한 SQL문을 작성하시오. 보기 CREATE TABLE 학생 ( 학번 int, 이름 varchar(20), 학년 int, 전공 varchar(30), 전화번호varchar(20) ); 결과값 [학생] 학번 이름 학년 전공 전화번호 9830287 뉴진스 3 경영학개론 010-1234-1234 조건 문자열일 경우 작은따음표 (작은따음표가 아니라 다른 단어로 명시되었습니다.)",
     "answer": "INSTER INTO 학생(학번,이름,학년,전공,전화번호)\nVALUES(9830287,'뉴진스',3,'경영학개론','010-1234-1234');"
   },
@@ -2375,7 +2375,7 @@
     "round": 3,
     "number": 6,
     "category": "SQL/DB",
-    "prompt_html": "<p>6. 다음 빈칸에 들어갈 UNION 연산의 결과값을 작성하시오.</p>\n<p>[테이블]</p>\n<p>T1</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 12.093%; height: 89px;\">\n<tbody>\n<tr style=\"height: 17px;\">\n<td style=\"width: 100%; height: 17px; text-align: center;\">3</td>\n</tr>\n<tr style=\"height: 17px;\">\n<td style=\"width: 100%; height: 17px; text-align: center;\">1</td>\n</tr>\n<tr style=\"height: 17px;\">\n<td style=\"width: 100%; height: 17px; text-align: center;\">4</td>\n</tr>\n</tbody>\n</table>\n<p>T2</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 12.093%; height: 89px;\">\n<tbody>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\">2</td>\n</tr>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\">4</td>\n</tr>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\">3</td>\n</tr>\n</tbody>\n</table>\n<p>[쿼리]</p>\n<p>SELECT A FROM T1 UNION SELECT A FROM T2 ORDER BY A DESC ;</p>\n<p>결과 테이블</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 12.093%; height: 89px;\">\n<tbody>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\"> </td>\n</tr>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\"> </td>\n</tr>\n<tr>\n<td style=\"width: 100%; text-align: center;\"> </td>\n</tr>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\"> </td>\n</tr>\n</tbody>\n</table>",
+    "prompt_html": "<p>6. 다음 빈칸에 들어갈 UNION 연산의 결과값을 작성하시오.</p>\n<p>[테이블]</p>\n<p>T1</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 12.093%; height: 89px;\">\n<tbody>\n<tr style=\"height: 17px;\">\n<td style=\"width: 100%; height: 17px; text-align: center;\">3</td>\n</tr>\n<tr style=\"height: 17px;\">\n<td style=\"width: 100%; height: 17px; text-align: center;\">1</td>\n</tr>\n<tr style=\"height: 17px;\">\n<td style=\"width: 100%; height: 17px; text-align: center;\">4</td>\n</tr>\n</tbody>\n</table>\n<p>T2</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 12.093%; height: 89px;\">\n<tbody>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\">2</td>\n</tr>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\">4</td>\n</tr>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\">3</td>\n</tr>\n</tbody>\n</table>\n<p>[쿼리]</p>\n<pre><code>SELECT A FROM T1 UNION SELECT A FROM T2 ORDER BY A DESC ;</code></pre>\n<p>결과 테이블</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 12.093%; height: 89px;\">\n<tbody>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\"> </td>\n</tr>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\"> </td>\n</tr>\n<tr>\n<td style=\"width: 100%; text-align: center;\"> </td>\n</tr>\n<tr>\n<td style=\"width: 100%; height: 17px; text-align: center;\"> </td>\n</tr>\n</tbody>\n</table>",
     "prompt_text": "6. 다음 빈칸에 들어갈 UNION 연산의 결과값을 작성하시오. [테이블] T1 3 1 4 T2 2 4 3 [쿼리] SELECT A FROM T1 UNION SELECT A FROM T2 ORDER BY A DESC ; 결과 테이블",
     "answer": "4\n3\n2\n1"
   },
@@ -2505,7 +2505,7 @@
     "round": 3,
     "number": 19,
     "category": "SQL/DB",
-    "prompt_html": "<p>19. 다음은 관계 대수에 대한 내용이다. 보기에 알맞는 기호를 작성하시오.</p>\n<p>1. join :   (   1   )</p>\n<p>2. project :   (   2   )</p>\n<p>3. select :   (   3   )</p>\n<p>4. division :   (   4   )</p>\n<p>보기</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr>\n<td style=\"width: 100%;\">ㄱ. σ              ㄴ.  π                   ㄷ.⋈                 ㄹ.÷</td>\n</tr>\n</tbody>\n</table>",
+    "prompt_html": "<p>19. 다음은 관계 대수에 대한 내용이다. 보기에 알맞는 기호를 작성하시오.</p>\n<p>1. join :   (   1   )</p>\n<p>2. project :   (   2   )</p>\n<pre><code>3. select :   (   3   )</code></pre>\n<p>4. division :   (   4   )</p>\n<p>보기</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr>\n<td style=\"width: 100%;\">ㄱ. σ              ㄴ.  π                   ㄷ.⋈                 ㄹ.÷</td>\n</tr>\n</tbody>\n</table>",
     "prompt_text": "19. 다음은 관계 대수에 대한 내용이다. 보기에 알맞는 기호를 작성하시오. 1. join :   (   1   ) 2. project :   (   2   ) 3. select :   (   3   ) 4. division :   (   4   ) 보기 ㄱ. σ              ㄴ.  π                   ㄷ.⋈                 ㄹ.÷",
     "answer": "(1)  ㄷ\n(2)  ㄴ\n(3)  ㄱ\n(4)  ㄹ"
   },
@@ -2745,7 +2745,7 @@
     "round": 2,
     "number": 3,
     "category": "SQL/DB",
-    "prompt_html": "<p>3. 다음은 SQL에 관한 문제이다. 아래 SQL 구문의 빈칸을 작성하시오.</p>\n<p>테이블</p>\n<p>사원 [사원번호(PK), 이름, 나이, 부서]</p>\n<p>부서 [사원번호(PK), 이름, 주소, 나이]</p>\n<p>신입 사원이 들어와서 사원 테이블에 추가</p>\n<p>INSERT INTO 사원 (사원번호, 이름, 주소, 부서)   [ ①     ] (32431, '정실기', '서울', '영업');</p>\n<p>위에 신입사원을 검색하면서 부서 테이블에 추가</p>\n<p>INSERT INTO 부서 (사원번호, 이름, 나이, 부서)</p>\n<p>[ ② ] 사원번호, 이름, 나이, 23 FROM 사원 WHERE 이름 = '정실기';</p>\n<p>전체 사원 테이블 조회</p>\n<p>SELECT  *   [ ③ ]   사원;</p>\n<p>퇴사로 인해 부서에 해당하는 값을 '퇴사'로 변경</p>\n<p>UPDATE 사원   [ ④ ]   부서  =  '퇴사'  WHERE 사원번호  = 32431;</p>",
+    "prompt_html": "<p>3. 다음은 SQL에 관한 문제이다. 아래 SQL 구문의 빈칸을 작성하시오.</p>\n<p>테이블</p>\n<p>사원 [사원번호(PK), 이름, 나이, 부서]</p>\n<p>부서 [사원번호(PK), 이름, 주소, 나이]</p>\n<p>신입 사원이 들어와서 사원 테이블에 추가</p>\n<pre><code>INSERT INTO 사원 (사원번호, 이름, 주소, 부서)   [ ①     ] (32431, '정실기', '서울', '영업');</code></pre>\n<p>위에 신입사원을 검색하면서 부서 테이블에 추가</p>\n<pre><code>INSERT INTO 부서 (사원번호, 이름, 나이, 부서)</code></pre>\n<p>[ ② ] 사원번호, 이름, 나이, 23 FROM 사원 WHERE 이름 = '정실기';</p>\n<p>전체 사원 테이블 조회</p>\n<pre><code>SELECT  *   [ ③ ]   사원;</code></pre>\n<p>퇴사로 인해 부서에 해당하는 값을 '퇴사'로 변경</p>\n<pre><code>UPDATE 사원   [ ④ ]   부서  =  '퇴사'  WHERE 사원번호  = 32431;</code></pre>",
     "prompt_text": "3. 다음은 SQL에 관한 문제이다. 아래 SQL 구문의 빈칸을 작성하시오. 테이블 사원 [사원번호(PK), 이름, 나이, 부서] 부서 [사원번호(PK), 이름, 주소, 나이] 신입 사원이 들어와서 사원 테이블에 추가 INSERT INTO 사원 (사원번호, 이름, 주소, 부서)   [ ①     ] (32431, '정실기', '서울', '영업'); 위에 신입사원을 검색하면서 부서 테이블에 추가 INSERT INTO 부서 (사원번호, 이름, 나이, 부서) [ ② ] 사원번호, 이름, 나이, 23 FROM 사원 WHERE 이름 = '정실기'; 전체 사원 테이블 조회 SELECT  *   [ ③ ]   사원; 퇴사로 인해 부서에 해당하는 값을 '퇴사'로 변경 UPDATE 사원   [ ④ ]   부서  =  '퇴사'  WHERE 사원번호  = 32431;",
     "answer": "① : VALUES\n②\n:\nSELECT\n③\n:\nFROM\n④\n:\nSET"
   },
@@ -3185,7 +3185,7 @@
     "round": 1,
     "number": 7,
     "category": "SQL/DB",
-    "prompt_html": "<p>7. 다음은 SQL 문제이다. 아래 두 테이블을 참고하여 보기에 쿼리 실행 결과를 작성하시오.</p>\n<p>[보기]</p>\n<p>SELECT name, incentive FROM emp, sal WHERE emp.id = sal.id and incentives &gt;= 500</p>",
+    "prompt_html": "<p>7. 다음은 SQL 문제이다. 아래 두 테이블을 참고하여 보기에 쿼리 실행 결과를 작성하시오.</p>\n<p>[보기]</p>\n<pre><code>SELECT name, incentive FROM emp, sal WHERE emp.id = sal.id and incentives &gt;= 500</code></pre>",
     "prompt_text": "7. 다음은 SQL 문제이다. 아래 두 테이블을 참고하여 보기에 쿼리 실행 결과를 작성하시오. [보기] SELECT name, incentive FROM emp, sal WHERE emp.id = sal.id and incentives >= 500",
     "answer": "name  |  incentives\n이순신 | 1000"
   },
@@ -3715,7 +3715,7 @@
     "round": 3,
     "number": 20,
     "category": "SQL/DB",
-    "prompt_html": "<p>20. 다음은 SQL 에 관한 문제이다 . 아래 A 테이블을 참고하여 쿼리의 결과를 작성하시오 .</p>\n<p>[ SQL ]</p>\n<p>SELECT count(col2) FROM A WHERE col1 IN (2, 3) OR col2 IN (3, 5)</p>",
+    "prompt_html": "<p>20. 다음은 SQL 에 관한 문제이다 . 아래 A 테이블을 참고하여 쿼리의 결과를 작성하시오 .</p>\n<p>[ SQL ]</p>\n<pre><code>SELECT count(col2) FROM A WHERE col1 IN (2, 3) OR col2 IN (3, 5)</code></pre>",
     "prompt_text": "20. 다음은 SQL 에 관한 문제이다 . 아래 A 테이블을 참고하여 쿼리의 결과를 작성하시오 . [ SQL ] SELECT count(col2) FROM A WHERE col1 IN (2, 3) OR col2 IN (3, 5)",
     "answer": "4"
   },
@@ -3815,7 +3815,7 @@
     "round": 1,
     "number": 10,
     "category": "SQL/DB",
-    "prompt_html": "<p>10. 아래는 선수(PLAYER) 정보를 관리하는 테이블을 정의하는 SQL 문이다. 팀(TEAM) 테이블의 특정 칼럼을 참조하는 외래키 제약 조건을 추가하려 할 때, 괄호 ①~⑤에 들어갈 적절한 예약어(keyword) 또는 칼럼명을 아래 조건을 참고하여 쓰시오.</p>\n<p>조건</p>\n<p>외래키 제약 조건의 이름은 TEAM_TF 로 지정한다. PLAYER 테이블의 TEAM_ID 칼럼이 외래키 역할을 한다. TEAM 테이블의 TEAM_ID2 칼럼을 참조 대상으로 한다. SQL 문</p>\n<p>CREATE TABLE PLAYER ( PLAYER_ID  CHAR(7)     NOT NULL, PLAYER_NAME VARCHAR2(20) NOT NULL, TEAM_ID   CHAR(3)     NOT NULL, PRIMARY KEY (PLAYER_ID), ( 1 ) TEAM_TF ( 2 ) KEY ( 3 ) ( 4 ) TEAM ( 5 ) );</p>",
+    "prompt_html": "<p>10. 아래는 선수(PLAYER) 정보를 관리하는 테이블을 정의하는 SQL 문이다. 팀(TEAM) 테이블의 특정 칼럼을 참조하는 외래키 제약 조건을 추가하려 할 때, 괄호 ①~⑤에 들어갈 적절한 예약어(keyword) 또는 칼럼명을 아래 조건을 참고하여 쓰시오.</p>\n<p>조건</p>\n<p>외래키 제약 조건의 이름은 TEAM_TF 로 지정한다. PLAYER 테이블의 TEAM_ID 칼럼이 외래키 역할을 한다. TEAM 테이블의 TEAM_ID2 칼럼을 참조 대상으로 한다. SQL 문</p>\n<pre><code>CREATE TABLE PLAYER ( PLAYER_ID  CHAR(7)     NOT NULL, PLAYER_NAME VARCHAR2(20) NOT NULL, TEAM_ID   CHAR(3)     NOT NULL, PRIMARY KEY (PLAYER_ID), ( 1 ) TEAM_TF ( 2 ) KEY ( 3 ) ( 4 ) TEAM ( 5 ) );</code></pre>",
     "prompt_text": "10. 아래는 선수(PLAYER) 정보를 관리하는 테이블을 정의하는 SQL 문이다. 팀(TEAM) 테이블의 특정 칼럼을 참조하는 외래키 제약 조건을 추가하려 할 때, 괄호 ①~⑤에 들어갈 적절한 예약어(keyword) 또는 칼럼명을 아래 조건을 참고하여 쓰시오. 조건 외래키 제약 조건의 이름은 TEAM_TF 로 지정한다. PLAYER 테이블의 TEAM_ID 칼럼이 외래키 역할을 한다. TEAM 테이블의 TEAM_ID2 칼럼을 참조 대상으로 한다. SQL 문 CREATE TABLE PLAYER ( PLAYER_ID  CHAR(7)     NOT NULL, PLAYER_NAME VARCHAR2(20) NOT NULL, TEAM_ID   CHAR(3)     NOT NULL, PRIMARY KEY (PLAYER_ID), ( 1 ) TEAM_TF ( 2 ) KEY ( 3 ) ( 4 ) TEAM ( 5 ) );",
     "answer": "1. CONSTRAINT\n2. FOREIGN\n3. TEAM_ID\n4. REFERENCES\n5. TEAM_ID2"
   },
@@ -3895,7 +3895,7 @@
     "round": 1,
     "number": 18,
     "category": "SQL/DB",
-    "prompt_html": "<p>18. 다음은 SQL에 대한 문제이다. 아래 코드를 확인하여 알맞는 출력값을 작성하시오.</p>\n<p>SELECT COUNT(*) FROM employee e JOIN dept d ON e.dep_id = d.dept_id WHERE d.budget &gt; ( SELECT AVG(budget) FROM dept );</p>",
+    "prompt_html": "<p>18. 다음은 SQL에 대한 문제이다. 아래 코드를 확인하여 알맞는 출력값을 작성하시오.</p>\n<pre><code>SELECT COUNT(*) FROM employee e JOIN dept d ON e.dep_id = d.dept_id WHERE d.budget &gt; ( SELECT AVG(budget) FROM dept );</code></pre>",
     "prompt_text": "18. 다음은 SQL에 대한 문제이다. 아래 코드를 확인하여 알맞는 출력값을 작성하시오. SELECT COUNT(*) FROM employee e JOIN dept d ON e.dep_id = d.dept_id WHERE d.budget > ( SELECT AVG(budget) FROM dept );",
     "answer": "2"
   },

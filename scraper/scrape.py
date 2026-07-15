@@ -157,8 +157,24 @@ def clean_code_block(div: Tag) -> str:
     return text.replace("\xa0", " ").strip("\n")
 
 
+# SQL is often typed as its own plain paragraph (no colorscripter widget,
+# no embedded newline either — each clause is its own separate <p>). Detect
+# it by the statement keyword actually starting the paragraph, and merge
+# consecutive clause paragraphs (FROM/WHERE/GROUP BY/...) into the same
+# code block instead of scattering one-line <pre> tags down the page.
+SQL_START_RE = re.compile(
+    # some questions list several statements as "1) SELECT ...", "2) SELECT ..."
+    r"^(?:[①-⑩]|\d+[.)]\s*)?(SELECT|INSERT\s+INTO|UPDATE|DELETE\s+FROM|CREATE\s+(TABLE|VIEW|INDEX)|ALTER\s+TABLE|DROP\s+TABLE)\b",
+    re.I,
+)
+SQL_CONTINUE_RE = re.compile(
+    r"^(FROM|WHERE|GROUP\s+BY|ORDER\s+BY|HAVING|AND|OR|INNER\s+JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|JOIN|ON|VALUES|SET)\b",
+    re.I,
+)
+
+
 def render_prompt_html(nodes) -> str:
-    parts = []
+    items = []  # list of ("html"|"p"|"pre", value)
     for node in nodes:
         if isinstance(node, NavigableString):
             continue
@@ -166,19 +182,31 @@ def render_prompt_html(nodes) -> str:
             continue
         if node.name == "div" and "colorscripter-code" in (node.get("class") or []):
             code = clean_code_block(node)
-            parts.append(f"<pre><code>{escape_html(code)}</code></pre>")
+            items.append(("html", f"<pre><code>{escape_html(code)}</code></pre>"))
         elif node.name == "table":
-            parts.append(str(node))
+            items.append(("html", str(node)))
         else:
             text = node.get_text(" ", strip=True)
-            if text:
-                # some older posts paste code as plain text (no colorscripter
-                # widget); a raw newline is the tell, since normal prose never
-                # has one after get_text's whitespace collapsing
-                if "\n" in text:
-                    parts.append(f"<pre><code>{escape_html(text)}</code></pre>")
-                else:
-                    parts.append(f"<p>{escape_html(text)}</p>")
+            if not text:
+                continue
+            # some older posts paste code as plain text (no colorscripter
+            # widget); a raw newline is the tell, since normal prose never
+            # has one after get_text's whitespace collapsing
+            if "\n" in text or SQL_START_RE.match(text):
+                items.append(("pre", text))
+            elif SQL_CONTINUE_RE.match(text) and items and items[-1][0] == "pre":
+                items[-1] = ("pre", items[-1][1] + "\n" + text)
+            else:
+                items.append(("p", text))
+
+    parts = []
+    for kind, val in items:
+        if kind == "html":
+            parts.append(val)
+        elif kind == "pre":
+            parts.append(f"<pre><code>{escape_html(val)}</code></pre>")
+        else:
+            parts.append(f"<p>{escape_html(val)}</p>")
     return "\n".join(parts)
 
 
