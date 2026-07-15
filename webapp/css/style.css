@@ -394,22 +394,29 @@ body {
   margin: 8px 0;
 }
 
-.quiz-prompt pre {
+.quiz-prompt pre,
+.wrong-prompt pre,
+.concept-prompt pre {
   background: var(--code-bg);
   border-radius: 8px;
   padding: 12px;
   overflow-x: auto;
+  max-width: 100%;
   font-size: 13px;
   line-height: 1.5;
 }
 
-.quiz-prompt table {
+.quiz-prompt table,
+.wrong-prompt table,
+.concept-prompt table {
   border-collapse: collapse;
   width: 100%;
   font-size: 13px;
 }
 
-.quiz-prompt table td, .quiz-prompt table th {
+.quiz-prompt table td, .quiz-prompt table th,
+.wrong-prompt table td, .wrong-prompt table th,
+.concept-prompt table td, .concept-prompt table th {
   border: 1px solid var(--border);
   padding: 6px;
 }
