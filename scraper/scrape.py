@@ -34,19 +34,108 @@ POSTS = [
 
 QNUM_RE = re.compile(r"^\s*(\d{1,2})\s*[.)]\s*\S")
 
+# Actual code (as opposed to a question that merely *talks about* a language)
+# is the most reliable signal, and doesn't depend on the blog remembering to
+# say "이것은 자바 코드입니다." Checked before the keyword rules below.
+CODE_SIGNAL_RULES = [
+    ("C", re.compile(r"#include")),
+    ("Java", re.compile(r"System\s*\.\s*out\s*\.\s*(print|err)|public\s+class|public\s+static\s+void\s+main")),
+]
+
+# Korean particles (은/는/이/가/을/를/에/의 ...) attach directly to an English
+# acronym with no space, and Python's \b treats Hangul as a word character —
+# so \bSQL\b never matches "SQL문". Use an ASCII-only lookaround instead.
+def _term(word: str) -> str:
+    return rf"(?<![A-Za-z]){word}(?![A-Za-z])"
+
 CATEGORY_RULES = [
-    ("Python", re.compile(r"파이썬|python", re.I)),
-    ("C", re.compile(r"C\s*언어|C\s*코드")),
-    ("Java", re.compile(r"자바|java", re.I)),
-    ("SQL/DB", re.compile(r"\bSQL\b|데이터베이스|DB\s*설계|테이블")),
-    ("디자인패턴", re.compile(r"디자인\s*패턴")),
-    ("네트워크", re.compile(r"IP\s*주소|서브넷|네트워크|프로토콜|HDLC|OSI")),
-    ("보안", re.compile(r"보안|공격|해킹|취약점|악성코드")),
-    ("소프트웨어공학", re.compile(r"응집도|결합도|테스트|모듈|요구사항")),
+    ("Python", re.compile(r"파이썬|" + _term("[Pp]y[th]?hon"), re.I)),
+    ("C", re.compile(r"C\s*언어", re.I)),
+    ("Java", re.compile(r"자바|" + _term("[Jj]ava"))),
+    (
+        "SQL/DB",
+        re.compile(
+            _term("SQL")
+            + r"|데이터베이스|DB\s*설계|테이블|트랜잭션|롤백|Rollback|정규화|정규형|이상\s*현상"
+            + r"|관계\s*대수|스키마|외래\s*키|기본\s*키|(?:개체|참조|도메인)\s*무결성|무결성\s*제약|함수\s*종속|병행\s*제어|Cardinality|Degree"
+            + r"|" + _term("ER") + r"\s*다이어그램|튜플|릴레이션|GRANT",
+            re.I,
+        ),
+    ),
+    ("디자인패턴", re.compile(r"디자인\s*패턴|옵저버|싱글턴|" + _term("Factory") + r"|어댑터|프록시\s*패턴")),
+    (
+        "네트워크",
+        re.compile(
+            r"IP\s*주소|서브넷|네트워크|프로토콜|HDLC|OSI|패킷\s*교환|" + _term("IPv[46]")
+            + r"|라우팅|" + _term("RIP") + r"|오류\s*검출|" + _term("CRC")
+        ),
+    ),
+    ("보안", re.compile(r"보안|공격|해킹|취약점|악성코드|암호화|스니핑|접근\s*통제|SSO|암호\s*알고리즘|정보보호\s*관리체계")),
+    (
+        "운영체제",
+        re.compile(
+            r"스케줄링|프로세스\s*상태|" + _term("RAID") + r"|페이지\s*교체|페이지\s*부재"
+            + r"|" + _term("LRU") + r"|" + _term("LFU") + r"|세마포어|공유\s*메모리|프로세스\s*간\s*통신"
+            + r"|파일\s*구조|chmod|권한을?\s*부여"
+        ),
+    ),
+    (
+        "소프트웨어공학",
+        re.compile(
+            r"응집도|결합도|테스트|모듈|요구사항|리팩토링|형상\s*관리|형상\s*통제|릴리스\s*노트"
+            + r"|" + _term("LoC") + r"|UML|SOLID|EAI|UI\s*설계|헝가리안|블랙박스|화이트박스|커버리지"
+            + r"|애자일|스크럼|" + _term("XP") + r"|정적\s*분석|개발\s*방법론|GUI|CLI|" + _term("NUI")
+        ),
+    ),
 ]
 
 
-def classify(text: str) -> str:
+MANUAL_CATEGORY_OVERRIDES = {
+    # (year, round, id-suffix) -> category, for questions no keyword/code
+    # signal can reliably catch (definitions with no announced language,
+    # or two questions the source blog numbered identically).
+    (2020, 1, "2020-1-1"): "소프트웨어공학",  # 살충제 패러독스
+    (2020, 1, "2020-1-19"): "소프트웨어공학",  # 성능 지표(처리량/응답시간) - "트랜잭션"과 충돌
+    (2020, 1, "2020-1-10"): "보안",  # RFC1321/MD5 (무결성이 SQL/DB 규칙과 충돌)
+    (2020, 2, "2020-2-1"): "기타",  # RTO 정의, 신기술 용어
+    (2020, 2, "2020-2-9"): "소프트웨어공학",  # 정적분석 도구
+    (2020, 2, "2020-2-10"): "디자인패턴",  # 옵저버 패턴
+    (2020, 2, "2020-2-20"): "소프트웨어공학",  # 형상관리 도구
+    (2020, 3, "2020-3-5"): "네트워크",  # 프로토콜 개념
+    (2020, 3, "2020-3-6"): "네트워크",  # ICMP
+    (2020, 4, "2020-4-3"): "소프트웨어공학",  # UML 다이어그램
+    (2021, 1, "2021-1-13"): "소프트웨어공학",  # EAI 구축유형
+    (2021, 1, "2021-1-18"): "보안",  # 접근통제(DAC 등)
+    (2021, 2, "2021-2-15"): "소프트웨어공학",  # 럼바우 데이터모델링
+    (2021, 3, "2021-3-3"): "보안",  # 사용자 자원 사용정보 수집
+    (2021, 3, "2021-3-3a"): "SQL/DB",  # GRANT 기능
+    (2021, 3, "2021-3-7"): "소프트웨어공학",  # UML 관계(집합/일반화)
+    (2021, 3, "2021-3-10"): "보안",  # DES
+    (2021, 3, "2021-3-15"): "소프트웨어공학",  # 다이어그램
+    (2021, 3, "2021-3-19"): "소프트웨어공학",  # GUI
+    (2022, 1, "2022-1-7"): "Python",  # list.extend/pop/reverse 개념 문제
+    (2022, 1, "2022-1-10"): "소프트웨어공학",  # 분석도구
+    (2022, 3, "2022-3-4"): "C",  # 코드(void main, 배열)
+    (2022, 3, "2022-3-6"): "소프트웨어공학",  # 테스트 기법
+    (2022, 3, "2022-3-13"): "C",  # 코드
+    (2022, 3, "2022-3-15"): "보안",  # SSO
+    (2022, 3, "2022-3-18"): "SQL/DB",  # E-R 다이어그램
+    (2023, 3, "2023-3-9"): "네트워크",  # ATM(비동기 전송 모드) 정의
+    (2023, 3, "2023-3-15"): "소프트웨어공학",  # 판매 다이어그램
+    (2024, 1, "2024-1-20"): "디자인패턴",  # Abstract Factory
+    (2024, 2, "2024-2-7"): "보안",  # SEED
+    (2025, 1, "2025-1-2"): "SQL/DB",  # 제약조건(개체/참조/도메인)
+    (2025, 3, "2025-3-4"): "운영체제",  # cp 명령어
+    (2025, 3, "2025-3-4a"): "네트워크",  # CRC/패리티 오류검출
+}
+
+
+def classify(text: str, override_key=None) -> str:
+    if override_key in MANUAL_CATEGORY_OVERRIDES:
+        return MANUAL_CATEGORY_OVERRIDES[override_key]
+    for name, pattern in CODE_SIGNAL_RULES:
+        if pattern.search(text):
+            return name
     for name, pattern in CATEGORY_RULES:
         if pattern.search(text):
             return name
@@ -121,6 +210,7 @@ def parse_post(html: str, year: int, round_no: int):
     collecting = False
     current_num = None
     buffer = []
+    number_seen = {}
 
     def is_moreless(tag: Tag) -> bool:
         return tag.name == "div" and (tag.get("data-ke-type") or "").lower() == "moreless"
@@ -150,13 +240,22 @@ def parse_post(html: str, year: int, round_no: int):
                 prompt_nodes = buffer[:-1]
                 prompt_html = render_prompt_html(prompt_nodes)
                 plain = prompt_plain_text(prompt_nodes)
+
+                # the source blog occasionally repeats a question number by
+                # mistake; suffix repeats so every id stays unique without
+                # renumbering (and without changing ids nothing has moved)
+                seen = number_seen.get(current_num, 0)
+                suffix = "" if seen == 0 else chr(ord("a") + seen - 1)
+                number_seen[current_num] = seen + 1
+                qid = f"{year}-{round_no}-{current_num}{suffix}"
+
                 questions.append(
                     {
-                        "id": f"{year}-{round_no}-{current_num}",
+                        "id": qid,
                         "year": year,
                         "round": round_no,
                         "number": current_num,
-                        "category": classify(plain),
+                        "category": classify(plain, override_key=(year, round_no, qid)),
                         "prompt_html": prompt_html,
                         "prompt_text": plain,
                         "answer": answer,

@@ -12,7 +12,7 @@ const state = {
   conceptSearch: "",
 };
 
-const CONCEPT_CATEGORIES = ["소프트웨어공학", "SQL/DB", "네트워크", "보안", "디자인패턴", "기타"];
+const CONCEPT_CATEGORIES = ["소프트웨어공학", "SQL/DB", "네트워크", "보안", "운영체제", "디자인패턴", "기타"];
 
 const BRAND_STORAGE_KEY = "itq-brand-v1";
 const BRAND_TEXT = {
