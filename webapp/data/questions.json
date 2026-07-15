@@ -115,7 +115,7 @@
     "round": 1,
     "number": 12,
     "category": "C",
-    "prompt_html": "<p>12. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오.</p>\n<p>#include &lt;stdio.h&gt;\n void main(){\n \tint i,j;\n    int temp;\n    int a[5] = {75,95,85,100,50};\n    \n    for(i=0; i&lt;4; i++){\n    \tfor(j=0; j&lt;4-i; j++){\n        \tif(a[j] &gt; a[j+1]){\n            \ttemp=a[j];\n                a[j] = a[j+1];\n                a[j+1] = temp;\n             }\n           }\n        }\n        \n       \tfor(i=0; i&lt;5; i++){\n        \tprintf(\"%d\", a[i]);\n        }\n  }</p>",
+    "prompt_html": "<p>12. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>#include &lt;stdio.h&gt;\n void main(){\n \tint i,j;\n    int temp;\n    int a[5] = {75,95,85,100,50};\n    \n    for(i=0; i&lt;4; i++){\n    \tfor(j=0; j&lt;4-i; j++){\n        \tif(a[j] &gt; a[j+1]){\n            \ttemp=a[j];\n                a[j] = a[j+1];\n                a[j+1] = temp;\n             }\n           }\n        }\n        \n       \tfor(i=0; i&lt;5; i++){\n        \tprintf(\"%d\", a[i]);\n        }\n  }</code></pre>",
     "prompt_text": "12. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오. #include <stdio.h>\n void main(){\n \tint i,j;\n    int temp;\n    int a[5] = {75,95,85,100,50};\n    \n    for(i=0; i<4; i++){\n    \tfor(j=0; j<4-i; j++){\n        \tif(a[j] > a[j+1]){\n            \ttemp=a[j];\n                a[j] = a[j+1];\n                a[j+1] = temp;\n             }\n           }\n        }\n        \n       \tfor(i=0; i<5; i++){\n        \tprintf(\"%d\", a[i]);\n        }\n  }",
     "answer": "50758595100"
   },
@@ -125,7 +125,7 @@
     "round": 1,
     "number": 13,
     "category": "Java",
-    "prompt_html": "<p>13. 다음은 자바 소스코드이다. 출력 결과를 쓰시오.</p>\n<p>public class good {\n\tpublic static void main(String[] args){\n    \tint i;\n        int[] a = {0,1,2,3};\n        for(i=0; i&lt;4; i++){\n        \tSystem.out.print(a[i] + \" \");\n        }\n     }\n }</p>",
+    "prompt_html": "<p>13. 다음은 자바 소스코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>public class good {\n\tpublic static void main(String[] args){\n    \tint i;\n        int[] a = {0,1,2,3};\n        for(i=0; i&lt;4; i++){\n        \tSystem.out.print(a[i] + \" \");\n        }\n     }\n }</code></pre>",
     "prompt_text": "13. 다음은 자바 소스코드이다. 출력 결과를 쓰시오. public class good {\n\tpublic static void main(String[] args){\n    \tint i;\n        int[] a = {0,1,2,3};\n        for(i=0; i<4; i++){\n        \tSystem.out.print(a[i] + \" \");\n        }\n     }\n }",
     "answer": "0 1 2 3"
   },
@@ -135,7 +135,7 @@
     "round": 1,
     "number": 14,
     "category": "Java",
-    "prompt_html": "<p>14. 다음은 자바 소스코드이다. 출력 결과를 쓰시오.</p>\n<p>public class good {\n\tpublic static void main(String[] args){\n    \tint i = 3;\n        int k = 1;\n        swich (i) {\n        case 0;\n        case 1;\n        case 2;\n        case 3 k = 0;\n        case 4 k += 3;\n        case 5 k -= 10;\n        default: k--;\n        }\n        system.out.print(k);\n     }\n}</p>",
+    "prompt_html": "<p>14. 다음은 자바 소스코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>public class good {\n\tpublic static void main(String[] args){\n    \tint i = 3;\n        int k = 1;\n        swich (i) {\n        case 0;\n        case 1;\n        case 2;\n        case 3 k = 0;\n        case 4 k += 3;\n        case 5 k -= 10;\n        default: k--;\n        }\n        system.out.print(k);\n     }\n}</code></pre>",
     "prompt_text": "14. 다음은 자바 소스코드이다. 출력 결과를 쓰시오. public class good {\n\tpublic static void main(String[] args){\n    \tint i = 3;\n        int k = 1;\n        swich (i) {\n        case 0;\n        case 1;\n        case 2;\n        case 3 k = 0;\n        case 4 k += 3;\n        case 5 k -= 10;\n        default: k--;\n        }\n        system.out.print(k);\n     }\n}",
     "answer": "-8\nswitch case문에 break가 없는 점을 주의하셔야 합니다."
   },
@@ -215,7 +215,7 @@
     "round": 2,
     "number": 2,
     "category": "Python",
-    "prompt_html": "<p>2. 다음은 파이썬 코드이다. 출력 결과를 쓰시오.</p>\n<p>a={'일본','중국','한국'}\na.add('베트남')\na.add('중국')\na.remove('일본')\na.update(['홍콩','한국','태국'])\nprint(a)</p>",
+    "prompt_html": "<p>2. 다음은 파이썬 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>a={'일본','중국','한국'}\na.add('베트남')\na.add('중국')\na.remove('일본')\na.update(['홍콩','한국','태국'])\nprint(a)</code></pre>",
     "prompt_text": "2. 다음은 파이썬 코드이다. 출력 결과를 쓰시오. a={'일본','중국','한국'}\na.add('베트남')\na.add('중국')\na.remove('일본')\na.update(['홍콩','한국','태국'])\nprint(a)",
     "answer": "{'중국','한국','베트남','홍콩','태국'}"
   },
@@ -245,7 +245,7 @@
     "round": 2,
     "number": 5,
     "category": "Java",
-    "prompt_html": "<p>5. 다음은 자바 코드이다. 다음 밑줄에 들어갈 키워드를 쓰시오.</p>\n<p>class parent\n\tpublic void show(){\n    \tsystem.out.println(\"Parent\");\n    }\n}\n\nclass Child extends Parent{\n\tpublic void show(){\n    \tsystem.out.println(\"Child\");\n    }\n}\n\npublic class good{\n\tpublic static void main(String[] args){\n    \tParent pa = ____  Child();\n        pa.show();\n    }\n}</p>",
+    "prompt_html": "<p>5. 다음은 자바 코드이다. 다음 밑줄에 들어갈 키워드를 쓰시오.</p>\n<pre><code>class parent\n\tpublic void show(){\n    \tsystem.out.println(\"Parent\");\n    }\n}\n\nclass Child extends Parent{\n\tpublic void show(){\n    \tsystem.out.println(\"Child\");\n    }\n}\n\npublic class good{\n\tpublic static void main(String[] args){\n    \tParent pa = ____  Child();\n        pa.show();\n    }\n}</code></pre>",
     "prompt_text": "5. 다음은 자바 코드이다. 다음 밑줄에 들어갈 키워드를 쓰시오. class parent\n\tpublic void show(){\n    \tsystem.out.println(\"Parent\");\n    }\n}\n\nclass Child extends Parent{\n\tpublic void show(){\n    \tsystem.out.println(\"Child\");\n    }\n}\n\npublic class good{\n\tpublic static void main(String[] args){\n    \tParent pa = ____  Child();\n        pa.show();\n    }\n}",
     "answer": "new"
   },
@@ -385,7 +385,7 @@
     "round": 2,
     "number": 19,
     "category": "Java",
-    "prompt_html": "<p>19. 다음은 자바 코드이다. 출력 결과를 쓰시오.</p>\n<p>class A{\n\tprivate int a;\n    public A(int a){\n    \tthis.a = a;\n    }\n    public void display(){\n    \tsystem.out.println(\"a=\" + a);\n    }\n}\n\nclass B extends A {\n\tpublic B(int a){\n    \tsuper(a);\n        super.display();\n    }\n}\n\n\npublic class good {\n\tpublic static void main(String[] args){\n    \tB obj = new B(10);\n    }\n}</p>",
+    "prompt_html": "<p>19. 다음은 자바 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>class A{\n\tprivate int a;\n    public A(int a){\n    \tthis.a = a;\n    }\n    public void display(){\n    \tsystem.out.println(\"a=\" + a);\n    }\n}\n\nclass B extends A {\n\tpublic B(int a){\n    \tsuper(a);\n        super.display();\n    }\n}\n\n\npublic class good {\n\tpublic static void main(String[] args){\n    \tB obj = new B(10);\n    }\n}</code></pre>",
     "prompt_text": "19. 다음은 자바 코드이다. 출력 결과를 쓰시오. class A{\n\tprivate int a;\n    public A(int a){\n    \tthis.a = a;\n    }\n    public void display(){\n    \tsystem.out.println(\"a=\" + a);\n    }\n}\n\nclass B extends A {\n\tpublic B(int a){\n    \tsuper(a);\n        super.display();\n    }\n}\n\n\npublic class good {\n\tpublic static void main(String[] args){\n    \tB obj = new B(10);\n    }\n}",
     "answer": "a = 10"
   },
@@ -415,7 +415,7 @@
     "round": 3,
     "number": 2,
     "category": "C",
-    "prompt_html": "<p>2. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오.</p>\n<p>#include &lt;stdio.h&gt;\n\tvoid main(){\n    \tint i=0, c=0;\n        while (i&lt;10){\n        i++;\n        c*=i;\n        }\n        printf(\"%d\",c);\n   }</p>",
+    "prompt_html": "<p>2. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>#include &lt;stdio.h&gt;\n\tvoid main(){\n    \tint i=0, c=0;\n        while (i&lt;10){\n        i++;\n        c*=i;\n        }\n        printf(\"%d\",c);\n   }</code></pre>",
     "prompt_text": "2. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오. #include <stdio.h>\n\tvoid main(){\n    \tint i=0, c=0;\n        while (i<10){\n        i++;\n        c*=i;\n        }\n        printf(\"%d\",c);\n   }",
     "answer": "0\nc가 0이므로 어떤수를 곱해도 0이 됩니다."
   },
@@ -525,7 +525,7 @@
     "round": 3,
     "number": 13,
     "category": "C",
-    "prompt_html": "<p>13. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오.</p>\n<p>#include &lt;studio.h&gt;\nint r1(){\n\treturn 4;\n}\nint r10(){\n\treturn (30+r1());\n}\nint r100(){\n\treturn (200+r10());\n}\nint main(){\n\tprintf(\"%d\\n\", r100());\n    return 0;\n}</p>",
+    "prompt_html": "<p>13. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>#include &lt;studio.h&gt;\nint r1(){\n\treturn 4;\n}\nint r10(){\n\treturn (30+r1());\n}\nint r100(){\n\treturn (200+r10());\n}\nint main(){\n\tprintf(\"%d\\n\", r100());\n    return 0;\n}</code></pre>",
     "prompt_text": "13. 다음은 C언어 소스 코드이다. 출력 결과를 쓰시오. #include <studio.h>\nint r1(){\n\treturn 4;\n}\nint r10(){\n\treturn (30+r1());\n}\nint r100(){\n\treturn (200+r10());\n}\nint main(){\n\tprintf(\"%d\\n\", r100());\n    return 0;\n}",
     "answer": "234"
   },
@@ -545,7 +545,7 @@
     "round": 3,
     "number": 15,
     "category": "Java",
-    "prompt_html": "<p>15. 다음은 자바 코드이다. 출력 결과를 쓰시오.</p>\n<p>abstract class vehicle{\n\tprivate String name;\n    abstract public String getName(String val);\n    public String getName(){\n    \treturn \"vehicle name:\" + name;\n    }\n\tpublic void setName(String val){\n    \tname = val;\n    }\n}\n\nclass Car extends Vehicle{\n\tpublic Car(String val){\n    \tsetName(val);\n   }\npublic String getName(String val){\n\treturn \"Car name : \" + val;\n   }\npublic String getName(byte val[]){\n\treturn \"Car name : \" + val;\n   }\n}\n\npublic class good {\n\tpublic Static void main(String[] args){\n    Vehicle obj = new Car(\"Spark\");\n    System.out.print(obj.getName());\n    }\n}</p>",
+    "prompt_html": "<p>15. 다음은 자바 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>abstract class vehicle{\n\tprivate String name;\n    abstract public String getName(String val);\n    public String getName(){\n    \treturn \"vehicle name:\" + name;\n    }\n\tpublic void setName(String val){\n    \tname = val;\n    }\n}\n\nclass Car extends Vehicle{\n\tpublic Car(String val){\n    \tsetName(val);\n   }\npublic String getName(String val){\n\treturn \"Car name : \" + val;\n   }\npublic String getName(byte val[]){\n\treturn \"Car name : \" + val;\n   }\n}\n\npublic class good {\n\tpublic Static void main(String[] args){\n    Vehicle obj = new Car(\"Spark\");\n    System.out.print(obj.getName());\n    }\n}</code></pre>",
     "prompt_text": "15. 다음은 자바 코드이다. 출력 결과를 쓰시오. abstract class vehicle{\n\tprivate String name;\n    abstract public String getName(String val);\n    public String getName(){\n    \treturn \"vehicle name:\" + name;\n    }\n\tpublic void setName(String val){\n    \tname = val;\n    }\n}\n\nclass Car extends Vehicle{\n\tpublic Car(String val){\n    \tsetName(val);\n   }\npublic String getName(String val){\n\treturn \"Car name : \" + val;\n   }\npublic String getName(byte val[]){\n\treturn \"Car name : \" + val;\n   }\n}\n\npublic class good {\n\tpublic Static void main(String[] args){\n    Vehicle obj = new Car(\"Spark\");\n    System.out.print(obj.getName());\n    }\n}",
     "answer": "Vehicle name : Spark"
   },
@@ -565,7 +565,7 @@
     "round": 3,
     "number": 17,
     "category": "Java",
-    "prompt_html": "<p>17. 다음은 자바 코드이다. 출력 결과를 쓰시오.</p>\n<p>public class good {\n\tpublic static void main(String[] args){\n    int i=0;\n    int sum=0;\n    while (i&lt;10){\n    \ti++;\n        if(i%2 ==1)\n        \tcontinue;\n        sum += i;\n     }\n     System.out.println(sum);\n   }\n}</p>",
+    "prompt_html": "<p>17. 다음은 자바 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>public class good {\n\tpublic static void main(String[] args){\n    int i=0;\n    int sum=0;\n    while (i&lt;10){\n    \ti++;\n        if(i%2 ==1)\n        \tcontinue;\n        sum += i;\n     }\n     System.out.println(sum);\n   }\n}</code></pre>",
     "prompt_text": "17. 다음은 자바 코드이다. 출력 결과를 쓰시오. public class good {\n\tpublic static void main(String[] args){\n    int i=0;\n    int sum=0;\n    while (i<10){\n    \ti++;\n        if(i%2 ==1)\n        \tcontinue;\n        sum += i;\n     }\n     System.out.println(sum);\n   }\n}",
     "answer": "30\n2+4+6+8+10=30이 됩니다."
   },
@@ -645,7 +645,7 @@
     "round": 4,
     "number": 5,
     "category": "Java",
-    "prompt_html": "<p>5. 다음은 n이 10일 때, 10을 2진수로 변환하는 자바 소스 코드이다. 1,2에 알맞는 값을 적으시오.</p>\n<p>[출력결과] : 00001010</p>\n<p>class good {\n\tpublic static void main (String[] args) {\n    \tint[]a = new int[8];\n        int i=0; int n=10;\n        while (  1.  ) {\n        \ta[i++] = (  2.  );\n            n /= 2;\n        }\n        for(i=7; i&gt;=0; i--){\n         System.out.print(a[i]);\n        }\n     }\n  }</p>",
+    "prompt_html": "<p>5. 다음은 n이 10일 때, 10을 2진수로 변환하는 자바 소스 코드이다. 1,2에 알맞는 값을 적으시오.</p>\n<p>[출력결과] : 00001010</p>\n<pre><code>class good {\n\tpublic static void main (String[] args) {\n    \tint[]a = new int[8];\n        int i=0; int n=10;\n        while (  1.  ) {\n        \ta[i++] = (  2.  );\n            n /= 2;\n        }\n        for(i=7; i&gt;=0; i--){\n         System.out.print(a[i]);\n        }\n     }\n  }</code></pre>",
     "prompt_text": "5. 다음은 n이 10일 때, 10을 2진수로 변환하는 자바 소스 코드이다. 1,2에 알맞는 값을 적으시오. [출력결과] : 00001010 class good {\n\tpublic static void main (String[] args) {\n    \tint[]a = new int[8];\n        int i=0; int n=10;\n        while (  1.  ) {\n        \ta[i++] = (  2.  );\n            n /= 2;\n        }\n        for(i=7; i>=0; i--){\n         System.out.print(a[i]);\n        }\n     }\n  }",
     "answer": "1. n > 0 or n >=1 or i < 8 or i <= 7\n2. n%2 or n&1"
   },
@@ -655,7 +655,7 @@
     "round": 4,
     "number": 6,
     "category": "Java",
-    "prompt_html": "<p>6. 다음은 자바 소스 코드이다. 출력 결과를 보고 , 1,2에 알맞는 값을 적으시오.</p>\n<p>[출력 결과]</p>\n<p>1 4 7 10 13</p>\n<p>2 5 8 11 14</p>\n<p>3 6 9 12 15</p>\n<p>public class good {\n\tpublic static void main(String[] args) {\n    \tint[][]a = new int[(1.)][(2.)];\n        for(int i = 0; i &lt;3; i++){\n        for(int j=0; j &lt; 5; j++){\n        a[i][j] = j*3+(i+1);\n        \tSystem.out.print(a[i][j]+\"\");\n         }\n         System.out.println();\n       }\n     }\n   }</p>",
+    "prompt_html": "<p>6. 다음은 자바 소스 코드이다. 출력 결과를 보고 , 1,2에 알맞는 값을 적으시오.</p>\n<p>[출력 결과]</p>\n<p>1 4 7 10 13</p>\n<p>2 5 8 11 14</p>\n<p>3 6 9 12 15</p>\n<pre><code>public class good {\n\tpublic static void main(String[] args) {\n    \tint[][]a = new int[(1.)][(2.)];\n        for(int i = 0; i &lt;3; i++){\n        for(int j=0; j &lt; 5; j++){\n        a[i][j] = j*3+(i+1);\n        \tSystem.out.print(a[i][j]+\"\");\n         }\n         System.out.println();\n       }\n     }\n   }</code></pre>",
     "prompt_text": "6. 다음은 자바 소스 코드이다. 출력 결과를 보고 , 1,2에 알맞는 값을 적으시오. [출력 결과] 1 4 7 10 13 2 5 8 11 14 3 6 9 12 15 public class good {\n\tpublic static void main(String[] args) {\n    \tint[][]a = new int[(1.)][(2.)];\n        for(int i = 0; i <3; i++){\n        for(int j=0; j < 5; j++){\n        a[i][j] = j*3+(i+1);\n        \tSystem.out.print(a[i][j]+\"\");\n         }\n         System.out.println();\n       }\n     }\n   }",
     "answer": "1. 3\n2. 5"
   },
@@ -685,7 +685,7 @@
     "round": 4,
     "number": 9,
     "category": "Python",
-    "prompt_html": "<p>9. 다음은 파이썬 소스 코드이다. 출력 결과를 쓰시오.</p>\n<p>lol = [[1,2,3],[4,5],[6,7,8,9]]\nprint(lol[0])\nprint(lol[2][1])\n\tfor sub in lol:\n   \tfor item in sub:\n        \tprint(item, end = '')\n      \tprint()</p>",
+    "prompt_html": "<p>9. 다음은 파이썬 소스 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>lol = [[1,2,3],[4,5],[6,7,8,9]]\nprint(lol[0])\nprint(lol[2][1])\n\tfor sub in lol:\n   \tfor item in sub:\n        \tprint(item, end = '')\n      \tprint()</code></pre>",
     "prompt_text": "9. 다음은 파이썬 소스 코드이다. 출력 결과를 쓰시오. lol = [[1,2,3],[4,5],[6,7,8,9]]\nprint(lol[0])\nprint(lol[2][1])\n\tfor sub in lol:\n   \tfor item in sub:\n        \tprint(item, end = '')\n      \tprint()",
     "answer": "[1,2,3]\n7\n123\n45\n6789"
   },
@@ -775,7 +775,7 @@
     "round": 4,
     "number": 18,
     "category": "C",
-    "prompt_html": "<p>18. 다음은 C언어 소스 코드이다. 출력값을 쓰시오.</p>\n<p>#include &lt;stdio.h&gt;\n\nvoid main(){\n\tchar *p = \"KOREA\"\n    printf(\"%s\\n\" , p);\n    printf(\"%s\\n\" , p+3);\n    printf(\"%c\\n\" , *p);\n    printf(\"%c\\n\" , *(p+3));\n    printf(\"%c\\n\" , *p+2);</p>",
+    "prompt_html": "<p>18. 다음은 C언어 소스 코드이다. 출력값을 쓰시오.</p>\n<pre><code>#include &lt;stdio.h&gt;\n\nvoid main(){\n\tchar *p = \"KOREA\"\n    printf(\"%s\\n\" , p);\n    printf(\"%s\\n\" , p+3);\n    printf(\"%c\\n\" , *p);\n    printf(\"%c\\n\" , *(p+3));\n    printf(\"%c\\n\" , *p+2);</code></pre>",
     "prompt_text": "18. 다음은 C언어 소스 코드이다. 출력값을 쓰시오. #include <stdio.h>\n\nvoid main(){\n\tchar *p = \"KOREA\"\n    printf(\"%s\\n\" , p);\n    printf(\"%s\\n\" , p+3);\n    printf(\"%c\\n\" , *p);\n    printf(\"%c\\n\" , *(p+3));\n    printf(\"%c\\n\" , *p+2);",
     "answer": "KOREA\nEA\nK\nE\nM"
   },
@@ -785,7 +785,7 @@
     "round": 4,
     "number": 19,
     "category": "Java",
-    "prompt_html": "<p>19. 다음은 자바 소스 코드이다. 출력 결과를 쓰시오.</p>\n<p>class parent{\n\tpublic int compute(int num){\n    \tif(num &lt;=1) return num;\n        return compute(num-1) + compute(num-2);\n    }\n }\n \n class Child extends parent {\n \tpublic int compute(int num){\n    \tif(num&lt;=1) return num;\n        \treturn compute(num-1) + compute(num-3);\n        }\n   }\n   \n  class good{\n  \tpublic static void main (String[] args){\n    parent obj = new Child();\n    System.out.print(obj.compute(4));\n   }\n }</p>",
+    "prompt_html": "<p>19. 다음은 자바 소스 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>class parent{\n\tpublic int compute(int num){\n    \tif(num &lt;=1) return num;\n        return compute(num-1) + compute(num-2);\n    }\n }\n \n class Child extends parent {\n \tpublic int compute(int num){\n    \tif(num&lt;=1) return num;\n        \treturn compute(num-1) + compute(num-3);\n        }\n   }\n   \n  class good{\n  \tpublic static void main (String[] args){\n    parent obj = new Child();\n    System.out.print(obj.compute(4));\n   }\n }</code></pre>",
     "prompt_text": "19. 다음은 자바 소스 코드이다. 출력 결과를 쓰시오. class parent{\n\tpublic int compute(int num){\n    \tif(num <=1) return num;\n        return compute(num-1) + compute(num-2);\n    }\n }\n \n class Child extends parent {\n \tpublic int compute(int num){\n    \tif(num<=1) return num;\n        \treturn compute(num-1) + compute(num-3);\n        }\n   }\n   \n  class good{\n  \tpublic static void main (String[] args){\n    parent obj = new Child();\n    System.out.print(obj.compute(4));\n   }\n }",
     "answer": "1"
   },
@@ -845,7 +845,7 @@
     "round": 1,
     "number": 5,
     "category": "Python",
-    "prompt_html": "<p>5. 다음은 파이썬 코드이다. 출력 결과를 쓰시오.</p>\n<p>class good :\n\tli = [\"seoul\", \"kyeonggi\",\"inchon\",\"daejeon\",\"daegu\",\"pusan\"]\n\ng = good()\nstr01 = ''\nfor i in g.li:\n\tstr01 = str01 + i[0]\n    \nprint(str01)</p>",
+    "prompt_html": "<p>5. 다음은 파이썬 코드이다. 출력 결과를 쓰시오.</p>\n<pre><code>class good :\n\tli = [\"seoul\", \"kyeonggi\",\"inchon\",\"daejeon\",\"daegu\",\"pusan\"]\n\ng = good()\nstr01 = ''\nfor i in g.li:\n\tstr01 = str01 + i[0]\n    \nprint(str01)</code></pre>",
     "prompt_text": "5. 다음은 파이썬 코드이다. 출력 결과를 쓰시오. class good :\n\tli = [\"seoul\", \"kyeonggi\",\"inchon\",\"daejeon\",\"daegu\",\"pusan\"]\n\ng = good()\nstr01 = ''\nfor i in g.li:\n\tstr01 = str01 + i[0]\n    \nprint(str01)",
     "answer": "s\nkiddp\n각 단어들의 0번째(첫번째 글자) row 출력"
   },
@@ -865,7 +865,7 @@
     "round": 1,
     "number": 7,
     "category": "Java",
-    "prompt_html": "<p>7. 다음 Java 프로그램 결과를 쓰시오.</p>\n<p>public class good{\n\tpublic static void main(String[] args){\n    \tint[][]arr = new int[][]{{45,50,75},{89}};\n        System.out.println(arr[0].length);\n        System.out.println(arr[1].length);\n        System.out.println(arr[0][0]);\n        System.out.println(arr[0][1]);\n        System.out.println(arr[1][0]);</p>",
+    "prompt_html": "<p>7. 다음 Java 프로그램 결과를 쓰시오.</p>\n<pre><code>public class good{\n\tpublic static void main(String[] args){\n    \tint[][]arr = new int[][]{{45,50,75},{89}};\n        System.out.println(arr[0].length);\n        System.out.println(arr[1].length);\n        System.out.println(arr[0][0]);\n        System.out.println(arr[0][1]);\n        System.out.println(arr[1][0]);</code></pre>",
     "prompt_text": "7. 다음 Java 프로그램 결과를 쓰시오. public class good{\n\tpublic static void main(String[] args){\n    \tint[][]arr = new int[][]{{45,50,75},{89}};\n        System.out.println(arr[0].length);\n        System.out.println(arr[1].length);\n        System.out.println(arr[0][0]);\n        System.out.println(arr[0][1]);\n        System.out.println(arr[1][0]);",
     "answer": "3\n1\n45\n50\n89"
   },
@@ -945,7 +945,7 @@
     "round": 1,
     "number": 15,
     "category": "C",
-    "prompt_html": "<p>15. 다음은 C언어 프로그램이다. 실행 결과를 쓰시오.</p>\n<p>#include &lt;stdio.h&gt;\n\nstruct good {\n\tchar name[10];\n    int age;\n };\n \n void main(){\n \tstruct good s[] = {\"Kim\",28,\"Lee\",38,\"Seo\",50,\"Park\",35};\n    \n    struct good *p;\n    p = s;\n    p++;\n    printf(\"%s\\n\", p-&gt; name);\n    printf(\"%d\\n\", p-&gt; age);</p>",
+    "prompt_html": "<p>15. 다음은 C언어 프로그램이다. 실행 결과를 쓰시오.</p>\n<pre><code>#include &lt;stdio.h&gt;\n\nstruct good {\n\tchar name[10];\n    int age;\n };\n \n void main(){\n \tstruct good s[] = {\"Kim\",28,\"Lee\",38,\"Seo\",50,\"Park\",35};\n    \n    struct good *p;\n    p = s;\n    p++;\n    printf(\"%s\\n\", p-&gt; name);\n    printf(\"%d\\n\", p-&gt; age);</code></pre>",
     "prompt_text": "15. 다음은 C언어 프로그램이다. 실행 결과를 쓰시오. #include <stdio.h>\n\nstruct good {\n\tchar name[10];\n    int age;\n };\n \n void main(){\n \tstruct good s[] = {\"Kim\",28,\"Lee\",38,\"Seo\",50,\"Park\",35};\n    \n    struct good *p;\n    p = s;\n    p++;\n    printf(\"%s\\n\", p-> name);\n    printf(\"%d\\n\", p-> age);",
     "answer": "Lee\n38\np++로 인해 s[1]가 되면서 두번째 배열인 Lee와 38이 출력이 된다."
   },
@@ -965,7 +965,7 @@
     "round": 1,
     "number": 17,
     "category": "Java",
-    "prompt_html": "<p>17. 다음은 Java 프로그램이다. 실행 결과를 쓰시오.</p>\n<p>public class good {\n\tpublic static void main(String[] args){\n    int i, j;\n    for(j=0, i=0; i&lt;=5; i++){\n    j+=i;\n    System.out.print(i);\n    if(i==5){\n    System.out.print(\"=\");\n    System.out.print(j);\n   }else{\n   \tSystem.out.print(\"+\");\n\t}\n   }\n  }\n }</p>",
+    "prompt_html": "<p>17. 다음은 Java 프로그램이다. 실행 결과를 쓰시오.</p>\n<pre><code>public class good {\n\tpublic static void main(String[] args){\n    int i, j;\n    for(j=0, i=0; i&lt;=5; i++){\n    j+=i;\n    System.out.print(i);\n    if(i==5){\n    System.out.print(\"=\");\n    System.out.print(j);\n   }else{\n   \tSystem.out.print(\"+\");\n\t}\n   }\n  }\n }</code></pre>",
     "prompt_text": "17. 다음은 Java 프로그램이다. 실행 결과를 쓰시오. public class good {\n\tpublic static void main(String[] args){\n    int i, j;\n    for(j=0, i=0; i<=5; i++){\n    j+=i;\n    System.out.print(i);\n    if(i==5){\n    System.out.print(\"=\");\n    System.out.print(j);\n   }else{\n   \tSystem.out.print(\"+\");\n\t}\n   }\n  }\n }",
     "answer": "0 + 1 + 2 + 3 + 4 + 5 = 15"
   },
@@ -1065,7 +1065,7 @@
     "round": 2,
     "number": 7,
     "category": "Python",
-    "prompt_html": "<p>7. 파이썬 비트 연산자 코드 결과</p>\n<p>a = 100\nresult = 0\nfor i in range(1,3);\n   result = a &gt;&gt; i\n   result = result + 1\npirnt(result)</p>",
+    "prompt_html": "<p>7. 파이썬 비트 연산자 코드 결과</p>\n<pre><code>a = 100\nresult = 0\nfor i in range(1,3);\n   result = a &gt;&gt; i\n   result = result + 1\npirnt(result)</code></pre>",
     "prompt_text": "7. 파이썬 비트 연산자 코드 결과 a = 100\nresult = 0\nfor i in range(1,3);\n   result = a >> i\n   result = result + 1\npirnt(result)",
     "answer": "26"
   },
@@ -1155,7 +1155,7 @@
     "round": 2,
     "number": 16,
     "category": "C",
-    "prompt_html": "<p>16. 다음은 C언어에 관한 소스코드이다. 실행 결과값을 작성하시오.</p>\n<p>int main(){\n   int res;\n   res = mp(2,10);\n   printf(\"%d\",res);\n   return 0;\n}\n\nint mp(int base, int exp) {\n   int res = 1;\n   for(int i=0; i &lt; exp; i++){\n      res = res * base;\n   }\n   \n   return res;\n}</p>",
+    "prompt_html": "<p>16. 다음은 C언어에 관한 소스코드이다. 실행 결과값을 작성하시오.</p>\n<pre><code>int main(){\n   int res;\n   res = mp(2,10);\n   printf(\"%d\",res);\n   return 0;\n}\n\nint mp(int base, int exp) {\n   int res = 1;\n   for(int i=0; i &lt; exp; i++){\n      res = res * base;\n   }\n   \n   return res;\n}</code></pre>",
     "prompt_text": "16. 다음은 C언어에 관한 소스코드이다. 실행 결과값을 작성하시오. int main(){\n   int res;\n   res = mp(2,10);\n   printf(\"%d\",res);\n   return 0;\n}\n\nint mp(int base, int exp) {\n   int res = 1;\n   for(int i=0; i < exp; i++){\n      res = res * base;\n   }\n   \n   return res;\n}",
     "answer": "1024"
   },
@@ -1165,7 +1165,7 @@
     "round": 2,
     "number": 17,
     "category": "기타",
-    "prompt_html": "<p>17. 클래스 내에서 객체 생성 없이 사용할 수 있는 메소드로써 출력 결과를 작성하시오.</p>\n<p>public class Test {\n   public static void main(String[] args){\n      system.out.print(Test.check(1));\n   }\n   \n   (    )  String check (int num) {\n      return (num &gt;= 0) ? \"positive\" : \"negative\";\n   }\n}\n\n[출력결과]\npositive</p>",
+    "prompt_html": "<p>17. 클래스 내에서 객체 생성 없이 사용할 수 있는 메소드로써 출력 결과를 작성하시오.</p>\n<pre><code>public class Test {\n   public static void main(String[] args){\n      system.out.print(Test.check(1));\n   }\n   \n   (    )  String check (int num) {\n      return (num &gt;= 0) ? \"positive\" : \"negative\";\n   }\n}\n\n[출력결과]\npositive</code></pre>",
     "prompt_text": "17. 클래스 내에서 객체 생성 없이 사용할 수 있는 메소드로써 출력 결과를 작성하시오. public class Test {\n   public static void main(String[] args){\n      system.out.print(Test.check(1));\n   }\n   \n   (    )  String check (int num) {\n      return (num >= 0) ? \"positive\" : \"negative\";\n   }\n}\n\n[출력결과]\npositive",
     "answer": "static"
   },
@@ -1175,7 +1175,7 @@
     "round": 2,
     "number": 18,
     "category": "C",
-    "prompt_html": "<p>18. 다음은 C언어 문제이다. 출력값을 작성하시오.</p>\n<p>int main(){\n\nint ary[3];\nint s = 0;\n*(ary+0)=1;\nary[1] = *(ary+0)+2;\nary[2] = *ary+3;\nfor(int i=0; i&lt;3; i++){\n  s=s+ary[i]\n}\n\nprint(\"%d\",s);\n\n}</p>",
+    "prompt_html": "<p>18. 다음은 C언어 문제이다. 출력값을 작성하시오.</p>\n<pre><code>int main(){\n\nint ary[3];\nint s = 0;\n*(ary+0)=1;\nary[1] = *(ary+0)+2;\nary[2] = *ary+3;\nfor(int i=0; i&lt;3; i++){\n  s=s+ary[i]\n}\n\nprint(\"%d\",s);\n\n}</code></pre>",
     "prompt_text": "18. 다음은 C언어 문제이다. 출력값을 작성하시오. int main(){\n\nint ary[3];\nint s = 0;\n*(ary+0)=1;\nary[1] = *(ary+0)+2;\nary[2] = *ary+3;\nfor(int i=0; i<3; i++){\n  s=s+ary[i]\n}\n\nprint(\"%d\",s);\n\n}",
     "answer": "8"
   },
@@ -1185,7 +1185,7 @@
     "round": 2,
     "number": 19,
     "category": "Java",
-    "prompt_html": "<p>19. 다음은 JAVA 관한 문제이다. 알맞는 출력값을 작성하시오.</p>\n<p>public class ovr1 {\n\tpublic static void main(String[] args){\n    \tovr1 a1 = new ovr1();\n        ovr2 a2 = new ovr2();\n        System.out.println(a1.sun(3,2) + a2.sun(3,2));\n    }\n    \n    int sun(int x, int y){\n    \treturn x + y;\n    }\n}\n\nclass ovr2 extends ovr1 {\n\n\tint sun(int x, int y){\n    \treturn x - y + super.sun(x,y);\n    }\n\n}</p>",
+    "prompt_html": "<p>19. 다음은 JAVA 관한 문제이다. 알맞는 출력값을 작성하시오.</p>\n<pre><code>public class ovr1 {\n\tpublic static void main(String[] args){\n    \tovr1 a1 = new ovr1();\n        ovr2 a2 = new ovr2();\n        System.out.println(a1.sun(3,2) + a2.sun(3,2));\n    }\n    \n    int sun(int x, int y){\n    \treturn x + y;\n    }\n}\n\nclass ovr2 extends ovr1 {\n\n\tint sun(int x, int y){\n    \treturn x - y + super.sun(x,y);\n    }\n\n}</code></pre>",
     "prompt_text": "19. 다음은 JAVA 관한 문제이다. 알맞는 출력값을 작성하시오. public class ovr1 {\n\tpublic static void main(String[] args){\n    \tovr1 a1 = new ovr1();\n        ovr2 a2 = new ovr2();\n        System.out.println(a1.sun(3,2) + a2.sun(3,2));\n    }\n    \n    int sun(int x, int y){\n    \treturn x + y;\n    }\n}\n\nclass ovr2 extends ovr1 {\n\n\tint sun(int x, int y){\n    \treturn x - y + super.sun(x,y);\n    }\n\n}",
     "answer": "11"
   },

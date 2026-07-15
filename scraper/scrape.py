@@ -83,7 +83,13 @@ def render_prompt_html(nodes) -> str:
         else:
             text = node.get_text(" ", strip=True)
             if text:
-                parts.append(f"<p>{escape_html(text)}</p>")
+                # some older posts paste code as plain text (no colorscripter
+                # widget); a raw newline is the tell, since normal prose never
+                # has one after get_text's whitespace collapsing
+                if "\n" in text:
+                    parts.append(f"<pre><code>{escape_html(text)}</code></pre>")
+                else:
+                    parts.append(f"<p>{escape_html(text)}</p>")
     return "\n".join(parts)
 
 
