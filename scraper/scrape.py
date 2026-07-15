@@ -171,6 +171,14 @@ SQL_CONTINUE_RE = re.compile(
     r"^(FROM|WHERE|GROUP\s+BY|ORDER\s+BY|HAVING|AND|OR|INNER\s+JOIN|LEFT\s+JOIN|RIGHT\s+JOIN|JOIN|ON|VALUES|SET)\b",
     re.I,
 )
+# occasionally the source blob mashes prose and several numbered SQL
+# statements into one <p> with no line breaks at all ("...50명 SQL 구문 1.
+# SELECT ...; 2. SELECT ...;"); pull the statements out by their trailing
+# semicolon rather than requiring the paragraph to start with one
+INLINE_SQL_RE = re.compile(
+    r"\d+[.)]\s*(?:SELECT|INSERT\s+INTO|UPDATE|DELETE\s+FROM|CREATE\s+(?:TABLE|VIEW|INDEX))\b.*?;",
+    re.I,
+)
 
 
 def render_prompt_html(nodes) -> str:
@@ -197,7 +205,17 @@ def render_prompt_html(nodes) -> str:
             elif SQL_CONTINUE_RE.match(text) and items and items[-1][0] == "pre":
                 items[-1] = ("pre", items[-1][1] + "\n" + text)
             else:
-                items.append(("p", text))
+                inline_matches = list(INLINE_SQL_RE.finditer(text))
+                if inline_matches:
+                    prefix = text[: inline_matches[0].start()].strip()
+                    suffix = text[inline_matches[-1].end() :].strip()
+                    if prefix:
+                        items.append(("p", prefix))
+                    items.append(("pre", "\n".join(m.group(0).strip() for m in inline_matches)))
+                    if suffix:
+                        items.append(("p", suffix))
+                else:
+                    items.append(("p", text))
 
     parts = []
     for kind, val in items:

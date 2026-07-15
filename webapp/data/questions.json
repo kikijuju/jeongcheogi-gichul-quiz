@@ -3805,7 +3805,7 @@
     "round": 1,
     "number": 9,
     "category": "SQL/DB",
-    "prompt_html": "<p>9. 아래 조건을 참고하여 각 SQL 구문을 실행했을 때 반환되는 행(Row)의 수를 쓰시오. (단, DEPT 칼럼은 학과명이다.)</p>\n<p>테이블 조건</p>\n<p>STUDENT 테이블에는 다음 세 학과의 학생 정보가 저장되어 있다. 컴퓨터과  50명  · 인터넷과  100명  · 사무자동화과  50 SQL 구문 1. SELECT DEPT FROM STUDENT; 2. SELECT DISTINCT DEPT FROM STUDENT; 3. SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '컴퓨터과';</p>",
+    "prompt_html": "<p>9. 아래 조건을 참고하여 각 SQL 구문을 실행했을 때 반환되는 행(Row)의 수를 쓰시오. (단, DEPT 칼럼은 학과명이다.)</p>\n<p>테이블 조건</p>\n<p>STUDENT 테이블에는 다음 세 학과의 학생 정보가 저장되어 있다. 컴퓨터과  50명  · 인터넷과  100명  · 사무자동화과  50 SQL 구문</p>\n<pre><code>1. SELECT DEPT FROM STUDENT;\n2. SELECT DISTINCT DEPT FROM STUDENT;\n3. SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '컴퓨터과';</code></pre>",
     "prompt_text": "9. 아래 조건을 참고하여 각 SQL 구문을 실행했을 때 반환되는 행(Row)의 수를 쓰시오. (단, DEPT 칼럼은 학과명이다.) 테이블 조건 STUDENT 테이블에는 다음 세 학과의 학생 정보가 저장되어 있다. 컴퓨터과  50명  · 인터넷과  100명  · 사무자동화과  50 SQL 구문 1. SELECT DEPT FROM STUDENT; 2. SELECT DISTINCT DEPT FROM STUDENT; 3. SELECT COUNT(DISTINCT DEPT) FROM STUDENT WHERE DEPT = '컴퓨터과';",
     "answer": "1. 200\n2. 3\n3. 1"
   },
