@@ -23,6 +23,9 @@ jobs:
     steps:
       - uses: actions/checkout@v4
       - uses: actions/configure-pages@v5
+      # stamp asset URLs with the commit so a deploy never serves a cached old app.js / style.css
+      - name: Stamp asset versions
+        run: sed -i "s/__BUILD__/${GITHUB_SHA::7}/g" webapp/index.html
       - uses: actions/upload-pages-artifact@v3
         with:
           path: webapp

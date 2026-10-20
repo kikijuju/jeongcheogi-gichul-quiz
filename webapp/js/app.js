@@ -40,20 +40,20 @@ function roundLabel(q) {
 }
 
 async function loadQuestions() {
-  const res = await fetch("data/questions.json");
+  const res = await fetch("data/questions.json", { cache: "no-cache" });
   state.questions = await res.json();
 
   // topic / difficulty / explanation live in a separate hand-written file so
   // re-running the scraper never clobbers them; the site still works without it
   let annotations = {};
   try {
-    annotations = await (await fetch("data/annotations.json")).json();
+    annotations = await (await fetch("data/annotations.json", { cache: "no-cache" })).json();
   } catch (e) {
     annotations = {};
   }
   state.questions.forEach((q) => Object.assign(q, annotations[q.id] || {}));
   try {
-    state.lessons = await (await fetch("data/lessons.json")).json();
+    state.lessons = await (await fetch("data/lessons.json", { cache: "no-cache" })).json();
   } catch (e) {
     state.lessons = [];
   }
