@@ -1192,3 +1192,28 @@ b.fail { color: var(--wrong) !important; }
 .wrong-answer.explain-body, .concept-answer.explain-body { white-space: normal; }
 
 .qcard-explanation .qlabel { align-items: flex-start; padding-top: 16px; }
+
+/* question text a notch smaller than body copy */
+.qbody.quiz-prompt { font-size: 15px; line-height: 1.7; }
+.qbody.quiz-prompt table { font-size: 13px; }
+
+/* ---------- small screens ---------- */
+
+.tab-btn { white-space: nowrap; }
+.stat-bar-row .bar-label { white-space: nowrap; }
+
+@media (max-width: 600px) {
+  /* the top bar scrolls away on phones; only the score bar stays pinned */
+  .topbar { position: static; padding: 10px 12px; gap: 8px; }
+  .brand-text h1 { font-size: 16px; }
+  .tabs { width: 100%; gap: 4px; overflow-x: auto; scrollbar-width: none; }
+  .tab-btn { padding: 5px 11px; font-size: 13px; }
+  #app { padding: 12px; }
+  .scorebar { top: 0; padding: 8px 10px; margin-bottom: 12px; }
+  .score-summary { gap: 2px 10px; margin-bottom: 4px; }
+  .scorebar .score-track { margin: 4px 0 12px; }
+  .card { padding: 14px; }
+}
+
+/* wide prompt tables scroll inside their box instead of widening the page */
+.qbody.quiz-prompt, .wrong-prompt, .concept-prompt { overflow-x: auto; }

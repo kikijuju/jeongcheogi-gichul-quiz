@@ -128,8 +128,12 @@ function allRoundKeys() {
   });
 }
 
+// code first (biggest share of recent exams), then the memorisation areas
+const CATEGORY_ORDER = ["C", "Java", "Python", "SQL/DB", "소프트웨어공학", "네트워크", "보안", "운영체제", "디자인패턴", "기타"];
+
 function allCategories() {
-  return Array.from(new Set(state.questions.map((q) => q.category)));
+  const rank = (c) => (CATEGORY_ORDER.includes(c) ? CATEGORY_ORDER.indexOf(c) : CATEGORY_ORDER.length);
+  return Array.from(new Set(state.questions.map((q) => q.category))).sort((a, b) => rank(a) - rank(b));
 }
 
 function roundStats(key) {
@@ -572,7 +576,9 @@ function scrollToCard(idx, { focus = false } = {}) {
   const card = document.getElementById(`qcard-${idx}`);
   if (!card) return;
   const scorebar = document.querySelector(".scorebar");
-  const offset = document.querySelector(".topbar").offsetHeight + (scorebar.offsetParent ? scorebar.offsetHeight : 0) + 12;
+  const topbar = document.querySelector(".topbar");
+  const pinnedTop = getComputedStyle(topbar).position === "sticky" ? topbar.offsetHeight : 0;
+  const offset = pinnedTop + (scorebar.offsetParent ? scorebar.offsetHeight : 0) + 12;
   window.scrollTo({ top: card.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
   if (focus) {
     const field = card.querySelector(".blank-input:not([readonly])");
@@ -1067,7 +1073,8 @@ function renderConcepts() {
   });
 
   const groups = conceptGroups()
-    .filter((g) => state.conceptCategories.has(g.category))
+    // nothing ticked means every category, like the home filter
+    .filter((g) => state.conceptCategories.size === 0 || state.conceptCategories.has(g.category))
     .filter((g) => {
       if (!state.conceptSearch) return true;
       const haystack = (g.prompt_html + " " + g.answer).toLowerCase();
