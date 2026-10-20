@@ -12,42 +12,336 @@
       {
         "title": "2. 포인터 연산과 배열: p[i] = *(p + i)",
         "body": "#개념 포인터 연산, 배열 이름, 인덱스\n\n배열 이름은 식 안에서 **첫 원소의 주소**(`&arr[0]`)로 바뀌어요. 그리고 포인터에 정수를 더하면 **i바이트가 아니라 i칸**(원소 i개) 뒤의 주소가 돼요.\n\n```c\nint arr[4] = {10, 20, 30, 40};\nint *p = arr;          // p = &arr[0]\nprintf(\"%d\", *(p + 2)); // 30\nprintf(\"%d\", p[2]);     // 30 (같은 뜻)\n```\n\n|식|가리키는 원소|주소 (int 4바이트, arr = 1000)|값|\n|`p` / `arr`|arr[0]|1000|10|\n|`p + 1`|arr[1]|1004|20|\n|`p + 2`|arr[2]|1008|30|\n\n> p[i]  ≡  *(p + i)  ≡  arr[i]  ≡  *(arr + i)\n\n!팁 `p + 2`가 1002가 아니라 1008인 이유: 컴파일러가 `2 × sizeof(int)`를 자동으로 곱해 줘요. 그래서 char면 1칸 = 1바이트, double이면 8바이트씩 이동해요.",
-        "examples": ["2021-2-18", "2023-1-2", "2026-1-1"]
+        "examples": [
+          "2021-2-18",
+          "2023-1-2",
+          "2026-1-1"
+        ]
       },
       {
         "title": "3. 함수에 주소 넘기기 (값 전달 vs 주소 전달)",
         "body": "#개념 call by value, call by reference, 매개변수\n\nC는 기본이 **값 전달**이라 함수 안에서 매개변수를 바꿔도 원본은 그대로예요. 원본을 바꾸려면 **주소를 넘기고 `*`로 찾아가서** 바꿔야 해요.\n\n```c\nvoid byValue(int n) { n = 99; }      // 복사본만 바뀜\nvoid byAddr(int *n) { *n = 99; }     // 원본이 바뀜\n\nint main() {\n    int a = 1;\n    byValue(a);   // a = 1 그대로\n    byAddr(&a);   // a = 99\n}\n```\n\n|호출|함수가 받는 것|원본 a|\n|`byValue(a)`|a의 값 복사본|안 바뀜|\n|`byAddr(&a)`|a의 주소|바뀜|\n\n!함정 배열을 넘기면 배열 전체가 복사되는 게 아니라 **첫 원소의 주소**가 넘어가요. 그래서 함수 안에서 `p[i]`를 바꾸면 main의 배열도 바뀝니다.",
-        "examples": ["2026-2-9", "2026-1-1"]
+        "examples": [
+          "2026-2-9",
+          "2026-1-1"
+        ]
       },
       {
         "title": "4. 문자열과 char 포인터",
         "body": "#개념 char*, 문자열, %s와 %c\n\n`char *p = \"KOREA\";`에서 p는 첫 글자 'K'의 주소예요. **출력 형식에 따라 결과가 완전히 달라지는 게** 시험 포인트예요.\n\n|식|형식|결과|이유|\n|`p`|%s|KOREA|p부터 '\\0'까지 출력|\n|`p + 1`|%s|OREA|1칸 뒤(O)부터 끝까지|\n|`*p`|%c|K|p가 가리키는 한 글자|\n|`*(p + 3)`|%c|E|3칸 뒤의 한 글자|\n|`*p + 4`|%c|O|'K' + 4 → 아스키 코드로 4칸 뒤 글자|\n\n> K → L → M → N → O  ( 'K' + 4 = 'O' )\n\n!함정 `*(p + 3)`과 `*p + 3`은 완전히 달라요. 괄호가 없으면 **글자를 먼저 꺼낸 뒤 숫자를 더해** 알파벳이 밀려요. 2020년과 2023년에 똑같은 함정이 재출제됐어요.\n!팁 `%s`에는 주소(p, p+1)를, `%c`에는 글자 하나(*p, *(p+i))를 넘긴다고 기억하세요.",
-        "examples": ["2023-3-10", "2020-4-18", "2023-1-2"]
+        "examples": [
+          "2023-3-10",
+          "2020-4-18",
+          "2023-1-2"
+        ]
       },
       {
         "title": "5. 자주 나오는 연산자 함정",
         "body": "#개념 연산자 우선순위, 후위 증가, 역참조\n\n`*`, `++`, `+`가 섞이면 **어느 쪽이 먼저 붙는지**가 답을 가릅니다. p가 arr = {10, 20, 30}의 arr[0]을 가리킬 때:\n\n|식|먼저 하는 일|결과값|실행 후 p|\n|`*p + 1`|*p(10)를 꺼낸 뒤 +1|11|그대로|\n|`*(p + 1)`|주소를 1칸 옮긴 뒤 꺼냄|20|그대로|\n|`*p++`|*p(10)를 쓰고 나서 p를 다음 칸으로|10|arr[1]|\n|`(*p)++`|*p 값을 쓰고 나서 그 값을 1 증가|10 (arr[0]은 11이 됨)|그대로|\n|`++*p`|*p 값을 먼저 1 증가|11|그대로|\n\n!암기 후위 `++`는 `*`보다 먼저 붙지만 '나중에 증가'해요. 그래서 `*p++` = '지금 값 쓰고, 포인터를 옮겨라'.\n!함정 `(*p)++`는 포인터가 아니라 **가리키는 값**을 올려요. 괄호 위치를 꼭 확인하세요.",
-        "examples": ["2022-2-16"]
+        "examples": [
+          "2022-2-16"
+        ]
       },
       {
         "title": "6. 이중 포인터 (**pp)",
         "body": "#개념 이중 포인터, 포인터의 포인터\n\n이중 포인터는 **포인터의 주소**를 담아요. 화살표를 한 번 더 따라간다고 생각하면 쉬워요.\n\n```c\nint x = 5;\nint *p = &x;\nint **pp = &p;\n// pp → p → x\n```\n\n|식|따라간 횟수|결과|\n|`pp`|0번|p의 주소|\n|`*pp`|1번|p의 값 = x의 주소|\n|`**pp`|2번|x의 값 = 5|\n\n> *(*pp + i)  =  (*pp)[i]  =  p[i]\n\n!팁 함수가 `int **arr`를 받으면 `*arr`이 main의 포인터 p, `*(*arr + i)`가 배열의 i번째 원소예요. 그래서 함수 안에서 바꾼 값이 main의 배열에 그대로 남아요.\n!함정 `(*pptr)[1] = (*pptr)[2]`처럼 구조체 배열에 쓰면 **구조체 통째로 복사**돼요. x, y가 함께 바뀝니다.",
-        "examples": ["2024-3-16", "2025-2-14", "2025-1-11"]
+        "examples": [
+          "2024-3-16",
+          "2025-2-14",
+          "2025-1-11"
+        ]
       },
       {
         "title": "7. 2차원 배열과 포인터 배열",
         "body": "#개념 2차원 배열, 행 주소, 포인터 배열\n\n2차원 배열 `arr[3][3]`에서 `arr[i]`는 **i행의 시작 주소**예요. 그래서 한 번 역참조하면 행, 두 번 역참조하면 값이에요.\n\n> arr[i][j]  =  *(arr[i] + j)  =  *(*(arr + i) + j)\n\n|선언|뜻|읽는 법|\n|`int *p[3]`|int 포인터 3개짜리 배열|[]가 먼저 → '배열인데 원소가 포인터'|\n|`int (*p)[3]`|int 3칸 배열 하나를 가리키는 포인터|()가 먼저 → '포인터인데 가리키는 게 배열'|\n\n!함정 `int *parr[2] = {arr[1], arr[2]};`처럼 행 주소를 담으면 `parr[0]`은 0행이 아니라 **arr[1]**이에요. 인덱스를 새로 매긴다고 착각하기 쉬워요.\n!암기 `**p` = `p[0][0]`, `*(p[i] + j)` = `p[i][j]`.",
-        "examples": ["2024-2-13", "2025-1-11"]
+        "examples": [
+          "2024-2-13",
+          "2025-1-11"
+        ]
       },
       {
         "title": "8. 구조체 포인터 (->)",
         "body": "#개념 구조체, 화살표 연산자, 구조체 배열\n\n구조체를 가리키는 포인터로 멤버에 접근할 때는 `->`를 써요. `p->age`는 `(*p).age`의 줄임말이에요.\n\n```c\nstruct good { char name[10]; int age; };\nstruct good s[] = {{\"Kim\", 28}, {\"Lee\", 38}};\nstruct good *p = s;   // s[0]\np++;                  // s[1]로 이동 (구조체 하나 크기만큼)\nprintf(\"%s %d\", p->name, p->age);  // Lee 38\n```\n\n|식|같은 뜻|\n|`p->age`|`(*p).age`|\n|`(p + 1)->age`|`s[1].age`|\n|`p++`|다음 구조체로 이동|\n\n!함정 `*p.age`는 `*(p.age)`로 해석돼서 오류예요. 괄호를 쳐야 해서 그냥 `->`를 쓰는 거예요.\n!팁 함수가 `BankAcc *acc`를 받아 `acc->bal`을 바꾸면 main의 구조체가 바뀌어요. 3장의 '주소 전달'과 같은 원리예요.",
-        "examples": ["2021-1-15", "2024-1-11", "2023-3-5"]
+        "examples": [
+          "2021-1-15",
+          "2024-1-11",
+          "2023-3-5"
+        ]
       },
       {
         "title": "9. 심화: 연결 리스트와 함수 포인터",
         "body": "#개념 연결 리스트, next 포인터, 함수 포인터\n\n연결 리스트는 각 노드가 **다음 노드의 주소(next)**를 들고 있는 구조예요. 문제는 보통 노드 연결을 바꾼 뒤 순서대로 출력하게 해요.\n\n```c\nstruct Node { int value; struct Node *next; };\n// n1 → n2 → n3 → NULL\nfor (struct Node *cur = &n1; cur != NULL; cur = cur->next)\n    printf(\"%d \", cur->value);\n```\n\n- 연결을 바꾸는 코드는 **종이에 화살표를 그려 가며** 한 줄씩 따라가세요.\n- `cur = cur->next`가 '다음 칸으로 이동'이에요.\n\n함수 포인터는 **함수의 주소**를 담아서 그 함수를 대신 호출해요. `int* (*fn)(int*)`는 'int*를 받아 int*를 돌려주는 함수를 가리키는 포인터'예요.\n\n!함정 출력 형식이 `%x`면 16진수로 써야 해요. 32를 `%x`로 찍으면 **20**이에요.",
-        "examples": ["2024-2-19", "2025-2-16", "2026-1-12"]
+        "examples": [
+          "2024-2-19",
+          "2025-2-16",
+          "2026-1-12"
+        ]
+      }
+    ],
+    "short": "C 포인터",
+    "category": "C"
+  },
+  {
+    "id": "java",
+    "title": "Java 상속·오버라이딩 한 번에 정리",
+    "short": "Java 상속·오버라이딩",
+    "category": "Java",
+    "summary": "최근 Java 문제의 상당수가 상속과 오버라이딩을 물어요. 객체와 참조, 생성자 호출 순서, 오버라이딩 vs 오버로딩, 업캐스팅, static 숨김, 예외처리, 문자열 비교까지 시험에 나온 순서대로 정리하고, 단계마다 실제 기출을 붙였어요.",
+    "sections": [
+      {
+        "title": "1. 클래스·객체와 참조",
+        "body": "#개념 클래스, 객체, new, 참조형\n\n클래스는 **설계도**, `new`로 만든 것이 **객체**예요. 그리고 객체를 담는 변수에는 객체 자체가 아니라 **객체의 주소(참조)**가 들어가요. 이 한 가지가 Java 출력 문제의 출발점이에요.\n\n```java\nclass Box { int v; }\n\nBox a = new Box();\na.v = 1;\nBox b = a;      // 객체 복사가 아니라 주소만 복사\nb.v = 9;\nSystem.out.print(a.v);   // 9 : a와 b는 같은 객체\n```\n\n|구분|변수에 들어 있는 것|대입(=)하면|\n|기본형 (int, double, char, boolean …)|값 그 자체|값이 복사돼요|\n|참조형 (객체, 배열, String)|객체의 주소|주소만 복사돼서 같은 객체를 함께 가리켜요|\n\n## 메서드에 넘길 때\n- Java는 항상 **값을 복사해서** 넘겨요. 다만 참조형은 그 '값'이 주소라서, 메서드 안에서 `m.a *= 10`처럼 **필드를 바꾸면 원본 객체가 바뀌어요.**\n- 반대로 매개변수에 `s = \"Z\"`처럼 **새 값을 대입**하면 매개변수만 다른 곳을 가리킬 뿐, 호출한 쪽 변수는 그대로예요.\n\n!함정 배열 원소를 서로 바꾸는(swap) 문제는 **배열 칸의 주소만 바뀌고 객체 a, b, c는 그대로**예요. `arr[1].v = …`처럼 필드를 바꾸면 그 칸이 가리키는 원래 객체가 바뀌니, 화살표를 그려서 따라가세요.\n!팁 배열이나 객체에 `==`를 쓰면 내용이 아니라 **주소가 같은지**를 비교해요. `{1,2,3,4}`로 똑같이 만든 두 배열도 `a == b`는 false예요.",
+        "examples": [
+          "2025-2-15",
+          "2025-2-5",
+          "2022-1-3"
+        ]
+      },
+      {
+        "title": "2. 생성자와 this·super",
+        "body": "#개념 생성자, this, super, private\n\n생성자는 **클래스 이름과 같고 반환형이 없는** 특별한 메서드로, `new` 할 때 딱 한 번 실행돼요. 상속 관계에서는 `this`와 `super`로 '나'와 '부모'를 구분해요.\n\n```java\nclass A {\n    private int a;\n    A(int a) { this.a = a; }             // this.a = 필드, a = 매개변수\n    void print() { System.out.print(a + \"a\"); }\n}\nclass B extends A {\n    private int b;\n    B(int a, int b) { super(a); this.b = b; }   // 부모 생성자에 a 전달\n    void print() { super.print(); System.out.print(b + \"b\"); }\n}\n\nnew B(1, 2).print();   // 1a2b\n```\n\n|쓰는 모양|뜻|\n|`this.x`|내 객체의 필드 x (매개변수 x와 구분)|\n|`this(…)`|같은 클래스의 **다른 생성자** 호출|\n|`super(…)`|**부모 생성자** 호출|\n|`super.m()`|부모 클래스의 메서드 m 호출 (오버라이딩을 무시하고 부모 것)|\n\n!함정 `this(…)`와 `super(…)`는 **생성자 첫 줄에만**, 둘 중 **하나만** 쓸 수 있어요. 부모에 매개변수 있는 생성자만 있으면 자식 생성자 첫 줄에 `super(a, a)`처럼 직접 써야 해요. 이 빈칸을 묻는 문제가 나왔어요.\n!팁 부모의 `private` 필드는 자식이 직접 못 써요. 그래서 `super(a)`로 값을 넘기고 `super.print()`로 출력하게 하는 구조가 자주 나와요.",
+        "examples": [
+          "2026-2-2",
+          "2025-3-12",
+          "2020-2-19"
+        ]
+      },
+      {
+        "title": "3. 생성자 호출 순서와 필드 초기화",
+        "body": "#개념 생성자 호출 순서, super() 자동 삽입, 필드 초기화\n\n`new Child()`를 하면 자식 생성자가 먼저 '불리지만', 첫 줄의 `super()` 때문에 **부모 쪽이 먼저 완성**돼요. 첫 줄에 `this(…)`나 `super(…)`가 없으면 컴파일러가 `super();`를 자동으로 넣어 줘요.\n\n1. 자식 생성자 진입\n2. 첫 줄 `super(…)` → 부모 필드 초기화 → 부모 생성자 본문\n3. **자식 필드 초기화** (`int n = 5;` 같은 줄은 이때 실행)\n4. 자식 생성자 본문\n\n```java\nclass P {\n    P() { System.out.print(\"P\"); show(); }\n    void show() { System.out.print(\"p\"); }\n}\nclass C extends P {\n    int n = 5;\n    C() { System.out.print(\"C\" + n); }   // 첫 줄에 super() 자동\n    void show() { System.out.print(\"s\" + n); }\n}\n\nnew C();   // Ps0C5\n```\n\n|순서|실행되는 곳|출력|n의 값|\n|1|P() 본문|P|0 (아직 초기화 전)|\n|2|P()에서 부른 show() → 오버라이딩된 C의 show()|s0|0|\n|3|C의 필드 초기화|-|5|\n|4|C() 본문|C5|5|\n\n!함정 **부모 생성자 안에서 부른 메서드도 실제 객체(자식)의 것**이 실행돼요. 그리고 그 시점엔 자식 필드가 아직 기본값(0)이에요. 2025년에 `static total`에 이 순서를 섞어 계산하게 하는 문제가 나왔어요.\n!함정 `this(…)`가 섞이면 화살표로 따라가세요.\n> new Child() → Child() → this(5000) → Child(int) → super() → Parent() → this(500) → Parent(int)\n!팁 자식과 부모에 **같은 이름의 필드** x가 있으면 둘은 별개 변수예요. 부모 클래스에 있는 `getX()`가 돌려주는 x는 부모의 x예요.",
+        "examples": [
+          "2025-1-13",
+          "2024-1-10",
+          "2023-1-20"
+        ]
+      },
+      {
+        "title": "4. 오버라이딩 vs 오버로딩",
+        "body": "#개념 오버라이딩, 오버로딩, 시그니처, 컴파일 시점 결정\n\n이름은 비슷하지만 완전히 다른 개념이에요. 시험은 **둘을 한 클래스에 섞어 놓고** 어느 쪽이 불리는지 물어요.\n\n|구분|오버라이딩 (Overriding)|오버로딩 (Overloading)|\n|위치|부모 ↔ 자식 사이|같은 클래스 안 (상속받은 것 포함)|\n|메서드 이름|같음|같음|\n|매개변수|**완전히 같음**|개수나 타입이 **달라야 함**|\n|무엇으로 고르나|실행 때 **실제 객체**|컴파일 때 **참조형 + 인자의 선언 타입**|\n\n```java\nclass A {\n    String f(Object x) { return \"1\"; }\n}\nclass B extends A {\n    String f(Object x) { return \"2\"; }   // 오버라이딩\n    String f(String x) { return \"3\"; }   // 오버로딩 (A에는 없는 새 메서드)\n}\n\nA a = new B();\na.f(\"hi\");   // \"2\" : A에는 f(Object)뿐 → 그걸 고르고, 실행은 B의 f(Object)\nB b = new B();\nb.f(\"hi\");   // \"3\" : B에선 f(String)이 더 딱 맞음\n```\n\n!암기 ① 어떤 메서드(시그니처)를 부를지는 **컴파일 때 참조형**이 정하고, ② 그 시그니처를 누구 것으로 실행할지는 **실행 때 실제 객체**가 정해요.\n!함정 오버로딩은 **값이 아니라 선언된 타입**으로 골라요. 제네릭 `T value`는 컴파일 때 Object로 취급되므로, 값이 0(Integer)이어도 `print(Object)`가 불려요. 또 `calc(\"5\")`는 String 버전, 그 안의 `calc(value - 1)`은 int 버전처럼 **호출마다 인자 타입을 새로** 봐야 해요.",
+        "examples": [
+          "2026-1-7",
+          "2025-1-20",
+          "2024-3-19"
+        ]
+      },
+      {
+        "title": "5. 업캐스팅과 동적 바인딩",
+        "body": "#개념 업캐스팅, 동적 바인딩, 참조형 vs 실제 객체\n\n`Parent p = new Child();`처럼 **부모 타입 변수에 자식 객체**를 담는 게 업캐스팅이에요. 이때 무엇은 참조형을 따르고 무엇은 실제 객체를 따르는지가 Java 최다 출제 포인트예요.\n\n```java\nclass Base {\n    int x = 3;\n    int getX() { return x * 2; }\n}\nclass Der extends Base {\n    int x = 7;\n    int getX() { return x * 3; }\n}\n\nBase a = new Der();\na.getX();   // 21 : 메서드는 실제 객체(Der) 것, 그 안의 x는 Der의 x\na.x;        // 3  : 필드는 참조형(Base) 기준\n```\n\n|무엇을 쓰나|기준|\n|오버라이딩된 인스턴스 메서드|**실제 객체** (new 뒤의 클래스)|\n|필드 (`a.x`)|**참조형** (변수 선언 타입)|\n|static 메서드|**참조형** (6장)|\n|호출할 수 있는 메서드 목록|참조형 (부모에 없는 메서드는 못 부름)|\n\n## 메서드 안에서 부르는 메서드\n- 부모 메서드 안의 `draw()`는 사실 `this.draw()`예요. this가 자식 객체이니 **자식의 draw()**가 불려요.\n- 재귀도 같아요. 부모의 `compute()`가 자기 자신을 부르는 것처럼 보여도, 객체가 Child면 **Child의 compute()**로 재귀해요.\n- `super.draw()`만 예외로 **부모 것에 고정**돼요. 하지만 그 부모 메서드 안에서 다시 부르는 `draw()`는 또 자식 것이에요.\n\n!함정 `Parent obj = new Child(); obj.compute(7)`에서 부모 공식(n-1, n-2)으로 계산하면 틀려요. Child의 공식(n-1, n-3)으로 끝까지 재귀해야 해요. 음수 n도 `n <= 1`이면 n을 그대로 돌려준다는 점까지 챙기세요.\n!팁 표를 그려 '변수 타입 | 실제 객체'를 먼저 적어 두면 메서드와 필드를 헷갈리지 않아요.",
+        "examples": [
+          "2024-3-11",
+          "2023-3-1",
+          "2023-3-11"
+        ]
+      },
+      {
+        "title": "6. static: 공유 변수와 숨김",
+        "body": "#개념 static 필드, static 메서드, 메서드 숨김(hiding), 싱글톤\n\n`static`이 붙은 멤버는 객체가 아니라 **클래스에 하나만** 있어요. 객체를 몇 개 만들어도 같은 변수를 함께 써요.\n\n|구분|인스턴스 멤버|static 멤버|\n|개수|객체마다 하나씩|클래스에 딱 하나 (공유)|\n|호출|`객체.m()`|`클래스명.m()` (객체 없이 가능)|\n|인스턴스 필드 사용|가능|**불가** (어느 객체의 필드인지 모름)|\n|자식이 같은 메서드를 만들면|오버라이딩 → 실제 객체 기준|**숨김** → 참조형 기준|\n\n```java\nclass P {\n    static String id() { return \"P\"; }\n    String name() { return \"p\"; }\n}\nclass C extends P {\n    static String id() { return \"C\"; }   // 오버라이딩 아님 (숨김)\n    String name() { return \"c\"; }        // 오버라이딩\n}\n\nP ref = new C();\nSystem.out.print(ref.name() + ref.id());   // cP\n```\n\n!암기 static 메서드는 **오버라이딩되지 않아요.** `ref.id()`는 `P.id()`로 바꿔 읽으면 돼요.\n!함정 `System.out.println(Static.b++)`는 **10을 먼저 출력하고** b를 11로 올려요. 그 뒤 `st.b`로 읽어도 같은 static 변수라 11이에요. 그리고 static 메서드 안에서 인스턴스 필드 `name`을 쓰면 컴파일 오류예요(오류 줄 찾기 문제로 나왔어요).\n!팁 `private static Connection _inst`와 `get()`으로 객체를 하나만 만드는 구조가 **싱글톤**이에요. conn1, conn2, conn3이 모두 같은 객체라 count가 계속 누적돼요.",
+        "examples": [
+          "2025-2-10",
+          "2024-1-1",
+          "2023-1-1"
+        ]
+      },
+      {
+        "title": "7. 추상클래스와 인터페이스",
+        "body": "#개념 abstract, interface, extends, implements\n\n둘 다 **'자식이 반드시 구현해야 할 메서드'**를 정해 두는 틀이고, 스스로는 `new`로 객체를 만들 수 없어요.\n\n|구분|추상클래스|인터페이스|\n|선언|`abstract class`|`interface`|\n|물려받는 키워드|`extends`|`implements`|\n|여러 개 상속|하나만|여러 개 가능|\n|필드|일반 필드 가능|상수만 (public static final)|\n|메서드|추상 메서드 + 일반 메서드|기본이 추상 메서드 (default·static 메서드도 가능)|\n\n```java\nabstract class Animal {\n    String name;\n    abstract String sound();                  // 몸체 없음 → 자식이 꼭 구현\n    String info() { return name + \":\" + sound(); }\n}\nclass Dog extends Animal {\n    Dog(String n) { name = n; }\n    String sound() { return \"멍\"; }\n}\n\nAnimal a = new Dog(\"바둑\");\nSystem.out.print(a.info());   // 바둑:멍\n```\n\n- 인터페이스를 구현하면 메서드에 **`public`**을 꼭 붙여야 해요 (인터페이스 메서드는 원래 public).\n- `class Car implements Runnable` + `new Thread(new Car())`처럼 스레드 문제에도 인터페이스가 나와요.\n\n!함정 Vehicle 문제: 자식 Car에는 `getName(String)`, `getName(byte[])`처럼 **인자 있는 버전**만 있어요. `obj.getName()`은 인자가 없으니 부모의 일반 메서드가 불리고, 출력은 'Vehicle name: Spark'예요. 4장의 오버로딩 함정과 같은 원리예요.\n!암기 클래스 → 클래스는 `extends`, 클래스 → 인터페이스는 `implements`, 인터페이스 → 인터페이스는 `extends`.",
+        "examples": [
+          "2025-3-8",
+          "2024-2-14",
+          "2023-1-17"
+        ]
+      },
+      {
+        "title": "8. 예외처리: try·catch·finally",
+        "body": "#개념 try, catch, finally, throw, 예외 종류\n\n예외가 나면 **try의 나머지 줄은 건너뛰고**, catch를 위에서부터 보며 **처음 맞는 하나만** 실행해요. finally는 예외가 나든 안 나든 **항상** 실행돼요.\n\n```java\nint sum = 0;\ntry {\n    sum += 1;\n    int z = 5 / 0;      // ArithmeticException 발생\n    sum += 10;          // 실행 안 됨\n} catch (ArithmeticException e) {\n    sum += 100;\n} catch (Exception e) {\n    sum += 1000;        // 위에서 이미 잡혀서 안 옴\n} finally {\n    sum += 10000;\n}\nSystem.out.print(sum);  // 10101\n```\n\n|예외|언제 나나|\n|`ArithmeticException`|정수를 0으로 나눌 때 (`5 / 0`)|\n|`ArrayIndexOutOfBoundsException`|배열 범위를 벗어난 인덱스|\n|`NullPointerException`|null인 참조로 멤버 사용|\n|`NumberFormatException`|`Integer.parseInt(\"abc\")`처럼 숫자가 아닌 문자열 변환|\n|`ClassCastException`|잘못된 다운캐스팅|\n\n!함정 catch는 **실제로 던져진 예외 객체의 타입**으로 골라요. 메서드에 `throws Exception`이라고 적혀 있어도 실제로 `NullPointerException`을 던지면 NPE catch가 잡아요. 그리고 부모 예외(`Exception`)를 자식보다 위에 쓰면 컴파일 오류라서, 항상 좁은 예외가 위에 와요.\n!팁 try 안에서 `return`을 해도 finally는 먼저 실행돼요. 예외가 나서 catch의 `return 7`로 빠지는 경우처럼 **어느 return이 실행되는지** 따라가세요. 참고로 `5.0 / 0`처럼 실수 나눗셈은 예외 없이 Infinity가 돼요.",
+        "examples": [
+          "2025-2-9",
+          "2025-1-5",
+          "2024-3-18"
+        ]
+      },
+      {
+        "title": "9. 문자열: + 연산, == vs equals, 메서드",
+        "body": "#개념 문자열 연결, 문자열 상수 풀, equals, split, StringBuilder\n\n## + 는 왼쪽부터\n`+`는 왼쪽에서 오른쪽으로 계산해요. **문자열을 만나기 전까지는 숫자 덧셈**, 만난 뒤부터는 이어 붙이기예요.\n\n|식|계산 과정|결과|\n|`9 + 2 + \"2\" + \"3\"`|11 → \"112\" → \"1123\"|1123|\n|`\"2\" + 9 + 2`|\"29\" → \"292\"|292|\n|`\"2\" + (9 + 2)`|괄호 먼저 11 → \"211\"|211|\n\n## == vs equals\n```java\nString a = \"Java\";\nString b = \"Java\";\nString c = new String(\"Java\");\na == b        // true  : 같은 리터럴 → 상수 풀의 같은 객체\na == c        // false : new는 항상 새 객체\na.equals(c)   // true  : 내용 비교\n```\n\n!암기 `==`는 **주소 비교**, `equals`는 **내용 비교**. 리터럴끼리는 `==`도 true, `new String`이 끼면 `==`는 false예요.\n\n## 자주 나오는 메서드\n|메서드|예 (s = \"HELLO\")|결과|\n|`length()`|`s.length()`|5|\n|`charAt(i)`|`s.charAt(1)`|'E'|\n|`substring(a, b)`|`s.substring(1, 3)`|\"EL\" (b는 미포함)|\n|`indexOf(x)`|`s.indexOf(\"L\")`|2|\n|`split(x)`|`\"ITISTEST\".split(\"T\")`|[\"I\", \"IS\", \"ES\"]|\n\n!함정 `split`은 구분자를 **지우고 나머지를 나눠요.** 맨 끝의 빈 문자열은 버려지니 개수를 셀 때 주의하세요.\n!팁 String은 **바뀌지 않는(immutable)** 객체예요. `s.toUpperCase();`만 쓰고 결과를 받지 않으면 s는 그대로예요. 내용을 계속 바꿀 때는 `StringBuilder`를 써요.\n```java\nStringBuilder sb = new StringBuilder(\"ab\");\nsb.append(\"c\").reverse();   // sb 자체가 바뀜 → \"cba\"\n```",
+        "examples": [
+          "2026-1-17",
+          "2024-3-1",
+          "2024-2-20"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "sql",
+    "title": "SQL 결과 구하기 한 번에 정리",
+    "short": "SQL 결과 구하기",
+    "category": "SQL/DB",
+    "summary": "SQL 실기는 '이 쿼리를 실행하면 몇 행, 어떤 값이 나오나'를 손으로 구하는 문제가 대부분이에요. 실행 순서, WHERE 조건, NULL과 집계, GROUP BY, JOIN 행 수, 서브쿼리, 키워드 빈칸, 정규화까지 순서대로 정리하고 단계마다 실제 기출을 붙였어요.",
+    "sections": [
+      {
+        "title": "1. 실행 순서와 결과 행 수 (DISTINCT, UNION)",
+        "body": "#개념 실행 순서, DISTINCT, UNION, ORDER BY\n\nSQL은 **적힌 순서가 아니라 정해진 순서로** 실행돼요. 결과를 손으로 구할 때도 이 순서대로 따라가면 실수가 줄어요.\n\n```sql\nSELECT 학과, COUNT(*) AS 인원   -- ⑤ 보여줄 열 고르기\nFROM 학생                       -- ① 테이블 가져오기\nWHERE 학년 >= 2                 -- ② 행 거르기\nGROUP BY 학과                   -- ③ 묶기\nHAVING COUNT(*) >= 2            -- ④ 묶음 거르기\nORDER BY 인원 DESC;             -- ⑥ 정렬\n```\n\n|순서|절|하는 일|\n|①|FROM (JOIN)|대상 테이블 준비|\n|②|WHERE|**행** 단위로 거르기|\n|③|GROUP BY|같은 값끼리 묶기|\n|④|HAVING|**그룹** 단위로 거르기|\n|⑤|SELECT|열 고르기, 별칭 붙이기, DISTINCT|\n|⑥|ORDER BY|정렬 (ASC 기본, DESC 내림차순)|\n\n> FROM → WHERE → GROUP BY → HAVING → SELECT → ORDER BY\n\n결과 **행 수**를 묻는 문제는 중복 처리가 핵심이에요. 학과 3개, 학생 200명이라면:\n\n|SQL|행 수|이유|\n|`SELECT DEPT FROM STUDENT`|200|중복 그대로 전부|\n|`SELECT DISTINCT DEPT FROM STUDENT`|3|중복 제거|\n|`SELECT COUNT(DISTINCT DEPT) ... WHERE DEPT = '컴퓨터과'`|1|COUNT는 값 하나짜리 행 1개|\n|`A UNION B`|중복 제거 후 개수|UNION은 DISTINCT처럼 동작|\n|`A UNION ALL B`|A 행 수 + B 행 수|중복도 그대로|\n\n!함정 `COUNT(...)`의 **결과 값**과 **결과 행 수**를 헷갈리지 마세요. 집계함수만 SELECT하면(GROUP BY 없이) 값이 몇이든 행은 항상 1개예요.\n!암기 SELECT 별칭은 ⑤에서 생기니까 ② WHERE에서는 못 쓰고, ⑥ ORDER BY에서는 쓸 수 있어요.",
+        "examples": [
+          "2026-1-9",
+          "2023-3-6",
+          "2022-1-4"
+        ]
+      },
+      {
+        "title": "2. WHERE 조건: AND/OR 우선순위, LIKE, IN, BETWEEN",
+        "body": "#개념 AND, OR, LIKE, IN, BETWEEN, IS NULL\n\n## AND가 OR보다 먼저\n\n괄호가 없으면 **AND를 먼저 묶고** 그다음 OR을 계산해요. 곱셈이 덧셈보다 먼저인 것과 같아요.\n\n```sql\n-- 급여: (100, 1000), (200, 3000), (300, 1500)\nWHERE EMPNO = 100 OR EMPNO = 300 AND SAL >= 3000\n-- = EMPNO = 100 OR (EMPNO = 300 AND SAL >= 3000)  → 1건 (100번)\n\nWHERE (EMPNO = 100 OR EMPNO = 300) AND SAL >= 3000\n-- → 0건\n```\n\n!함정 기출 `EMPNO > 100 AND SAL >= 3000 OR EMPNO = 200`은 `(EMPNO > 100 AND SAL >= 3000) OR EMPNO = 200`이에요. 앞 괄호도 200번, 뒤도 200번이라 답은 **1**이에요. 2021년과 2024년에 똑같이 나왔어요.\n\n## 조건 연산자 모음\n\n|조건|뜻|예|\n|`LIKE '이%'`|'이'로 시작|이민수, 이|\n|`LIKE '%이%'`|'이'를 포함 (어디든)|김이나, 박지이 …|\n|`LIKE '_이%'`|두 번째 글자가 '이'|김이나|\n|`IN (3, 4)`|3 또는 4|`학년 = 3 OR 학년 = 4`와 같음|\n|`BETWEEN 1000 AND 1500`|1000 이상 1500 이하|양 끝 **포함**|\n|`IS NULL`|값이 비어 있음|`= NULL`은 항상 거짓|\n\n!암기 `%` = 0글자 이상 아무거나, `_` = 정확히 1글자. 그래서 `'이%'`는 '이' 한 글자짜리도 걸려요.\n!팁 정렬까지 묻는 빈칸 문제는 `WHERE 이름 LIKE '이%' ORDER BY 학번 DESC`처럼 **LIKE 패턴 + ASC/DESC**가 세트로 나와요.",
+        "examples": [
+          "2024-1-18",
+          "2021-1-6",
+          "2026-2-12"
+        ]
+      },
+      {
+        "title": "3. 집계함수와 NULL: COUNT(*) vs COUNT(열)",
+        "body": "#개념 COUNT, SUM, AVG, NULL\n\n집계함수는 **NULL을 빼고** 계산해요. 딱 하나 예외가 `COUNT(*)`예요. `*`는 행 자체를 세니까 NULL이 있어도 셉니다.\n\n```sql\n-- N 테이블의 v 열: 10, NULL, 20\nSELECT COUNT(*), COUNT(v), SUM(v), AVG(v) FROM N;\n-- 3, 2, 30, 15\n```\n\n|함수|NULL 처리|위 예의 결과|\n|`COUNT(*)`|행 수 그대로|3|\n|`COUNT(v)`|NULL 제외|2|\n|`SUM(v)`|NULL 제외하고 합|30|\n|`AVG(v)`|NULL 제외한 개수로 나눔|30 / 2 = 15 (10 아님)|\n|`MIN / MAX`|NULL 제외|10 / 20|\n\n기출은 **WHERE로 행을 먼저 거른 뒤** 남은 행에서 COUNT(열)을 세는 2단계 문제예요.\n\n```sql\n-- (col1, col2): (2,NULL) (3,6) (2,3) (NULL,3) (4,5)\nSELECT COUNT(col2) FROM A\nWHERE col1 IN (2, 3) OR col2 IN (3, 5);\n```\n\n|행|col1 IN (2,3)|col2 IN (3,5)|통과?|COUNT(col2)에 포함?|\n|(2, NULL)|O|모름(NULL)|O|X (NULL)|\n|(3, 6)|O|X|O|O|\n|(2, 3)|O|O|O|O|\n|(NULL, 3)|모름(NULL)|O|O|O|\n|(4, 5)|X|O|O|O|\n\n> 통과한 행 5개 → COUNT(*) = 5, COUNT(col2) = **4**\n\n!함정 WHERE를 통과한 행 수(5)를 답으로 쓰면 틀려요. SELECT에 적힌 게 `COUNT(col2)`인지 `COUNT(*)`인지 꼭 다시 보세요.\n!팁 NULL은 비교하면 '모름'이 돼요. OR은 다른 쪽이 참이면 참, AND는 다른 쪽이 참이어도 '모름'이라 행이 빠져요.",
+        "examples": [
+          "2025-3-20",
+          "2022-2-4"
+        ]
+      },
+      {
+        "title": "4. GROUP BY와 HAVING",
+        "body": "#개념 GROUP BY, HAVING, 집계 조건\n\nGROUP BY는 같은 값끼리 묶어서 **그룹마다 한 행**을 만들어요. 그룹에 거는 조건은 WHERE가 아니라 **HAVING**에 써요.\n\n```sql\nSELECT 과목이름, MIN(점수) AS 최소점수, MAX(점수) AS 최대점수\nFROM 성적\nGROUP BY 과목이름\nHAVING AVG(점수) >= 90;\n```\n\n|과목이름|점수들|AVG|HAVING 통과?|\n|데이터베이스|89, 92|90.5|O|\n|네트워크|88, 89|88.5|X|\n|소프트웨어|91, 85|88.0|X|\n\n> 결과: 데이터베이스 | 89 | 92\n\n|구분|WHERE|HAVING|\n|거르는 대상|개별 행|그룹|\n|실행 시점|GROUP BY 전|GROUP BY 후|\n|집계함수 사용|불가 (`WHERE AVG(점수) >= 90` 오류)|가능|\n\n!함정 SELECT에 집계함수가 아닌 열을 쓰려면 그 열이 **GROUP BY에도 있어야** 해요. `SELECT 과목이름, 점수 ... GROUP BY 과목이름`은 오류예요.\n!팁 서술형 조건에 'WHERE 사용 금지, 별칭(AS) 사용'이 붙으면 거의 `GROUP BY + HAVING + AS` 문제예요. 학과별 인원은 `SELECT 학과, COUNT(학과) AS 학과별튜플수 FROM 학생 GROUP BY 학과`처럼 쓰면 돼요.",
+        "examples": [
+          "2023-1-16",
+          "2020-4-16",
+          "2020-3-8"
+        ]
+      },
+      {
+        "title": "5. JOIN 종류와 결과 행 수 세기",
+        "body": "#개념 INNER JOIN, OUTER JOIN, CROSS JOIN\n\nJOIN 문제는 대부분 '**몇 행이 나오나**'를 물어요. 아래 두 테이블로 종류별 행 수를 세 볼게요.\n\n```sql\n-- A(id, v): (1,10) (1,20) (2,30)\n-- B(id, w): (1,100) (3,300) (4,400)\nSELECT COUNT(*)\nFROM A RIGHT OUTER JOIN B ON A.id = B.id\nWHERE A.id IS NULL;   -- 2\n```\n\n|JOIN|규칙|행 수|\n|`A INNER JOIN B`|양쪽에 짝이 있는 것만|2 (id 1이 A에 2개)|\n|`A LEFT JOIN B`|A는 전부 + 짝 없으면 B쪽 NULL|3|\n|`A RIGHT JOIN B`|B는 전부 + 짝 없으면 A쪽 NULL|4 (id1×2, 3, 4)|\n|RIGHT JOIN + `WHERE A.id IS NULL`|B에만 있는 행|2 (id 3, 4)|\n|`A CROSS JOIN B`|모든 조합|3 × 3 = 9|\n\n!함정 짝이 **여러 개면 그만큼 행이 늘어나요.** A에 id 1이 두 개라서 B의 (1,100)이 두 번 붙어요. RIGHT JOIN이 3이 아니라 4인 이유예요.\n!팁 `FROM emp, sal WHERE emp.id = sal.id`처럼 쉼표로 나열하고 WHERE로 잇는 건 INNER JOIN과 같아요. ON이 들어갈 빈칸은 `JOIN 학과정보 b ON a.학과 = b.학과`처럼 채워요.\n\n## CROSS JOIN + LIKE\n\n```sql\nSELECT COUNT(*) CNT FROM T1 A CROSS JOIN T2 B\nWHERE A.NAME LIKE B.RULE;   -- 4\n```\n\n|NAME \\ RULE|s%|%t%|\n|smith|O|O|\n|allen|X|X|\n|scott|O|O|\n\n!암기 CROSS JOIN은 일단 **전부 곱한 뒤(3×2=6)** WHERE로 걸러요. 조합 표를 그려 O를 세면 실수가 없어요.",
+        "examples": [
+          "2026-2-14",
+          "2025-3-10",
+          "2025-1-7"
+        ]
+      },
+      {
+        "title": "6. 서브쿼리 기초: 비교, IN, ALL/ANY",
+        "body": "#개념 스칼라 서브쿼리, IN, ALL, ANY\n\n서브쿼리는 **안쪽부터 먼저 계산해서 값으로 바꾼 다음** 바깥 쿼리를 풀면 돼요.\n\n```sql\n-- dept 예산: 100, 300, 200 → AVG = 200\nSELECT COUNT(*)\nFROM employee e JOIN dept d ON e.dep_id = d.dept_id\nWHERE d.budget > (SELECT AVG(budget) FROM dept);\n-- → budget > 200 인 부서(20번)에 속한 직원 2명 → 2\n```\n\n|형태|안쪽 결과|바깥 조건의 뜻|\n|`> (SELECT AVG(..))`|값 1개|그 값보다 큼|\n|`IN (SELECT ..)`|값 여러 개|목록 중 하나와 같음|\n|`> ALL (SELECT ..)`|값 여러 개|**모두**보다 큼 = 최댓값보다 큼|\n|`> ANY (SELECT ..)`|값 여러 개|**하나라도**보다 큼 = 최솟값보다 큼|\n\nH회사 단가가 2000, 3000일 때 `단가 > ALL (...)`은 `단가 > 3000`과 같아서 초콜릿(6000), 아이스크림(5000)만 나와요. `> ANY`였다면 `단가 > 2000`이라 H의 사탕(3000)까지 3개예요.\n\n!함정 IN 서브쿼리는 **안쪽 결과 목록부터 적어 두세요.** `C IN (SELECT C FROM R2 WHERE D = 'k')`에서 목록은 {x, y}인데, R1에 y는 없으니 x인 행(a, b)만 남아요.\n!암기 ALL = 최대 넘기, ANY(SOME) = 최소 넘기.",
+        "examples": [
+          "2026-1-18",
+          "2024-1-13",
+          "2022-2-3"
+        ]
+      },
+      {
+        "title": "7. 심화: 상관 서브쿼리와 빈 집합의 AVG",
+        "body": "#개념 상관 서브쿼리, 빈 집합, NULL 비교\n\n안쪽 쿼리가 **바깥 행의 값(A.x)을 참조하면** 상관 서브쿼리예요. 이때는 바깥 행 하나마다 안쪽을 **새로 계산**해야 해요.\n\n```sql\n-- A(id, x): (1,10) (2,20) (3,30) (4,40)\n-- B(id, y): (1,5) (1,15) (2,20) (3,35) (5,50)\nSELECT COUNT(*) AS RESULT FROM A\nWHERE x > (SELECT AVG(y) FROM B\n           WHERE B.id IN (SELECT A2.id FROM A AS A2 WHERE A2.x < A.x));\n```\n\n|바깥 A행|A2.x < A.x 인 id|해당 B의 y|AVG(y)|x > AVG?|\n|(1, 10)|없음|없음|NULL|X|\n|(2, 20)|1|5, 15|10|O|\n|(3, 30)|1, 2|5, 15, 20|13.3|O|\n|(4, 40)|1, 2, 3|5, 15, 20, 35|18.75|O|\n\n> RESULT = **3**\n\n!함정 행이 하나도 없는 집합의 `AVG`·`SUM`·`MAX`는 0이 아니라 **NULL**이에요. `10 > NULL`은 참이 아니라서 첫 행은 빠져요. 반대로 `COUNT`는 빈 집합에서 **0**을 돌려줘요.\n!팁 서브쿼리가 세 겹이면 **가장 안쪽부터** 표로 적어 가세요. 예를 들어 `GROUP BY project_id HAVING COUNT(*) < 2` → 해당 id → 그 id의 name → 바깥 JOIN 순으로 한 단계씩 줄여 나가면 돼요.",
+        "examples": [
+          "2026-2-13",
+          "2024-3-3"
+        ]
+      },
+      {
+        "title": "8. DDL·DML·DCL 키워드 빈칸",
+        "body": "#개념 DDL, DML, DCL, 제약조건\n\n빈칸 문제는 **명령어마다 짝꿍 키워드**를 외우면 거의 다 풀려요.\n\n|분류|명령|짝꿍 키워드 형태|\n|DDL|CREATE|`CREATE TABLE`, `CREATE INDEX 이름 ON 테이블(열)`, `CREATE VIEW ... AS SELECT`|\n|DDL|ALTER|`ALTER TABLE 학생 ADD 주소 VARCHAR(20)`|\n|DDL|DROP|`DROP VIEW 학생 CASCADE` (참조하는 것까지) / `RESTRICT` (참조 있으면 거부)|\n|DML|INSERT|`INSERT INTO 테이블(열) VALUES (...)` 또는 `INSERT INTO ... SELECT ...`|\n|DML|UPDATE|`UPDATE 테이블 SET 열 = 값 WHERE ...`|\n|DML|DELETE|`DELETE FROM 테이블 WHERE ...`|\n|DML|SELECT|`SELECT ... FROM ... WHERE ...`|\n|DCL|GRANT / REVOKE|`GRANT 권한 ON 테이블 TO 사용자` / `REVOKE 권한 ON 테이블 FROM 사용자`|\n|DCL|COMMIT / ROLLBACK|확정 / 되돌리기|\n\n```sql\nCREATE TABLE PLAYER (\n  PLAYER_ID CHAR(7) NOT NULL,\n  TEAM_ID   CHAR(3) NOT NULL,\n  PRIMARY KEY (PLAYER_ID),\n  CONSTRAINT TEAM_TF FOREIGN KEY (TEAM_ID) REFERENCES TEAM (TEAM_ID2)\n);\n\nCREATE DOMAIN SEASON AS VARCHAR(6)\n  CHECK (VALUE IN ('spring', 'summer', 'autumn', 'winter'));\n```\n\n!암기 외래키 = `CONSTRAINT 이름 FOREIGN KEY (내 열) REFERENCES 상대테이블 (상대 열)`. 값 범위 제한 = `CHECK`.\n!함정 `DELETE`는 `FROM`이 붙고 `UPDATE`는 붙지 않아요. 또 `INSERT ... SELECT`에는 VALUES를 쓰지 않아요. 2024년 문제가 바로 이 VALUES / SELECT / FROM / SET 네 개를 빈칸으로 냈어요.\n!용어 CASCADE: 지우는 대상을 참조하는 뷰·제약조건까지 연쇄로 함께 지우는 옵션이에요.",
+        "examples": [
+          "2026-1-10",
+          "2026-2-19",
+          "2024-2-3"
+        ]
+      },
+      {
+        "title": "9. 정규화 판별 요령",
+        "body": "#개념 함수 종속, 정규형, BCNF\n\n정규형 문제는 **기본키를 먼저 찾고, '누가 누구를 결정하나(→)'를 적은 다음** 아래 표를 위에서부터 확인해요.\n\n|정규형|없애는 것|한 줄 판별|\n|1NF|반복·다중 값|모든 칸이 값 하나(원자값)인가?|\n|2NF|부분 함수 종속|키의 **일부**만으로 결정되는 열이 있나?|\n|3NF|이행 함수 종속|키 → A → B처럼 **키 아닌 열이 다른 열을 결정**하나?|\n|BCNF|후보키 아닌 결정자|결정자(→ 왼쪽)가 **전부 후보키**인가?|\n|4NF|다치 종속|한 키에 독립적인 여러 값 묶음이 있나?|\n|5NF|조인 종속|조인으로만 복원되는 종속이 있나?|\n\n> 도부이결다조 : 도메인 원자값 → 부분 → 이행 → 결정자 → 다치 → 조인\n\n기출 표(기본키 = 고객아이디 + 강좌명)를 판별해 볼게요.\n\n```sql\n-- (고객아이디, 강좌명) → 강사번호\n-- 강사번호 → 강좌명    (P001은 항상 영어회화)\n```\n\n- 강사번호는 키 전체로 결정돼요 → 부분 종속 없음 → **2NF 만족**\n- `강사번호 → 강좌명`에서 강좌명은 키의 일부라 이행 종속으로 보지 않아요 → **3NF 만족**\n- 그런데 결정자 강사번호가 후보키가 아니에요 → **BCNF 위반**\n\n> 답: 제3정규형 (BCNF까지는 못 감)\n\n!함정 '결정자가 있으니 3NF 위반'으로 착각하기 쉬워요. 결정되는 쪽(강좌명)이 **키의 일부**면 3NF는 통과하고, BCNF에서 걸려요.\n!팁 2NF 문제는 주문번호+제품번호가 키인데 고객번호·주소가 **주문번호만으로** 정해지는 표가 단골이에요. 이 부분 종속을 떼어 내 분해한 게 2NF예요. 성능을 위해 일부러 중복을 허용하는 건 **반정규화**예요.",
+        "examples": [
+          "2026-2-20",
+          "2021-2-4",
+          "2022-2-18"
+        ]
+      }
+    ]
+  },
+  {
+    "id": "python",
+    "title": "Python 문법 함정 한 번에 정리",
+    "short": "Python 문법 함정",
+    "category": "Python",
+    "summary": "파이썬 문제는 대부분 슬라이싱, 리스트·세트·딕셔너리 메서드, 참조와 출력 형식에서 갈려요. 기초 인덱싱부터 얕은 복사, 클래스·재귀까지 순서대로 정리하고, 단계마다 실제 시험 문제를 붙였어요.",
+    "sections": [
+      {
+        "title": "1. 인덱싱과 슬라이싱 기초: [시작:끝]",
+        "body": "#개념 인덱스, 슬라이싱, 음수 인덱스\n\n문자열·리스트는 **0번부터** 번호가 매겨져요. 슬라이싱 `s[a:b]`는 a번부터 **b번 바로 앞까지** 잘라요. 끝 번호는 포함되지 않는다는 게 핵심이에요.\n\n```python\ns = \"PYTHON CODE\"\nprint(s[0], s[-1])  # P E\nprint(s[2:5])       # THO  (2,3,4번)\nprint(s[:3])        # PYT  (처음부터 2번까지)\nprint(s[7:])        # CODE (7번부터 끝까지)\nprint(s[-4:])       # CODE (뒤에서 4글자)\n```\n\n|식|뜻|결과 (s = \"PYTHON CODE\")|\n|`s[0]`|첫 글자|P|\n|`s[-1]`|마지막 글자|E|\n|`s[2:5]`|2번 ~ 4번|THO|\n|`s[:3]`|처음 ~ 2번|PYT|\n|`s[7:]`|7번 ~ 끝|CODE|\n|`s[5:100]`|끝 번호가 넘쳐도 오류 없이 끝까지|N CODE|\n\n> 길이 = 끝 - 시작   ( s[2:5] → 3글자 )\n\n!팁 공백도 한 글자예요. \"REMEMBER NOVEMBER\"처럼 공백이 낀 문자열은 **인덱스를 종이에 직접 써서** 세는 게 가장 안전해요.\n!함정 `a[12:16]`은 12~15번 **4글자**예요. 2022년 문제는 `\"REM\" + \"EMBE\" + \"R AND STR\"`이 이어져 `REMEMBER AND STR`처럼 단어가 붙어 보이게 만든 함정이었어요.",
+        "examples": [
+          "2026-2-6",
+          "2023-2-19",
+          "2022-2-13"
+        ]
+      },
+      {
+        "title": "2. step 슬라이싱과 뒤집기: [::-1]",
+        "body": "#개념 step, 역순 슬라이싱, [::2]\n\n세 번째 칸 `s[시작:끝:step]`은 **몇 칸씩 건너뛸지**예요. step이 음수면 **뒤에서 앞으로** 가요.\n\n```python\nlst = list(range(10))   # [0, 1, ..., 9]\nprint(lst[::2])     # [0, 2, 4, 6, 8]\nprint(lst[1::3])    # [1, 4, 7]\nprint(lst[::-2])    # [9, 7, 5, 3, 1]\nprint(lst[8:2:-2])  # [8, 6, 4]\nprint(\"HumanDev\"[::-1])  # veDnamuH\n```\n\n|식|시작점|방향|결과|\n|`lst[::2]`|0번|앞으로 2칸씩|짝수 인덱스|\n|`lst[1::2]`|1번|앞으로 2칸씩|홀수 인덱스|\n|`lst[::-1]`|맨 끝|뒤로 1칸씩|전체 뒤집기|\n|`lst[::-2]`|맨 끝(9)|뒤로 2칸씩|9, 7, 5, 3, 1|\n|`lst[2:8:-1]`|2번|뒤로 가는데 끝(8)이 더 뒤에 있음|빈 리스트 []|\n\n!암기 step이 음수일 때 시작을 생략하면 **맨 끝부터**, 끝을 생략하면 **맨 앞까지** 가요.\n!함정 `lst[::-2]`를 0부터 세서 `8, 6, 4...`로 쓰는 실수가 많아요. 역순은 **마지막 원소(9)부터** 시작해요.\n!팁 `lst[i], lst[-i-1] = lst[-i-1], lst[i]`처럼 앞뒤를 맞바꾸는 반복은 결국 리스트를 뒤집는 코드예요. 뒤집은 다음에 `[::2]`, `[1::2]`를 따로 더하면 돼요.",
+        "examples": [
+          "2026-1-13",
+          "2026-1-8",
+          "2024-3-2"
+        ]
+      },
+      {
+        "title": "3. 문자열 메서드와 포맷팅",
+        "body": "#개념 split, join, count, f-string, % 포맷\n\n문자열은 **바꿀 수 없는(immutable)** 값이라 메서드는 원본을 고치지 않고 **새 문자열을 돌려줘요**.\n\n```python\nprint(\"2 3\".split())             # ['2', '3']\nprint(\"a,b,,c\".split(\",\"))       # ['a', 'b', '', 'c']\nprint(\"-\".join([\"a\", \"b\", \"c\"])) # a-b-c\nprint(\"banana\".count(\"an\"))      # 2\nprint(\"banana\".find(\"z\"))        # -1\nprint(\"R AND %s\" % \"STR\")        # R AND STR\nn = 3\nprint(f\"ab{n}ca\")                # ab3ca\n```\n\n|메서드|하는 일|돌려주는 것|\n|`split()`|공백 기준으로 자르기|문자열 리스트|\n|`split(\",\")`|지정 문자 기준으로 자르기|빈 문자열도 포함된 리스트|\n|`\"구분자\".join(리스트)`|리스트를 하나로 붙이기|문자열|\n|`upper()` / `lower()`|대·소문자 변환|새 문자열|\n|`replace(a, b)`|a를 b로 바꾸기|새 문자열|\n|`find(x)`|x의 첫 위치|없으면 -1|\n|`count(x)`|x가 나온 횟수|정수|\n\n!용어 f-string: 문자열 앞에 `f`를 붙이고 `{식}` 자리에 값을 넣는 방식이에요. `%s`는 옛 방식이지만 아직 시험에 나와요.\n!함정 `input().split()`의 결과는 **문자열**이에요. 숫자로 계산하려면 `int()`로 바꿔야 하고, 반대로 `int + str`은 오류예요.\n!팁 `str = str + i[1]`처럼 단어마다 한 글자씩 붙이는 문제는 각 단어의 **몇 번째 글자**인지만 정확히 보면 돼요. `i[1]`은 두 번째 글자예요.",
+        "examples": [
+          "2024-1-12",
+          "2024-2-6",
+          "2023-3-14"
+        ]
+      },
+      {
+        "title": "4. 리스트 메서드 총정리",
+        "body": "#개념 append, extend, insert, pop, remove, sort, reverse\n\n리스트 메서드는 대부분 **원본을 직접 바꾸고 None을 돌려줘요**. 값을 돌려주는 건 `pop` 정도예요.\n\n```python\na = [1, 2, 3]\na.append([4, 5])   # [1, 2, 3, [4, 5]]  ← 통째로 1개\na = [1, 2, 3]\na.extend([4, 5])   # [1, 2, 3, 4, 5]    ← 하나씩 풀어서\na.insert(1, 9)     # [1, 9, 2, 3, 4, 5]\nx = a.pop()        # x = 5, a = [1, 9, 2, 3, 4]\na.remove(9)        # [1, 2, 3, 4]  ← 값 9를 찾아 삭제\nprint(a)\n```\n\n|메서드|인자|원본 변화|반환값|\n|`append(x)`|요소 1개|끝에 x 하나 추가|None|\n|`extend(리스트)`|반복 가능한 것|원소를 하나씩 끝에 추가|None|\n|`insert(i, x)`|위치, 값|i번 자리에 x 끼워 넣기|None|\n|`pop()` / `pop(i)`|위치(생략 시 끝)|그 원소 삭제|**꺼낸 값**|\n|`remove(x)`|값|처음 나온 x 하나 삭제|None|\n|`sort()`|reverse=True 가능|오름차순 정렬|None|\n|`reverse()`|없음|순서 뒤집기|None|\n\n!함정 `remove(2)`는 **2번 인덱스가 아니라 값 2**를 지워요. 인덱스로 지우려면 `pop(2)`나 `del a[2]`예요.\n!함정 `a = a.sort()`라고 쓰면 a가 **None**이 돼요. 새 리스트가 필요하면 `sorted(a)`를 쓰세요.\n!암기 append = 1개 통째로, extend = 풀어서 여러 개, pop = 꺼내고 지우고 돌려줌.\n\n리스트 안에 리스트가 들어 있으면 `lol[2][1]`처럼 **바깥 → 안쪽** 순서로 인덱스를 붙여요. `print(lol[0])`처럼 리스트 자체를 출력하면 `[1, 2, 3]` 모양(쉼표 뒤 공백 포함)으로 나와요.",
+        "examples": [
+          "2022-1-7",
+          "2020-4-9"
+        ]
+      },
+      {
+        "title": "5. 세트와 딕셔너리",
+        "body": "#개념 set, dict, add, update, 집합 연산, 컴프리헨션\n\n세트는 **중복 없음 + 순서 없음**, 딕셔너리는 **키: 값** 쌍이에요. 같은 키에 다시 넣으면 값이 덮어써져요.\n\n```python\ns = {1, 2}\ns.add(3); s.add(2)     # 2는 이미 있어서 무시 → {1, 2, 3}\ns.update([4, 5])       # 여러 개 추가 → {1, 2, 3, 4, 5}\nprint({1, 2, 3} & {2, 3, 4})   # {2, 3}  교집합\n\nd = {i: i * 2 for i in [1, 2, 3]}  # {1: 2, 2: 4, 3: 6}\nd[2] = 7                          # {1: 2, 2: 7, 3: 6}\nprint(d)\nprint(d.get(\"z\", 0))              # 0  (없는 키의 기본값)\n```\n\n|세트 메서드/연산|하는 일|\n|`add(x)`|원소 1개 추가 (있으면 무시)|\n|`update([...])`|여러 개 추가|\n|`remove(x)`|삭제, 없으면 오류|\n|`discard(x)`|삭제, 없어도 오류 없음|\n|`a & b`|교집합|\n|`a - b`|차집합 (합집합은 세로 막대 기호)|\n\n|딕셔너리|결과|\n|`d[k] = v`|추가 또는 덮어쓰기|\n|`d.keys()` / `d.values()` / `d.items()`|키 / 값 / (키, 값) 쌍|\n|`d.get(k, 기본값)`|없으면 기본값 (생략 시 None)|\n\n!함정 세트는 출력 순서가 정해져 있지 않아요. 채점은 **어떤 원소가 남았는지**로 하니, 중복 제거와 삭제만 정확히 따지면 돼요.\n!함정 딕셔너리를 만든 **뒤에** 원래 리스트를 바꿔도(`lst[0] = 99`) 딕셔너리는 그대로예요. 이미 값이 들어가 있거든요.",
+        "examples": [
+          "2025-2-17",
+          "2023-1-15",
+          "2020-2-2"
+        ]
+      },
+      {
+        "title": "6. 참조와 얕은 복사",
+        "body": "#개념 참조, 얕은 복사, [:], +=\n\n파이썬 변수는 값을 담는 상자가 아니라 **객체를 가리키는 이름표**예요. `b = a`는 복사가 아니라 이름표를 하나 더 붙이는 거예요.\n\n```python\na = [1, 2, 3]\nb = a          # 같은 리스트\nb.append(4)\nprint(a)       # [1, 2, 3, 4]\n\nc = a[:]       # 얕은 복사: 바깥 리스트만 새로 만듦\nc.append(5)\nprint(a)       # [1, 2, 3, 4]  (안 바뀜)\n\nm = [[1], [2]]\nk = m[:]\nk[0].append(9) # 안쪽 리스트는 공유!\nprint(m)       # [[1, 9], [2]]\n```\n\n|코드|새 객체?|원본 영향|\n|`b = a`|아니오|b를 고치면 a도 바뀜|\n|`c = a[:]` / `a.copy()`|바깥만 새로|원소 추가·교체는 영향 없음|\n|`k[0].append(9)` (중첩)|안쪽은 공유|원본의 안쪽 리스트도 바뀜|\n|`k[0] = [7]`|새 리스트로 교체|원본 영향 없음|\n\n!함정 리스트에서 `x += y`는 **제자리에서 extend**해요. 하지만 `x = x + y`는 **새 리스트**를 만들어요. 2026년 문제에서 `b[i+1] += b[i]`가 m의 안쪽 리스트까지 키워서 길이 합이 1+2+3+4 = 10이 됐어요. `b[i+1] = b[i+1] + b[i]`였다면 m은 그대로라 4예요.\n!팁 중첩 리스트가 보이면 **'바깥을 바꾸는지, 안쪽 객체를 고치는지'**부터 확인하세요.",
+        "examples": [
+          "2026-1-14"
+        ]
+      },
+      {
+        "title": "7. 반복문·range·enumerate와 출력 형식",
+        "body": "#개념 range, enumerate, print end/sep, 비트 연산\n\n`range(시작, 끝, step)`도 슬라이싱처럼 **끝은 포함하지 않아요**. `enumerate`는 (번호, 값)을 함께 꺼내 줘요.\n\n```python\nprint(list(range(1, 10, 3)))  # [1, 4, 7]\nprint(list(range(5, 0, -2)))  # [5, 3, 1]\nfor i, v in enumerate([\"a\", \"b\"]):\n    print(i, v, end=\" \")      # 0 a 1 b\nprint()\nprint(1, 2, 3, sep=\"-\")       # 1-2-3\nprint({0: (15, 5)})           # {0: (15, 5)}\n```\n\n|print 옵션|예시|결과|\n|`sep` (기본: 공백)|`print('a=', 20)`|a= 20|\n|`sep=\"-\"`|`print(1, 2, sep='-')`|1-2|\n|`end` (기본: 줄바꿈)|`print(c, end='A')`|줄바꿈 없이 뒤에 A|\n\n|연산|결과|설명|\n|`100 >> 2`|25|2비트 오른쪽 = 4로 나눈 몫|\n|`5 << 1`|10|1비트 왼쪽 = 2배|\n|`7 // 2` / `7 / 2`|3 / 3.5|몫 / 실수 나눗셈|\n|`-7 // 2`|-4|아래쪽으로 내림|\n\n!함정 반복문 안에서 `result = a >> i`처럼 **누적이 아니라 대입**이면 마지막 회차 값만 남아요. 2021년 문제는 i = 2일 때 25 + 1 = 26이에요.\n!팁 `print('a=', num1)`은 쉼표 사이에 공백이 들어가 `a= 20`이 돼요. 딕셔너리·튜플·리스트는 출력할 때 **쉼표 뒤 공백**까지 정확히 써 주세요.",
+        "examples": [
+          "2025-3-9",
+          "2021-2-7"
+        ]
+      },
+      {
+        "title": "8. 함수: 기본값 매개변수·lambda·type",
+        "body": "#개념 기본값 매개변수, lambda, map, type, len\n\n매개변수에 기본값을 주면 **인자를 생략했을 때** 그 값이 쓰여요. `lambda`는 이름 없는 한 줄 함수예요.\n\n```python\ndef f(a, b=2):\n    return a + b\nprint(f(1), f(1, 5))   # 3 6\n\nprint(list(map(lambda n: n + 100, [1, 2])))  # [101, 102]\nprint(type(100.0) == type(100))  # False (float vs int)\nprint(len(\"100.0\"), len((100, 200)))  # 5 2\n```\n\n|식|결과|포인트|\n|`type(100)`|int|정수|\n|`type(100.0)`|float|소수점이 있으면 int 아님|\n|`type('100.0')`|str|따옴표 안이면 문자열|\n|`len('100.0')`|5|점(.)도 한 글자|\n|`map(함수, 리스트)`|map 객체|`list()`로 감싸야 리스트로 출력|\n\n!함정 2024년 문제처럼 `'100.0'`(문자열)과 `100.0`(실수)을 섞어 내면 **따옴표 유무**로 분기가 갈려요. 문자열 → len 5, 실수와 튜플은 else → 20씩, 합 45예요.\n!함정 기본값으로 리스트를 쓰면(`def add(x, L=[])`) 호출할 때마다 **같은 리스트가 재사용**돼 값이 쌓여요.\n!용어 lambda: `lambda 매개변수: 식` 형태로, 식의 결과를 바로 돌려주는 함수예요.",
+        "examples": [
+          "2024-3-10",
+          "2022-3-9",
+          "2022-1-6"
+        ]
+      },
+      {
+        "title": "9. 심화: 클래스와 재귀",
+        "body": "#개념 클래스 변수, __init__, self, 재귀\n\n클래스 안에 바로 쓴 변수는 **클래스 변수**라 모든 객체가 공유하고, `__init__`에서 `self.x`로 만든 건 **객체마다 따로** 가져요.\n\n```python\nclass A:\n    li = [1, 2]               # 클래스 변수 (공유)\n    def __init__(self, v):\n        self.v = v            # 인스턴스 변수 (각자)\na1, a2 = A(3), A(4)\na1.li.append(9)\nprint(a2.li)                  # [1, 2, 9]\n\nd = {\"NYC\": \"New York\", \"LON\": \"London\"}\nfor k, v in d.items():\n    print(k[-1] + v[0], end=\"\")   # CNNL\n```\n\n|구분|선언 위치|공유 여부|\n|클래스 변수|class 바로 아래|모든 객체가 공유|\n|인스턴스 변수|`self.x = ...`|객체마다 따로|\n|메서드 첫 인자 `self`|모든 메서드|호출한 객체 자신|\n\n> 트리 배열에서 i번 노드의 부모 = (i - 1) // 2,   깊이(level) 0 → 1 → 2\n\n!팁 재귀 문제는 **level별로 노드를 표로 나눠** 적으세요. 2025년 문제는 level이 홀수인 노드(5, 8)만 더해 13이 돼요.\n!함정 딕셔너리는 넣은 순서대로 순회해요(파이썬 3.7+). `key[-1]`은 키의 **마지막 글자**, `location[0]`은 값의 첫 글자라 섞이지 않게 주의하세요.",
+        "examples": [
+          "2026-2-5",
+          "2025-1-17",
+          "2021-1-5"
+        ]
       }
     ]
   }

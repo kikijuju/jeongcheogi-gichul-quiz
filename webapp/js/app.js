@@ -555,7 +555,8 @@ function enhanceCode(container, q) {
     if (pre.dataset.enhanced) return;
     pre.dataset.enhanced = "1";
     const text = code.textContent.replace(/\n+$/, "");
-    let lang = CODE_LANGUAGE[q.category];
+    // a lesson's ```java fence names its language; otherwise go by category
+    let lang = code.dataset.lang || CODE_LANGUAGE[q.category];
     if (window.hljs) {
       try {
         if (lang) code.innerHTML = window.hljs.highlight(text, { language: lang, ignoreIllegals: true }).value;
@@ -633,11 +634,13 @@ function renderExplanation(source) {
       i++;
     } else if (t.startsWith("```")) {
       // fenced code (used by the 개념노트 lessons): kept verbatim, highlighted later
+      const fenceLang = t.slice(3).trim().toLowerCase();
       i++;
       const code = [];
       while (i < lines.length && !lines[i].trim().startsWith("```")) code.push(lines[i++]);
       i++;
-      html += `<pre><code>${escapeText(code.join("\n"))}</code></pre>`;
+      const langAttr = /^[a-z]+$/.test(fenceLang) ? ` data-lang="${fenceLang}"` : "";
+      html += `<pre><code${langAttr}>${escapeText(code.join("\n"))}</code></pre>`;
     } else if (t.startsWith("## ")) {
       html += `<h4>${inlineMarkup(t.slice(3))}</h4>`;
       i++;
@@ -1494,6 +1497,24 @@ document.addEventListener("keydown", (e) => {
 
 // ---------- 개념노트 (lessons) ----------
 
+const NOTE_KEY = "itq-note-v1";
+
+function readNoteId() {
+  try {
+    return localStorage.getItem(NOTE_KEY);
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveNoteId(id) {
+  try {
+    localStorage.setItem(NOTE_KEY, id);
+  } catch (e) {
+    /* ignore */
+  }
+}
+
 // A lesson is a list of sections written in the explanation markup (plus
 // ```code``` fences), each followed by the real past questions that test it.
 function renderNotes() {
@@ -1506,7 +1527,25 @@ function renderNotes() {
   }
   const byId = new Map(state.questions.map((q) => [q.id, q]));
 
-  lessons.forEach((lesson) => {
+  // one lesson at a time, picked from a chip row (remembered per browser)
+  let current = lessons.find((l) => l.id === readNoteId()) || lessons[0];
+  const picker = document.createElement("div");
+  picker.className = "note-picker chip-group";
+  lessons.forEach((l) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chip" + (l.id === current.id ? " active" : "");
+    chip.textContent = l.short || l.title;
+    chip.addEventListener("click", () => {
+      saveNoteId(l.id);
+      renderNotes();
+      window.scrollTo(0, 0);
+    });
+    picker.appendChild(chip);
+  });
+  if (lessons.length > 1) body.appendChild(picker);
+
+  [current].forEach((lesson) => {
     const exampleIds = Array.from(new Set(lesson.sections.flatMap((s) => s.examples || []))).filter((id) => byId.has(id));
     const head = document.createElement("div");
     head.className = "card note-head";
@@ -1535,7 +1574,7 @@ function renderNotes() {
       card.className = "card note-section";
       card.id = `note-${lesson.id}-${i}`;
       card.innerHTML = `<h2>${escapeText(section.title)}</h2><div class="explain-body">${renderExplanation(section.body)}</div>`;
-      enhanceCode(card, { category: "C" });
+      enhanceCode(card, { category: lesson.category || "C" });
       body.appendChild(card);
       const examples = (section.examples || []).map((id) => byId.get(id)).filter(Boolean);
       if (examples.length) {

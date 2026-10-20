@@ -1362,3 +1362,6 @@ body.mock-running .score-rate, body.mock-running .side-rate-wrap { display: none
 
 /* code panels outside .quiz-prompt (개념노트) need the same inner padding as the line gutter */
 .code-body pre { padding: 12px; }
+
+.note-picker { margin-bottom: 14px; }
+.note-picker .chip { font-size: 13.5px; padding: 6px 14px; }
