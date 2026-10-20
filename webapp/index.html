@@ -70,25 +70,56 @@
       </div>
       <p id="order-hint" class="order-hint hidden">같은 주제가 여러 회차에 나온 문제부터 보여줍니다. 최근 회차(2025년~)에 나온 주제일수록 가중치가 커요.</p>
       <div class="filter-row">
+        <span class="filter-label">북마크</span>
+        <div class="chip-group">
+          <button type="button" id="bookmark-filter" class="chip">★ 북마크한 문제만 (<span class="bookmark-count">0</span>)</button>
+        </div>
+      </div>
+      <div class="filter-row">
         <span class="filter-label">선택된 문제</span>
         <span id="selected-count" class="selected-count">0문제</span>
       </div>
+      <button id="resume-btn" class="secondary-btn resume-btn hidden"></button>
       <button id="start-btn" class="primary-btn">🍠 퀴즈 시작</button>
     </div>
   </section>
 
   <section id="view-quiz" class="view">
-    <div class="scorebar">
-      <div class="score-summary">
-        <span>정답 <b id="score-correct">0</b></span>
-        <span>오답 <b id="score-wrong">0</b></span>
-        <span>남음 <b id="score-left">0</b></span>
-        <span class="score-rate">정답률 <b id="score-rate">-</b></span>
-      </div>
-      <div class="progress-bar"><div id="quiz-progress-fill" class="progress-fill"></div></div>
-      <div id="quiz-jump" class="quiz-jump" aria-label="문제 바로가기"></div>
+    <div id="quiz-empty" class="card hidden">
+      <p class="empty-msg">아직 풀고 있는 세트가 없어요. 홈에서 회차·카테고리를 고르고 퀴즈를 시작하세요.</p>
     </div>
-    <div id="quiz-list"></div>
+    <div class="quiz-layout">
+      <aside class="quiz-side">
+        <div class="side-score">
+          <div class="side-rate-wrap">정답률 <b id="side-rate">-</b></div>
+          <div class="score-track" title="초록이 눈금(합격선 60%)을 넘으면 합격권">
+            <div class="fill-correct"></div><div class="fill-wrong"></div><i class="pass-line"></i>
+          </div>
+          <div class="side-counts">
+            <span>정답 <b id="side-correct">0</b></span>
+            <span>오답 <b id="side-wrong">0</b></span>
+            <span>남음 <b id="side-left">0</b></span>
+          </div>
+        </div>
+        <div class="side-title">문제 목록</div>
+        <div id="side-list" class="side-list"></div>
+      </aside>
+      <div class="quiz-main">
+        <div class="scorebar">
+          <div class="score-summary">
+            <span>정답 <b id="score-correct">0</b></span>
+            <span>오답 <b id="score-wrong">0</b></span>
+            <span>남음 <b id="score-left">0</b></span>
+            <span class="score-rate">정답률 <b id="score-rate">-</b></span>
+          </div>
+          <div class="score-track" title="초록이 눈금(합격선 60%)을 넘으면 합격권">
+            <div class="fill-correct"></div><div class="fill-wrong"></div><i class="pass-line"></i>
+          </div>
+          <div id="quiz-jump" class="quiz-jump" aria-label="문제 바로가기"></div>
+        </div>
+        <div id="quiz-list"></div>
+      </div>
+    </div>
   </section>
 
   <section id="view-wrong" class="view">
@@ -135,6 +166,7 @@
 
 </main>
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.9.0/highlight.min.js"></script>
 <script src="js/app.js"></script>
 </body>
 </html>
