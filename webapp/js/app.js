@@ -240,13 +240,6 @@ const quizList = document.getElementById("quiz-list");
 const quizJump = document.getElementById("quiz-jump");
 const progressFill = document.getElementById("quiz-progress-fill");
 
-function annotationBadges(q) {
-  let html = "";
-  if (q.difficulty) html += `<span class="badge diff-${q.difficulty}">난이도 ${q.difficulty}</span>`;
-  if (q.topic) html += `<span class="badge">${escapeText(q.topic)} · ${q.topicRounds}회 출제</span>`;
-  return html;
-}
-
 // ---------- grading ----------
 
 // Lenient on purpose: case, all whitespace/line breaks, quote styles and a
@@ -333,12 +326,22 @@ function scrollToCard(idx) {
   window.scrollTo({ top: card.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
 }
 
+const DIFFICULTY_LEVEL = { 하: 1, 중: 2, 상: 3 };
+
+function difficultyBadge(q) {
+  if (!q.difficulty) return "";
+  const level = DIFFICULTY_LEVEL[q.difficulty] || 0;
+  const bars = [1, 2, 3].map((n) => `<i class="${n <= level ? "on" : ""}"></i>`).join("");
+  return `<span class="q-diff diff-${q.difficulty}" title="난이도 ${q.difficulty}"><span class="q-bars">${bars}</span>${q.difficulty}</span>`;
+}
+
 function buildQuizCard(q, idx) {
   const grading = gradingOf(q);
   const card = document.createElement("div");
-  card.className = "card quiz-card";
+  card.className = "qcard";
   card.id = `qcard-${idx}`;
 
+  const placeholder = "Enter = 제출, Shift+Enter = 줄바꿈";
   const inputs =
     grading.mode === "auto"
       ? grading.blanks
@@ -346,36 +349,54 @@ function buildQuizCard(q, idx) {
             (b, i) => `
         <label class="blank">
           ${b.label ? `<span class="blank-label">${escapeText(b.label)}</span>` : ""}
-          <textarea class="blank-input" rows="1" data-blank="${i}" placeholder="답 입력"></textarea>
+          <textarea class="blank-input" rows="1" data-blank="${i}" placeholder="${grading.blanks.length > 1 ? "답 입력" : placeholder}"></textarea>
         </label>`
           )
           .join("")
-      : `<label class="blank"><textarea class="blank-input" rows="2" data-blank="0" placeholder="답을 적어 보세요 (서술형이라 정답을 보고 스스로 채점해요)"></textarea></label>`;
+      : `<label class="blank"><textarea class="blank-input" rows="2" data-blank="0" placeholder="서술형 — 적어 본 뒤 정답을 보고 스스로 채점해요"></textarea></label>`;
 
   card.innerHTML = `
-    <div class="quiz-card-head">
-      <span class="quiz-card-num">${idx + 1} / ${state.queue.length}</span>
-      <span class="quiz-card-status"></span>
+    <div class="qcard-top">
+      <span class="q-tag">기출</span>
+      ${difficultyBadge(q)}
+      ${q.topic ? `<span class="q-topic">${escapeText(q.topic)} · ${q.topicRounds}회 출제</span>` : ""}
+      <span class="q-status"></span>
+      <span class="q-num">${idx + 1} / ${state.queue.length}</span>
     </div>
-    <div class="quiz-meta"><span class="badge">${roundLabel(q)}</span><span class="badge">${q.category}</span><span class="badge">문제 ${q.number}</span>${annotationBadges(q)}</div>
-    <div class="quiz-prompt">${q.prompt_html}</div>
-    <div class="answer-area ${grading.mode === "auto" && grading.blanks.length > 1 ? "multi" : ""}">${inputs}</div>
-    <div class="answer-hint">Enter = 제출 · Shift+Enter = 줄바꿈${grading.mode === "self" ? " · 서술형은 스스로 채점" : ""}</div>
-    <div class="quiz-actions">
-      <button type="button" class="primary-btn submit-btn">${grading.mode === "auto" ? "제출하고 채점" : "정답 확인"}</button>
-      <button type="button" class="secondary-btn reveal-btn">정답 보기</button>
+    <div class="qrow qrow-source">
+      <div class="qlabel">기출</div>
+      <div class="qbody"><span class="q-source">[실기] ${String(q.year).slice(2)}년 ${q.round}회 · ${q.number}번</span><span class="q-cat">${q.category}</span></div>
     </div>
-    <div class="answer-reveal hidden">
-      <div class="verdict"></div>
-      <h3>정답</h3>
-      <div class="answer-text"></div>
-      ${q.explanation ? `<div class="explanation"><h3>해설</h3><div class="answer-text">${escapeText(q.explanation)}</div></div>` : ""}
-      <div class="quiz-actions self-mark hidden">
-        <button type="button" class="correct-btn">맞았음</button>
-        <button type="button" class="wrong-btn">틀렸음</button>
+    <div class="qrow">
+      <div class="qlabel">문제</div>
+      <div class="qbody quiz-prompt">${q.prompt_html}</div>
+    </div>
+    <div class="qrow">
+      <div class="qlabel">답변</div>
+      <div class="qbody">
+        <div class="answer-area ${grading.mode === "auto" && grading.blanks.length > 1 ? "multi" : ""}">${inputs}</div>
+        ${grading.mode === "auto" && grading.blanks.length > 1 ? `<div class="answer-hint">Enter = 다음 칸 · 마지막 칸에서 Enter = 제출</div>` : ""}
       </div>
-      <button type="button" class="override-btn hidden">내 답도 맞아요 (정답 처리)</button>
     </div>
+    <div class="qrow qrow-answer">
+      <div class="qlabel">정답</div>
+      <div class="qbody">
+        <button type="button" class="reveal-btn">${grading.mode === "auto" ? "정답 보기" : "정답 보고 채점하기"}</button>
+        <div class="answer-reveal hidden">
+          <div class="verdict"></div>
+          <div class="answer-text"></div>
+          <div class="self-mark hidden">
+            <button type="button" class="correct-btn">맞았음</button>
+            <button type="button" class="wrong-btn">틀렸음</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="qcard-actions hidden">
+      ${q.explanation ? `<button type="button" class="explain-btn">💡 해설 보기</button>` : ""}
+      <button type="button" class="override-btn hidden">내 답도 맞아요</button>
+    </div>
+    ${q.explanation ? `<div class="qcard-explanation hidden"><div class="answer-text">${escapeText(q.explanation)}</div></div>` : ""}
   `;
   card.querySelector(".answer-reveal .answer-text").textContent = q.answer;
 
@@ -390,7 +411,6 @@ function buildQuizCard(q, idx) {
       else submitCard(card, q, idx);
     });
   });
-  card.querySelector(".submit-btn").addEventListener("click", () => submitCard(card, q, idx));
   card.querySelector(".reveal-btn").addEventListener("click", () => revealCard(card, q, idx));
   card.querySelector(".correct-btn").addEventListener("click", () => recordCard(card, q, idx, "correct"));
   card.querySelector(".wrong-btn").addEventListener("click", () => recordCard(card, q, idx, "wrong"));
@@ -398,7 +418,18 @@ function buildQuizCard(q, idx) {
     recordCard(card, q, idx, "correct", { override: true });
     card.querySelector(".override-btn").classList.add("hidden");
   });
+  const explainBtn = card.querySelector(".explain-btn");
+  if (explainBtn) explainBtn.addEventListener("click", () => toggleExplanation(card));
   return card;
+}
+
+function toggleExplanation(card, open) {
+  const box = card.querySelector(".qcard-explanation");
+  const btn = card.querySelector(".explain-btn");
+  if (!box || !btn) return;
+  const show = open === undefined ? box.classList.contains("hidden") : open;
+  box.classList.toggle("hidden", !show);
+  btn.textContent = show ? "💡 해설 접기" : "💡 해설 보기";
 }
 
 function autoGrow(field) {
@@ -418,23 +449,17 @@ function submitCard(card, q, idx) {
   const allRight = perBlank.every(Boolean);
 
   fields.forEach((f, i) => f.classList.add(perBlank[i] ? "is-correct" : "is-wrong"));
-  const verdict = card.querySelector(".verdict");
   const rightCount = perBlank.filter(Boolean).length;
+  const verdict = card.querySelector(".verdict");
   verdict.className = `verdict ${allRight ? "is-correct" : "is-wrong"}`;
-  verdict.innerHTML = allRight
+  verdict.textContent = allRight
     ? "⭕ 정답!"
-    : `❌ 오답${grading.blanks.length > 1 ? ` (${rightCount} / ${grading.blanks.length}칸 맞음)` : ""}` +
-      grading.blanks
-        .map((b, i) =>
-          perBlank[i]
-            ? ""
-            : `<div class="verdict-line">${b.label ? `${escapeText(b.label)}: ` : ""}${escapeText(b.accept[0])}</div>`
-        )
-        .join("");
+    : `❌ 오답${grading.blanks.length > 1 ? ` (${rightCount} / ${grading.blanks.length}칸 맞음)` : ""}`;
 
   showReveal(card);
   card.querySelector(".override-btn").classList.toggle("hidden", allRight);
   recordCard(card, q, idx, allRight ? "correct" : "wrong");
+  if (!allRight) toggleExplanation(card, true);
 }
 
 function revealCard(card, q, idx) {
@@ -446,7 +471,7 @@ function revealCard(card, q, idx) {
 function showReveal(card) {
   card.querySelector(".answer-reveal").classList.remove("hidden");
   card.querySelector(".reveal-btn").classList.add("hidden");
-  card.querySelector(".submit-btn").classList.add("hidden");
+  card.querySelector(".qcard-actions").classList.remove("hidden");
 }
 
 function recordCard(card, q, idx, result, { override = false } = {}) {
@@ -465,7 +490,7 @@ function recordCard(card, q, idx, result, { override = false } = {}) {
   state.results[idx] = result;
   card.classList.remove("is-correct", "is-wrong");
   card.classList.add(result === "correct" ? "is-correct" : "is-wrong");
-  card.querySelector(".quiz-card-status").textContent = result === "correct" ? "⭕ 정답" : "❌ 오답";
+  card.querySelector(".q-status").textContent = result === "correct" ? "⭕ 정답" : "❌ 오답";
   card.querySelector(".self-mark").classList.add("hidden");
   if (override) {
     const verdict = card.querySelector(".verdict");
