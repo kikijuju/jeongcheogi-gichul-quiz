@@ -200,6 +200,33 @@ INLINE_SQL_RE = re.compile(
 )
 
 
+LINE_NUMBERS_RE = re.compile(r"^[\d\s]+$")
+
+
+def is_code_widget(node: Tag) -> bool:
+    """A Color Scripter block: a two-cell table of line numbers + code.
+
+    Most posts tag the wrapper with class "colorscripter-code", but the
+    2022-2 .. 2023-2 posts lost that class, so also recognise the bare
+    shape — otherwise the whole block flattens into one run-on paragraph
+    ("1 2 3 4 ... #include < stdio.h > ... Colored by Color Scripter cs").
+    """
+    if node.name != "div":
+        return False
+    if "colorscripter-code" in (node.get("class") or []):
+        return True
+    # first row is a gutter of line numbers, the code, and at most a short
+    # caption cell ("cs" / "Colored by Color Scripter") — real data tables
+    # have wider rows of real values, even when their first column is numeric
+    first_row = node.select_one("table tr")
+    cells = first_row.find_all("td", recursive=False) if first_row else []
+    if len(cells) not in (2, 3):
+        return False
+    if len(cells) == 3 and len(cells[2].get_text(" ", strip=True)) > 40:
+        return False
+    return bool(LINE_NUMBERS_RE.match(cells[0].get_text(" ", strip=True) or "x"))
+
+
 def render_prompt_html(nodes, images=None) -> str:
     items = []  # list of ("html"|"p"|"pre", value)
     for node in nodes:
@@ -207,7 +234,7 @@ def render_prompt_html(nodes, images=None) -> str:
             continue
         if not isinstance(node, Tag):
             continue
-        if node.name == "div" and "colorscripter-code" in (node.get("class") or []):
+        if is_code_widget(node):
             code = clean_code_block(node)
             items.append(("html", f"<pre><code>{escape_html(code)}</code></pre>"))
         elif node.name == "table":

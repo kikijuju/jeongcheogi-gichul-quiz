@@ -1605,7 +1605,7 @@
     "round": 2,
     "number": 7,
     "category": "Java",
-    "prompt_html": "<p>7. 다음 자바 코드에 알맞는 출력값을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 public static void main( String args[]){ int i = 3 ; int k = 1 ; switch (i) { case 1 : k + = 1 ; case 2 : k + + ; case 3 : k = 0 ; case 4 : k + = 3 ; case 5 : k - = 10 ; default : k - - ; } System . out .print(k); } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>7. 다음 자바 코드에 알맞는 출력값을 작성하시오.</p>\n<pre><code>public static void main(String args[]){\n  \n  int i = 3; int k = 1; \n  switch(i) { \n    case 1: k += 1;\n    case 2: k++;\n    case 3: k = 0; \n    case 4: k += 3; \n    case 5: k -= 10; \n    default: k--; \n  }\n  System.out.print(k); \n  \n}\n </code></pre>",
     "prompt_text": "7. 다음 자바 코드에 알맞는 출력값을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 public static void main( String args[]){ int i = 3 ; int k = 1 ; switch (i) { case 1 : k + = 1 ; case 2 : k + + ; case 3 : k = 0 ; case 4 : k + = 3 ; case 5 : k - = 10 ; default : k - - ; } System . out .print(k); } Colored by Color Scripter cs",
     "answer": "-8"
   },
@@ -1615,7 +1615,7 @@
     "round": 2,
     "number": 8,
     "category": "Java",
-    "prompt_html": "<p>8. 다음 소스코드에 대한 출력값을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 struct A{ int n, int g } int main(){ A a = new A[ 2 ] for (i = 0 ; i &lt; 2 ; i + + ) { a[i].n = i, a[i].g = i + 1 } System . out .printf(a[ 0 ].n + a[ 1 ].g); } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>8. 다음 소스코드에 대한 출력값을 작성하시오.</p>\n<pre><code>struct A{ \n  int n, \n  int g\n} \n \nint main(){\n  A a = new A[2] \n  for(i=0; i &lt;2; i++) {\n    a[i].n = i, \n    a[i].g=i+1  \n  }\n  System.out.printf(a[0].n + a[1].g);  \n}</code></pre>",
     "prompt_text": "8. 다음 소스코드에 대한 출력값을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 struct A{ int n, int g } int main(){ A a = new A[ 2 ] for (i = 0 ; i < 2 ; i + + ) { a[i].n = i, a[i].g = i + 1 } System . out .printf(a[ 0 ].n + a[ 1 ].g); } Colored by Color Scripter cs",
     "answer": "2"
   },
@@ -1665,7 +1665,7 @@
     "round": 2,
     "number": 13,
     "category": "Python",
-    "prompt_html": "<p>13. 다음은 파이썬 코드이다. 알맞는 출력값을 작성하시오.</p>\n<p>1 2 3 4 a = \"REMEMBER NOVEMBER\" b = a[: 3 ] + a[ 12 : 16 ]; c = \"R AND %s\" % \"STR\" ; print (b + c); cs</p>",
+    "prompt_html": "<p>13. 다음은 파이썬 코드이다. 알맞는 출력값을 작성하시오.</p>\n<pre><code>a = \"REMEMBER NOVEMBER\"\nb = a[:3] + a[12:16];\nc = \"R AND %s\" % \"STR\";\nprint(b+c);</code></pre>",
     "prompt_text": "13. 다음은 파이썬 코드이다. 알맞는 출력값을 작성하시오. 1 2 3 4 a = \"REMEMBER NOVEMBER\" b = a[: 3 ] + a[ 12 : 16 ]; c = \"R AND %s\" % \"STR\" ; print (b + c); cs",
     "answer": "REMEMBER AND STR"
   },
@@ -1685,7 +1685,7 @@
     "round": 2,
     "number": 16,
     "category": "C",
-    "prompt_html": "<p>16. 다음 C언어 코드에서 알맞는 출력값을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 #include &lt; stdio.h &gt; int main( int argc, char * argv[]) { int a[ 4 ] = { 0 , 2 , 4 , 8 }; int b[ 3 ] = {}; int i = 1 ; int sum = 0 ; int * p1; for (i; i &lt; 4 ; i + + ) { p1 = a + i; b[i - 1 ] = * p1 - a[i - 1 ]; sum = sum + b[i - 1 ] + a[i]; } printf ( \"%d\" , sum); return 0 ; } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>16. 다음 C언어 코드에서 알맞는 출력값을 작성하시오.</p>\n<pre><code>#include &lt;stdio.h&gt;\n \nint main(int argc, char *argv[]) {\nint a[4] = {0, 2, 4, 8};\nint b[3] = {};\nint i = 1;\nint sum = 0;\nint *p1;\n \nfor (i; i &lt; 4; i++) {\np1 = a + i;\nb[i-1] = *p1 - a[i-1];\nsum = sum + b[i-1] + a[i];\n}\n \nprintf(\"%d\", sum);\n \nreturn 0;\n}</code></pre>",
     "prompt_text": "16. 다음 C언어 코드에서 알맞는 출력값을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 #include < stdio.h > int main( int argc, char * argv[]) { int a[ 4 ] = { 0 , 2 , 4 , 8 }; int b[ 3 ] = {}; int i = 1 ; int sum = 0 ; int * p1; for (i; i < 4 ; i + + ) { p1 = a + i; b[i - 1 ] = * p1 - a[i - 1 ]; sum = sum + b[i - 1 ] + a[i]; } printf ( \"%d\" , sum); return 0 ; } Colored by Color Scripter cs",
     "answer": "22"
   },
@@ -1725,7 +1725,7 @@
     "round": 3,
     "number": 1,
     "category": "C",
-    "prompt_html": "<p>1. 아래는 C언어의 2차원 배열 형태이다. field의 경우 2차원 배열 형태는 예시처럼 출력되므로, 이를 참고하여 mines의 2차원 배열 형태를 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 void main{ field {{ 0 , 1 , 0 , 1 },{ 0 , 0 , 0 , 1 },{ 1 , 1 , 1 , 0 },{ 0 , 1 , 1 , 1 }}; mines {{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 }}; int w = 4 , h = 4 ; for (y = 0 ; y &lt; h; y + + ) { for (x = 0 ; x &lt; w; x + + ) { if (field[y][x] = = 0 ) continue ; for (i = y - 1 ; i &lt; = y + 1 ; i + + ) { for (j = x - 1 ; j &lt; = x + 1 ; j + + ) { if (calculate(w,h,j,i) = = 1 ) { mines[i][j] + = 1 ; } } } } } for (y = 0 ; y &lt; h; y + + ){ for (x = 0 ; x &lt; w; x + + ) printf ( \"%d\" , mines[y][x]); printf ( \"\\n\" ); } } int calculate(w,h,j,i) { if (i &gt; = 0 &amp; &amp; i &lt; h &amp; &amp; j &gt; = 0 &amp; &amp; j &lt; w) return 1 ; return 0 ; } Colored by Color Scripter cs</p>\n<p>[예시] field</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td></tr>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">0</td></tr>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td></tr>\n</tbody>\n</table>\n<p>[정답칸] mines</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n</tbody>\n</table>",
+    "prompt_html": "<p>1. 아래는 C언어의 2차원 배열 형태이다. field의 경우 2차원 배열 형태는 예시처럼 출력되므로, 이를 참고하여 mines의 2차원 배열 형태를 작성하시오.</p>\n<pre><code>void main{\n \nfield {{0,1,0,1},{0,0,0,1},{1,1,1,0},{0,1,1,1}};\nmines {{0,0,0,0},{0,0,0,0},{0,0,0,0},{0,0,0,0}}; \n \nint w = 4, h = 4;\n  for(y=0; y&lt;h; y++) {\n    for(x=0; x&lt;w; x++) {  \n    if(field[y][x] == 0) continue;\n    \n      for(i=y-1; i&lt;=y+1; i++) {\n        for(j=x-1; j&lt;=x+1; j++) {\n          if(calculate(w,h,j,i) == 1) {\n            mines[i][j] += 1;\n          }\n        }\n      }\n    }\n  }\n  for(y=0; y&lt;h; y++){\n    for(x=0; x&lt;w; x++)\n      printf(\"%d\", mines[y][x]);\n      printf(\"\\n\");\n  }\n \n}\n \n \nint calculate(w,h,j,i) {\n  if (i &gt;= 0 &amp;&amp; i &lt; h &amp;&amp; j &gt;= 0 &amp;&amp; j &lt; w) return 1;\n  return 0;\n}\n </code></pre>\n<p>[예시] field</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td></tr>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">0</td></tr>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td></tr>\n</tbody>\n</table>\n<p>[정답칸] mines</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n</tbody>\n</table>",
     "prompt_text": "1. 아래는 C언어의 2차원 배열 형태이다. field의 경우 2차원 배열 형태는 예시처럼 출력되므로, 이를 참고하여 mines의 2차원 배열 형태를 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 void main{ field {{ 0 , 1 , 0 , 1 },{ 0 , 0 , 0 , 1 },{ 1 , 1 , 1 , 0 },{ 0 , 1 , 1 , 1 }}; mines {{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 }}; int w = 4 , h = 4 ; for (y = 0 ; y < h; y + + ) { for (x = 0 ; x < w; x + + ) { if (field[y][x] = = 0 ) continue ; for (i = y - 1 ; i < = y + 1 ; i + + ) { for (j = x - 1 ; j < = x + 1 ; j + + ) { if (calculate(w,h,j,i) = = 1 ) { mines[i][j] + = 1 ; } } } } } for (y = 0 ; y < h; y + + ){ for (x = 0 ; x < w; x + + ) printf ( \"%d\" , mines[y][x]); printf ( \"\\n\" ); } } int calculate(w,h,j,i) { if (i > = 0 & & i < h & & j > = 0 & & j < w) return 1 ; return 0 ; } Colored by Color Scripter cs",
     "answer": "1, 1, 3, 2\n3, 4, 5, 3\n3, 5, 6, 4\n3, 5, 5, 3"
   },
@@ -1755,7 +1755,7 @@
     "round": 3,
     "number": 4,
     "category": "C",
-    "prompt_html": "<p>4. 아래 코드에 대한 출력 값을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 void main{ int []result = int [ 5 ]; int []arr = [ 77 , 32 , 10 , 99 , 50 ]; for ( int i = 0 ; i &lt; 5 ; i + + ) { result[i] = 1 ; for ( int j = 0 ; j &lt; 5 ; j + + ) { if (arr[i] &lt; arr[j]) result[i] + + ; } } for ( int k = 0 ; k &lt; 5 ; k + + ) { printf (result[k]); } } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>4. 아래 코드에 대한 출력 값을 작성하시오.</p>\n<pre><code>void main{\n \nint []result = int[5];\nint []arr = [77,32,10,99,50];\n \n  for(int i = 0; i &lt; 5; i++) {\n    result[i] = 1;\n    for(int j = 0; j &lt; 5; j++) {\n      if(arr[i] &lt;arr[j]) result[i]++;\n    }\n  }\n \n  for(int k = 0; k &lt; 5; k++) {\n    printf(result[k]);\n  }\n}</code></pre>",
     "prompt_text": "4. 아래 코드에 대한 출력 값을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 void main{ int []result = int [ 5 ]; int []arr = [ 77 , 32 , 10 , 99 , 50 ]; for ( int i = 0 ; i < 5 ; i + + ) { result[i] = 1 ; for ( int j = 0 ; j < 5 ; j + + ) { if (arr[i] < arr[j]) result[i] + + ; } } for ( int k = 0 ; k < 5 ; k + + ) { printf (result[k]); } } Colored by Color Scripter cs",
     "answer": "24513"
   },
@@ -1805,7 +1805,7 @@
     "round": 3,
     "number": 9,
     "category": "Python",
-    "prompt_html": "<p>9. 다음 파이썬 코드에 대한 출력값을 작성하시오.</p>\n<p>1 2 3 4 TestList = [ 1 , 2 , 3 , 4 , 5 ] TestList = list(map(lambda num : num + 100 , TestList))) print (TestList) Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>9. 다음 파이썬 코드에 대한 출력값을 작성하시오.</p>\n<pre><code>TestList = [1,2,3,4,5]\nTestList = list(map(lambda num : num + 100, TestList)))\n \nprint(TestList)</code></pre>",
     "prompt_text": "9. 다음 파이썬 코드에 대한 출력값을 작성하시오. 1 2 3 4 TestList = [ 1 , 2 , 3 , 4 , 5 ] TestList = list(map(lambda num : num + 100 , TestList))) print (TestList) Colored by Color Scripter cs",
     "answer": "[101, 102, 103, 104, 105]"
   },
@@ -1845,7 +1845,7 @@
     "round": 3,
     "number": 13,
     "category": "C",
-    "prompt_html": "<p>13. 다음 코드에 대한 출력 값을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 int n; int k; int s; int el = 0 ; for (n = 6 ; n &lt; = 30 ; n + + ){ s = 0 ; k = n / 2 ; for ( int j = 1 ; j &lt; = k; j + + ){ if (n%j = = 0 ){ s = s + j; } } if (s = = n){ el + + ; } } printf( \"%d\" , el); cs</p>",
+    "prompt_html": "<p>13. 다음 코드에 대한 출력 값을 작성하시오.</p>\n<pre><code>int n;\nint k;\nint s;\nint el = 0;\n \n  for(n=6; n&lt;=30; n++){\n    s=0;\n    k=n/2;\n    for(int j=1; j&lt;=k; j++){\n      if(n%j==0){\n        s=s+j;\n      }\n    }\n    if(s==n){\n    el++;\n    }\n  }\n  \n  printf(\"%d\", el);</code></pre>",
     "prompt_text": "13. 다음 코드에 대한 출력 값을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 int n; int k; int s; int el = 0 ; for (n = 6 ; n < = 30 ; n + + ){ s = 0 ; k = n / 2 ; for ( int j = 1 ; j < = k; j + + ){ if (n%j = = 0 ){ s = s + j; } } if (s = = n){ el + + ; } } printf( \"%d\" , el); cs",
     "answer": "2"
   },
@@ -1905,7 +1905,7 @@
     "round": 3,
     "number": 19,
     "category": "Java",
-    "prompt_html": "<p>19. 다음 자바 코드에 대한 출력 값을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 public class Main { static int [] MakeArray(){ int [] tempArr = new int [ 4 ]; for ( int i = 0 ; i &lt; tempArr.Length;i + + ){ tempArr[i] = i; } return tempArr; } public static void main(String[] args){ int [] intArr; intArr = MakeArray(); for ( int i = 0 ; i &lt; intArr.Length; i + + ) System.out. print (intArr[i]); } } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>19. 다음 자바 코드에 대한 출력 값을 작성하시오.</p>\n<pre><code>public class Main {\n  static int[] MakeArray(){\n \n  int[] tempArr = new int[4];\n  \n  for(int i=0; i&lt;tempArr.Length;i++){\n    tempArr[i] = i;\n  }\n  \n  return tempArr;\n  }\n  \n  public static void main(String[] args){\n  \n  int[] intArr;\n  intArr = MakeArray();\n  \n  for(int i=0; i &lt; intArr.Length; i++)\n  System.out.print(intArr[i]);\n \n  }\n}</code></pre>",
     "prompt_text": "19. 다음 자바 코드에 대한 출력 값을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 public class Main { static int [] MakeArray(){ int [] tempArr = new int [ 4 ]; for ( int i = 0 ; i < tempArr.Length;i + + ){ tempArr[i] = i; } return tempArr; } public static void main(String[] args){ int [] intArr; intArr = MakeArray(); for ( int i = 0 ; i < intArr.Length; i + + ) System.out. print (intArr[i]); } } Colored by Color Scripter cs",
     "answer": "0123"
   },
@@ -1915,7 +1915,7 @@
     "round": 3,
     "number": 20,
     "category": "Java",
-    "prompt_html": "<p>20. 다음 자바 코드에 대한 출력 값을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 public class Exam { public static void main( String [] args){ int a = 0 ; for ( int i = 1 ; i &lt; 999 ; i + + ){ if (i% 3 = = 0 &amp; &amp; i% 2 ! = 0 ) a = i; } System . out . print (a); } } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>20. 다음 자바 코드에 대한 출력 값을 작성하시오.</p>\n<pre><code>public class Exam {\n  public static void main(String[] args){\n  \n  int a = 0;\n  for(int i=1; i&lt;999; i++){\n    if(i%3==0 &amp;&amp; i%2!=0)\n      a = i;\n    }\n    System.out.print(a);\n  }\n}</code></pre>",
     "prompt_text": "20. 다음 자바 코드에 대한 출력 값을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 public class Exam { public static void main( String [] args){ int a = 0 ; for ( int i = 1 ; i < 999 ; i + + ){ if (i% 3 = = 0 & & i% 2 ! = 0 ) a = i; } System . out . print (a); } } Colored by Color Scripter cs",
     "answer": "993"
   },
@@ -2125,7 +2125,7 @@
     "round": 2,
     "number": 1,
     "category": "C",
-    "prompt_html": "<p>1. 다음은 C언어 코드의 문제이다. 보기의 조건에 맞도록 괄호안에 알맞은 코드를 작성하시오.</p>\n<p>보기</p>\n<p>입력값이 54321일 경우 출력값이 43215로 출력되어야 한다.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 int main( void ) { int n[ 5 ]; int i; for (i = 0 ; i &lt; 5 ; i + + ) { printf ( \"숫자를 입력해주세요 : \" ); scanf ( \"%d\" , &amp; n[i]); } for (i = 0 ; i &lt; 5 ; i + + ) { printf ( \"%d\" , (            ) ); } return 0 ; } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>1. 다음은 C언어 코드의 문제이다. 보기의 조건에 맞도록 괄호안에 알맞은 코드를 작성하시오.</p>\n<p>보기</p>\n<p>입력값이 54321일 경우 출력값이 43215로 출력되어야 한다.</p>\n<pre><code>int main(void) {\n \n    int n[5];\n    int i;\n \n    for (i = 0; i &lt; 5; i++) {\n        printf(\"숫자를 입력해주세요 : \");\n        scanf(\"%d\", &amp;n[i]);\n    }\n \n    for (i = 0; i &lt; 5; i++) {\n        printf(\"%d\", (            ) );\n    }\n \n  return 0;\n \n}</code></pre>",
     "prompt_text": "1. 다음은 C언어 코드의 문제이다. 보기의 조건에 맞도록 괄호안에 알맞은 코드를 작성하시오. 보기 입력값이 54321일 경우 출력값이 43215로 출력되어야 한다. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 int main( void ) { int n[ 5 ]; int i; for (i = 0 ; i < 5 ; i + + ) { printf ( \"숫자를 입력해주세요 : \" ); scanf ( \"%d\" , & n[i]); } for (i = 0 ; i < 5 ; i + + ) { printf ( \"%d\" , (            ) ); } return 0 ; } Colored by Color Scripter cs",
     "answer": "n[(i+1) % 5]"
   },
@@ -2135,7 +2135,7 @@
     "round": 2,
     "number": 2,
     "category": "Java",
-    "prompt_html": "<p>2. 다음은 JAVA 코드 문제이다. 가지고 있는 돈이 총 4620원일 경우 1000원, 500원, 100원, 10원의 지폐 및 동전을 이용하여 보기의 조건에 맞춰 최소한의 코드를 통해 괄호안을 작성하시오.</p>\n<p>보 기</p>\n<p>아래 주어진 항목들을 갖고 괄호안의 코드를 작성</p>\n<p>변수 : m 연산자 : / , % 괄호 : [ , ] , ( , ) 정수 : 1000, 500, 100, 10</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 public class Problem{ public static void main( String [] args){ m = 4620 ; a = (              ); b = (              ); c = (              ); d = (              ); System . out . println (a); //천원짜리     4장 출력 System . out . println (b); //오백원짜리  1개 출력 System . out . println (c); //백원짜리     1개 출력 System . out . println (d); //십원짜리     2개 출력 } } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>2. 다음은 JAVA 코드 문제이다. 가지고 있는 돈이 총 4620원일 경우 1000원, 500원, 100원, 10원의 지폐 및 동전을 이용하여 보기의 조건에 맞춰 최소한의 코드를 통해 괄호안을 작성하시오.</p>\n<p>보 기</p>\n<p>아래 주어진 항목들을 갖고 괄호안의 코드를 작성</p>\n<p>변수 : m 연산자 : / , % 괄호 : [ , ] , ( , ) 정수 : 1000, 500, 100, 10</p>\n<pre><code>public class Problem{\n    public static void main(String[] args){\n m = 4620;\n \n a = (              );\n b = (              );\n c = (              );\n d = (              );\n \n System.out.println(a); //천원짜리     4장 출력\n System.out.println(b); //오백원짜리  1개 출력\n System.out.println(c); //백원짜리     1개 출력\n System.out.println(d); //십원짜리     2개 출력\n    }\n}\n </code></pre>",
     "prompt_text": "2. 다음은 JAVA 코드 문제이다. 가지고 있는 돈이 총 4620원일 경우 1000원, 500원, 100원, 10원의 지폐 및 동전을 이용하여 보기의 조건에 맞춰 최소한의 코드를 통해 괄호안을 작성하시오. 보 기 아래 주어진 항목들을 갖고 괄호안의 코드를 작성 변수 : m 연산자 : / , % 괄호 : [ , ] , ( , ) 정수 : 1000, 500, 100, 10 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 public class Problem{ public static void main( String [] args){ m = 4620 ; a = (              ); b = (              ); c = (              ); d = (              ); System . out . println (a); //천원짜리     4장 출력 System . out . println (b); //오백원짜리  1개 출력 System . out . println (c); //백원짜리     1개 출력 System . out . println (d); //십원짜리     2개 출력 } } Colored by Color Scripter cs",
     "answer": "m / 1000\n(m % 1000) / 500\n(m % 500) / 100\n(m % 100) / 10"
   },
@@ -2145,7 +2145,7 @@
     "round": 2,
     "number": 3,
     "category": "C",
-    "prompt_html": "<p>3. 다음은 c언어의 코드이다. 보기의 조건에 맞추어 알맞은 출력값을 작성하시오.</p>\n<p>보기</p>\n<p>입력값은 홍길동, 김철수, 박영희 순서로 주어진다.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 #include &lt; stdlio.h &gt; #include &lt; stdlib.h &gt; char n[ 30 ]; char * test() { printf (입력하세요 : ); gets(n); return n; } int main() { char * test1; char * test2; char * test3; test1 = test(); test2 = test(); test3 = test(); printf (%s\\n,test1); printf (%s\\n,test2); printf (%s,test3); } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>3. 다음은 c언어의 코드이다. 보기의 조건에 맞추어 알맞은 출력값을 작성하시오.</p>\n<p>보기</p>\n<p>입력값은 홍길동, 김철수, 박영희 순서로 주어진다.</p>\n<pre><code>#include&lt;stdlio.h&gt; \n#include&lt;stdlib.h&gt; \nchar n[30];\nchar *test() {\n    printf(입력하세요 : );\n    gets(n);\n    return n;\n}\n \nint main()\n \n{\n    char * test1;\n    char * test2;\n    char * test3;\n \n    test1 = test();\n    test2 = test();\n    test3 = test();\n \n    printf(%s\\n,test1);\n    printf(%s\\n,test2);\n    printf(%s,test3);\n \n}</code></pre>",
     "prompt_text": "3. 다음은 c언어의 코드이다. 보기의 조건에 맞추어 알맞은 출력값을 작성하시오. 보기 입력값은 홍길동, 김철수, 박영희 순서로 주어진다. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 #include < stdlio.h > #include < stdlib.h > char n[ 30 ]; char * test() { printf (입력하세요 : ); gets(n); return n; } int main() { char * test1; char * test2; char * test3; test1 = test(); test2 = test(); test3 = test(); printf (%s\\n,test1); printf (%s\\n,test2); printf (%s,test3); } Colored by Color Scripter cs",
     "answer": "박영희\n박영희\n박영희"
   },
@@ -2185,7 +2185,7 @@
     "round": 2,
     "number": 7,
     "category": "C",
-    "prompt_html": "<p>7. 다음은 소스코드의 알맞은 출력을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 #include &lt; stdio.h &gt; int main(){ int c = 0 ; for ( int i = 1 ; i &lt; = 2023 ; i + + ) { if (i% 4 = = 0 ) c + + ; } printf ( \"%d\" , c); } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>7. 다음은 소스코드의 알맞은 출력을 작성하시오.</p>\n<pre><code>#include &lt;stdio.h&gt;\n \nint main(){\n \n    int c = 0;\n \n    for(int i = 1; i &lt;=2023; i++) { \n      if(i%4 == 0) c++; \n    }\n    printf(\"%d\", c);\n}\n </code></pre>",
     "prompt_text": "7. 다음은 소스코드의 알맞은 출력을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 #include < stdio.h > int main(){ int c = 0 ; for ( int i = 1 ; i < = 2023 ; i + + ) { if (i% 4 = = 0 ) c + + ; } printf ( \"%d\" , c); } Colored by Color Scripter cs",
     "answer": "505"
   },
@@ -2255,7 +2255,7 @@
     "round": 2,
     "number": 14,
     "category": "Java",
-    "prompt_html": "<p>14. 다음은 자바에 대한 문제이다. 알맞은 출력값을 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 public class Main{ public static void main( String [] args) { String str1 = 'Programming' ; String str2 = 'Programming' ; String str3 = new String ( 'Programming' ); println (str1 = = str2) println (str1 = = str3) println (str1. equals (str3)) print (str2. equals (str3)) } } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>14. 다음은 자바에 대한 문제이다. 알맞은 출력값을 작성하시오.</p>\n<pre><code>public class Main{\n    public static void main(String[] args) {\n        \n        String str1 = 'Programming';\n        String str2 = 'Programming';\n        String str3 = new String('Programming');\n        \n        println(str1==str2)\n        println(str1==str3)\n        println(str1.equals(str3))\n        print(str2.equals(str3))\n    }\n}\n </code></pre>",
     "prompt_text": "14. 다음은 자바에 대한 문제이다. 알맞은 출력값을 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 public class Main{ public static void main( String [] args) { String str1 = 'Programming' ; String str2 = 'Programming' ; String str3 = new String ( 'Programming' ); println (str1 = = str2) println (str1 = = str3) println (str1. equals (str3)) print (str2. equals (str3)) } } Colored by Color Scripter cs",
     "answer": "true\nfalse\ntrue\ntrue"
   },
@@ -2295,7 +2295,7 @@
     "round": 2,
     "number": 18,
     "category": "C",
-    "prompt_html": "<p>18. 다음 코드는 선택정렬 구현에 관한 문제이다.  오름차순으로 정렬할 경우 빈칸에 알맞는 연산자를 보기에서 골라 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 #include int main() { int E[] = { 64 , 25 , 12 , 22 , 11 }; int n = sizeof (E) / sizeof (E[ 0 ]); int i = 0 ; do { int j = i + 1 ; do { if (E[i] (     ) E[j]) { int tmp = E[i]; E[i] = E[j]; E[j] = tmp; } j + + ; } while (j &lt; n); i + + ; } while (i &lt; n - 1 ); for ( int i = 0 ; i &lt; = 4 ; i + + ) printf ( \"%d \" , E[i]); } Colored by Color Scripter cs</p>\n<p>보기</p>\n<p>&lt;, &lt;=, =&gt;, &gt;, ==, /, %</p>",
+    "prompt_html": "<p>18. 다음 코드는 선택정렬 구현에 관한 문제이다.  오름차순으로 정렬할 경우 빈칸에 알맞는 연산자를 보기에서 골라 작성하시오.</p>\n<pre><code>#include\nint main() {\n    int E[] = {64, 25, 12, 22, 11};\n    int n = sizeof(E) / sizeof(E[0]);\n    int i = 0;\n    do {\n        int j = i + 1;\n        do {\n            if (E[i] (     ) E[j]) {\n                int tmp = E[i];\n                E[i] = E[j];\n                E[j] = tmp;\n            }\n            j++;\n        } while (j &lt; n);\n        i++;\n    } while (i &lt; n-1);\n    for(int i=0; i&lt;=4; i++)\n        printf(\"%d \", E[i]);\n}</code></pre>\n<p>보기</p>\n<p>&lt;, &lt;=, =&gt;, &gt;, ==, /, %</p>",
     "prompt_text": "18. 다음 코드는 선택정렬 구현에 관한 문제이다.  오름차순으로 정렬할 경우 빈칸에 알맞는 연산자를 보기에서 골라 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 #include int main() { int E[] = { 64 , 25 , 12 , 22 , 11 }; int n = sizeof (E) / sizeof (E[ 0 ]); int i = 0 ; do { int j = i + 1 ; do { if (E[i] (     ) E[j]) { int tmp = E[i]; E[i] = E[j]; E[j] = tmp; } j + + ; } while (j < n); i + + ; } while (i < n - 1 ); for ( int i = 0 ; i < = 4 ; i + + ) printf ( \"%d \" , E[i]); } Colored by Color Scripter cs 보기 <, <=, =>, >, ==, /, %",
     "answer": ">"
   },
@@ -2305,7 +2305,7 @@
     "round": 2,
     "number": 19,
     "category": "Python",
-    "prompt_html": "<p>19. 다음 파이썬 코드에서 알맞는 출력값을 작성하시오.</p>\n<p>1 2 3 4 5 6 a = \"engineer information processing\" b = a[: 3 ] c = a[ 4 : 6 ] d = a[ 28 :] e = b + c + d print(e) cs</p>",
+    "prompt_html": "<p>19. 다음 파이썬 코드에서 알맞는 출력값을 작성하시오.</p>\n<pre><code>a = \"engineer information processing\"\nb = a[:3]\nc = a[4:6]\nd = a[28:]\ne=b+c+d\nprint(e)</code></pre>",
     "prompt_text": "19. 다음 파이썬 코드에서 알맞는 출력값을 작성하시오. 1 2 3 4 5 6 a = \"engineer information processing\" b = a[: 3 ] c = a[ 4 : 6 ] d = a[ 28 :] e = b + c + d print(e) cs",
     "answer": "engneing"
   },
