@@ -52,6 +52,11 @@ async function loadQuestions() {
     annotations = {};
   }
   state.questions.forEach((q) => Object.assign(q, annotations[q.id] || {}));
+  try {
+    state.lessons = await (await fetch("data/lessons.json")).json();
+  } catch (e) {
+    state.lessons = [];
+  }
   computeTopicFrequency();
 }
 
@@ -108,6 +113,7 @@ function switchView(view) {
   if (view === "stats") renderStats();
   if (view === "home") renderHome();
   if (view === "concepts") renderConcepts();
+  if (view === "notes") renderNotes();
   document.body.classList.toggle("quiz-active", view === "quiz");
   if (view === "quiz") document.querySelectorAll("#quiz-list .blank-input").forEach((f) => f.value && autoGrow(f));
 }
@@ -238,8 +244,8 @@ document.getElementById("start-btn").addEventListener("click", () => {
   startQuiz(list);
 });
 
-function startQuiz(list, { mock = false } = {}) {
-  if (mock) state.queue = list.slice();
+function startQuiz(list, { mock = false, keepOrder = false } = {}) {
+  if (mock || keepOrder) state.queue = list.slice();
   else if (state.order === "random") state.queue = shuffle(list.slice());
   else if (state.order === "frequency") state.queue = list.slice().sort(byFrequency);
   else state.queue = list.slice();
@@ -606,7 +612,7 @@ function inlineMarkup(text) {
 
 function renderExplanation(source) {
   const lines = source.replace(/\r/g, "").split("\n");
-  const isSpecial = (t) => !t || /^(#개념|## |\d+\.\s|- |>|\||!(함정|팁|암기|용어)\s)/.test(t);
+  const isSpecial = (t) => !t || /^(#개념|## |\d+\.\s|- |>|\||```|!(함정|팁|암기|용어)\s)/.test(t);
   let tags = [];
   const terms = [];
   let html = "";
@@ -625,6 +631,13 @@ function renderExplanation(source) {
     } else if (t.startsWith("#개념")) {
       tags = t.slice(3).split(",").map((x) => x.trim()).filter(Boolean);
       i++;
+    } else if (t.startsWith("```")) {
+      // fenced code (used by the 개념노트 lessons): kept verbatim, highlighted later
+      i++;
+      const code = [];
+      while (i < lines.length && !lines[i].trim().startsWith("```")) code.push(lines[i++]);
+      i++;
+      html += `<pre><code>${escapeText(code.join("\n"))}</code></pre>`;
     } else if (t.startsWith("## ")) {
       html += `<h4>${inlineMarkup(t.slice(3))}</h4>`;
       i++;
@@ -1478,6 +1491,63 @@ document.addEventListener("keydown", (e) => {
   } else if (e.key === "ArrowRight") markFlash("know");
   else if (e.key === "ArrowLeft") markFlash("dont");
 });
+
+// ---------- 개념노트 (lessons) ----------
+
+// A lesson is a list of sections written in the explanation markup (plus
+// ```code``` fences), each followed by the real past questions that test it.
+function renderNotes() {
+  const body = document.getElementById("notes-body");
+  body.innerHTML = "";
+  const lessons = state.lessons || [];
+  if (lessons.length === 0) {
+    body.innerHTML = `<div class="card"><p class="empty-msg">아직 개념노트가 없어요.</p></div>`;
+    return;
+  }
+  const byId = new Map(state.questions.map((q) => [q.id, q]));
+
+  lessons.forEach((lesson) => {
+    const exampleIds = Array.from(new Set(lesson.sections.flatMap((s) => s.examples || []))).filter((id) => byId.has(id));
+    const head = document.createElement("div");
+    head.className = "card note-head";
+    head.innerHTML = `
+      <h2>📘 ${escapeText(lesson.title)}</h2>
+      <p class="note-summary">${escapeText(lesson.summary)}</p>
+      <ol class="note-toc">${lesson.sections
+        .map((s, i) => `<li><a href="#note-${lesson.id}-${i}">${escapeText(s.title.replace(/^\d+\.\s*/, ""))}</a></li>`)
+        .join("")}</ol>
+      <button type="button" class="primary-btn note-practice">이 노트의 기출 ${exampleIds.length}문제 풀어보기</button>`;
+    head.querySelector(".note-practice").addEventListener("click", () => {
+      startQuiz(exampleIds.map((id) => byId.get(id)), { keepOrder: true });
+    });
+    head.querySelectorAll(".note-toc a").forEach((a) =>
+      a.addEventListener("click", (e) => {
+        e.preventDefault();
+        const target = document.querySelector(a.getAttribute("href"));
+        const top = target.getBoundingClientRect().top + window.scrollY - document.querySelector(".topbar").offsetHeight - 12;
+        window.scrollTo({ top, behavior: "smooth" });
+      })
+    );
+    body.appendChild(head);
+
+    lesson.sections.forEach((section, i) => {
+      const card = document.createElement("div");
+      card.className = "card note-section";
+      card.id = `note-${lesson.id}-${i}`;
+      card.innerHTML = `<h2>${escapeText(section.title)}</h2><div class="explain-body">${renderExplanation(section.body)}</div>`;
+      enhanceCode(card, { category: "C" });
+      body.appendChild(card);
+      const examples = (section.examples || []).map((id) => byId.get(id)).filter(Boolean);
+      if (examples.length) {
+        const label = document.createElement("div");
+        label.className = "note-examples-label";
+        label.textContent = `📌 기출 예시 ${examples.length}문제 — 문제를 먼저 풀어 보고 정답 보기를 누르세요`;
+        body.appendChild(label);
+        examples.forEach((q) => body.appendChild(buildReviewCard(q)));
+      }
+    });
+  });
+}
 
 // ---------- stats ----------
 
