@@ -59,6 +59,58 @@ function roundLabel(q) {
 async function loadQuestions() {
   const res = await fetch("data/questions.json");
   state.questions = await res.json();
+
+  // topic / difficulty / explanation live in a separate hand-written file so
+  // re-running the scraper never clobbers them; the site still works without it
+  let annotations = {};
+  try {
+    annotations = await (await fetch("data/annotations.json")).json();
+  } catch (e) {
+    annotations = {};
+  }
+  state.questions.forEach((q) => Object.assign(q, annotations[q.id] || {}));
+  computeTopicFrequency();
+}
+
+// ---------- topic frequency ("빈출순") ----------
+
+// recent rounds say more about the next exam than 2020's essay-style ones
+function recencyWeight(year) {
+  if (year >= 2025) return 3;
+  if (year >= 2023) return 2;
+  return 1;
+}
+
+function topicKey(q) {
+  return `${q.category}::${q.topic}`;
+}
+
+function computeTopicFrequency() {
+  const rounds = new Map(); // topicKey -> Set of roundKey
+  state.questions.forEach((q) => {
+    if (!q.topic) return;
+    const key = topicKey(q);
+    if (!rounds.has(key)) rounds.set(key, new Set());
+    rounds.get(key).add(roundKey(q));
+  });
+  state.questions.forEach((q) => {
+    if (!q.topic) {
+      q.topicRounds = 0;
+      q.topicScore = 0;
+      return;
+    }
+    const seen = rounds.get(topicKey(q));
+    q.topicRounds = seen.size;
+    q.topicScore = Array.from(seen).reduce((sum, k) => sum + recencyWeight(Number(k.split("-")[0])), 0);
+  });
+}
+
+function byFrequency(a, b) {
+  if (a.topicScore !== b.topicScore) return b.topicScore - a.topicScore;
+  if (a.topic !== b.topic) return (a.topic || "").localeCompare(b.topic || "");
+  if (a.year !== b.year) return b.year - a.year;
+  if (a.round !== b.round) return b.round - a.round;
+  return a.number - b.number;
 }
 
 // ---------- view switching ----------
@@ -151,6 +203,7 @@ document.querySelectorAll('input[name="order"]').forEach((el) => {
     document.querySelectorAll("#order-filter .chip").forEach((chip) => {
       chip.classList.toggle("active", chip.querySelector("input").checked);
     });
+    document.getElementById("order-hint").classList.toggle("hidden", state.order !== "frequency");
   });
 });
 
@@ -164,7 +217,9 @@ document.getElementById("start-btn").addEventListener("click", () => {
 });
 
 function startQuiz(list) {
-  state.queue = state.order === "random" ? shuffle(list.slice()) : list.slice();
+  if (state.order === "random") state.queue = shuffle(list.slice());
+  else if (state.order === "frequency") state.queue = list.slice().sort(byFrequency);
+  else state.queue = list.slice();
   state.index = 0;
   switchView("quiz");
   renderQuiz();
@@ -192,6 +247,15 @@ const prevBtn = document.getElementById("prev-btn");
 const nextBtn = document.getElementById("next-btn");
 const progressText = document.getElementById("quiz-progress-text");
 const progressFill = document.getElementById("quiz-progress-fill");
+const explanationBox = document.getElementById("quiz-explanation");
+const explanationText = document.getElementById("quiz-explanation-text");
+
+function annotationBadges(q) {
+  let html = "";
+  if (q.difficulty) html += `<span class="badge diff-${q.difficulty}">난이도 ${q.difficulty}</span>`;
+  if (q.topic) html += `<span class="badge">${escapeText(q.topic)} · ${q.topicRounds}회 출제</span>`;
+  return html;
+}
 
 function currentQuestion() {
   return state.queue[state.index];
@@ -200,11 +264,13 @@ function currentQuestion() {
 function renderQuiz() {
   const q = currentQuestion();
   if (!q) return;
-  quizMeta.innerHTML = `<span class="badge">${roundLabel(q)}</span><span class="badge">${q.category}</span><span class="badge">문제 ${q.number}</span>`;
+  quizMeta.innerHTML = `<span class="badge">${roundLabel(q)}</span><span class="badge">${q.category}</span><span class="badge">문제 ${q.number}</span>${annotationBadges(q)}`;
   quizPrompt.innerHTML = q.prompt_html;
   answerInput.value = "";
   answerReveal.classList.add("hidden");
   answerText.textContent = q.answer;
+  explanationText.textContent = q.explanation || "";
+  explanationBox.classList.toggle("hidden", !q.explanation);
   revealBtn.classList.remove("hidden");
   correctBtn.classList.add("hidden");
   wrongBtn.classList.add("hidden");
@@ -284,11 +350,12 @@ function renderWrongList() {
     const item = document.createElement("div");
     item.className = "wrong-item";
     item.innerHTML = `
-      <div class="wrong-meta">${roundLabel(q)} · ${q.category} · 문제 ${q.number}</div>
+      <div class="wrong-meta">${roundLabel(q)} · ${q.category} · 문제 ${q.number}${q.difficulty ? ` · 난이도 ${q.difficulty}` : ""}</div>
       <div class="wrong-prompt">${q.prompt_html}</div>
       <details>
         <summary>정답 보기</summary>
         <div class="wrong-answer">${escapeText(q.answer)}</div>
+        ${q.explanation ? `<div class="wrong-answer explanation">${escapeText(q.explanation)}</div>` : ""}
       </details>
     `;
     wrap.appendChild(item);
@@ -320,6 +387,7 @@ function conceptGroups() {
           category: q.category,
           prompt_html: q.prompt_html,
           answer: q.answer,
+          explanation: q.explanation,
           rounds: [],
         });
       }
@@ -384,6 +452,7 @@ function renderConcepts() {
         <details>
           <summary>정답 보기</summary>
           <div class="concept-answer">${escapeText(g.answer)}</div>
+          ${g.explanation ? `<div class="concept-answer explanation">${escapeText(g.explanation)}</div>` : ""}
         </details>
       `;
       section.appendChild(item);

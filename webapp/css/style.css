@@ -453,6 +453,22 @@ body {
   font-size: 14px;
 }
 
+.explanation {
+  margin-top: 12px;
+  padding-top: 10px;
+  border-top: 1px dashed var(--border);
+}
+
+.quiz-meta .badge.diff-하 { color: var(--correct); box-shadow: inset 0 0 0 1px var(--correct); }
+.quiz-meta .badge.diff-중 { color: var(--accent); box-shadow: inset 0 0 0 1px var(--accent); }
+.quiz-meta .badge.diff-상 { color: var(--wrong); box-shadow: inset 0 0 0 1px var(--wrong); }
+
+.order-hint {
+  margin: -4px 0 10px;
+  font-size: 12px;
+  color: var(--text-muted);
+}
+
 .hidden { display: none !important; }
 
 .quiz-actions {

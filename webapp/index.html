@@ -65,8 +65,10 @@
         <div id="order-filter" class="chip-group">
           <label class="chip active"><input type="radio" name="order" value="sequential" checked /> 순차</label>
           <label class="chip"><input type="radio" name="order" value="random" /> 랜덤</label>
+          <label class="chip"><input type="radio" name="order" value="frequency" /> 빈출순</label>
         </div>
       </div>
+      <p id="order-hint" class="order-hint hidden">같은 주제가 여러 회차에 나온 문제부터 보여줍니다. 최근 회차(2025년~)에 나온 주제일수록 가중치가 커요.</p>
       <div class="filter-row">
         <span class="filter-label">선택된 문제</span>
         <span id="selected-count" class="selected-count">0문제</span>
@@ -87,6 +89,10 @@
       <div id="quiz-answer-reveal" class="answer-reveal hidden">
         <h3>정답</h3>
         <div id="quiz-answer-text" class="answer-text"></div>
+        <div id="quiz-explanation" class="explanation hidden">
+          <h3>해설</h3>
+          <div id="quiz-explanation-text" class="answer-text"></div>
+        </div>
       </div>
       <div class="quiz-actions">
         <button id="reveal-btn" class="secondary-btn">정답 보기</button>
