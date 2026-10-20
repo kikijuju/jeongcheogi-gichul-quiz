@@ -7,7 +7,7 @@ const state = {
   selectedCategories: new Set(),
   order: "sequential",
   queue: [],
-  index: 0,
+  results: {},
   conceptCategories: new Set(),
   conceptSearch: "",
 };
@@ -220,9 +220,10 @@ function startQuiz(list) {
   if (state.order === "random") state.queue = shuffle(list.slice());
   else if (state.order === "frequency") state.queue = list.slice().sort(byFrequency);
   else state.queue = list.slice();
-  state.index = 0;
+  state.results = {}; // queue index -> "correct" | "wrong", for this run only
   switchView("quiz");
   renderQuiz();
+  window.scrollTo(0, 0);
 }
 
 function shuffle(arr) {
@@ -235,20 +236,9 @@ function shuffle(arr) {
 
 // ---------- quiz view ----------
 
-const quizPrompt = document.getElementById("quiz-prompt");
-const quizMeta = document.getElementById("quiz-meta");
-const answerInput = document.getElementById("quiz-answer-input");
-const answerReveal = document.getElementById("quiz-answer-reveal");
-const answerText = document.getElementById("quiz-answer-text");
-const revealBtn = document.getElementById("reveal-btn");
-const correctBtn = document.getElementById("mark-correct-btn");
-const wrongBtn = document.getElementById("mark-wrong-btn");
-const prevBtn = document.getElementById("prev-btn");
-const nextBtn = document.getElementById("next-btn");
-const progressText = document.getElementById("quiz-progress-text");
+const quizList = document.getElementById("quiz-list");
+const quizJump = document.getElementById("quiz-jump");
 const progressFill = document.getElementById("quiz-progress-fill");
-const explanationBox = document.getElementById("quiz-explanation");
-const explanationText = document.getElementById("quiz-explanation-text");
 
 function annotationBadges(q) {
   let html = "";
@@ -257,70 +247,249 @@ function annotationBadges(q) {
   return html;
 }
 
-function currentQuestion() {
-  return state.queue[state.index];
+// ---------- grading ----------
+
+// Lenient on purpose: case, all whitespace/line breaks, quote styles and a
+// trailing period never decide right vs wrong. The accept lists in
+// annotations.json carry the real variants (Korean / English / abbreviation).
+function normalizeAnswer(text) {
+  return text
+    .normalize("NFKC")
+    .toLowerCase()
+    .replace(/[‘’`´]/g, "'")
+    .replace(/[“”]/g, '"')
+    .replace(/→/g, "->")
+    .replace(/\s+/g, "")
+    .replace(/[.。]+$/, "");
 }
+
+function answerVariants(text) {
+  const variants = new Set([text]);
+  // "동치분할(Equivalence Partitioning)" -> also try "동치분할" and the part in parens
+  const withoutParens = text.replace(/\([^)]*\)/g, "");
+  if (withoutParens.trim()) variants.add(withoutParens);
+  for (const m of text.matchAll(/\(([^)]*)\)/g)) if (m[1].trim()) variants.add(m[1]);
+  // a typed blank label such as "ㄱ. ", "① ", "(1) " in front of the answer
+  const unlabeled = text.replace(/^\s*(?:\(?[ㄱ-ㅎA-Za-z0-9]{1,2}\)|[ㄱ-ㅎA-Za-z0-9]{1,2}[.:]|[①-⑳])\s*/, "");
+  if (unlabeled !== text && unlabeled.trim()) variants.add(unlabeled);
+  return Array.from(variants).map(normalizeAnswer).filter(Boolean);
+}
+
+function blankIsCorrect(input, blank) {
+  const typed = answerVariants(input);
+  if (typed.length === 0) return false;
+  const expected = new Set(blank.accept.flatMap(answerVariants));
+  if (typed.some((t) => expected.has(t))) return true;
+  // "list any order" blanks: compare the comma-separated items as a set
+  if (blank.unordered) {
+    const items = (s) => s.split(/[,，、/]/).map(normalizeAnswer).filter(Boolean).sort().join("|");
+    const mine = items(input);
+    return blank.accept.some((a) => items(a) === mine);
+  }
+  return false;
+}
+
+// Per-blank verdicts. With grading.unordered, each typed answer may fill any
+// blank (e.g. "프로토콜 3요소" in any order), each blank used at most once.
+function gradeBlanks(grading, values) {
+  if (!grading.unordered) return grading.blanks.map((b, i) => blankIsCorrect(values[i], b));
+  const used = new Set();
+  return values.map((v) => {
+    const hit = grading.blanks.findIndex((b, j) => !used.has(j) && blankIsCorrect(v, b));
+    if (hit < 0) return false;
+    used.add(hit);
+    return true;
+  });
+}
+
+function gradingOf(q) {
+  const g = q.grading;
+  if (g && g.mode === "auto" && Array.isArray(g.blanks) && g.blanks.length > 0) return g;
+  return { mode: "self" };
+}
+
+// ---------- quiz cards ----------
 
 function renderQuiz() {
-  const q = currentQuestion();
-  if (!q) return;
-  quizMeta.innerHTML = `<span class="badge">${roundLabel(q)}</span><span class="badge">${q.category}</span><span class="badge">문제 ${q.number}</span>${annotationBadges(q)}`;
-  quizPrompt.innerHTML = q.prompt_html;
-  answerInput.value = "";
-  answerReveal.classList.add("hidden");
-  answerText.textContent = q.answer;
-  explanationText.textContent = q.explanation || "";
-  explanationBox.classList.toggle("hidden", !q.explanation);
-  revealBtn.classList.remove("hidden");
-  correctBtn.classList.add("hidden");
-  wrongBtn.classList.add("hidden");
-
-  progressText.textContent = `${state.index + 1} / ${state.queue.length}`;
-  progressFill.style.width = `${((state.index + 1) / state.queue.length) * 100}%`;
+  quizList.innerHTML = "";
+  quizJump.innerHTML = "";
+  state.queue.forEach((q, idx) => {
+    quizList.appendChild(buildQuizCard(q, idx));
+    const jump = document.createElement("button");
+    jump.type = "button";
+    jump.className = "jump-btn";
+    jump.textContent = idx + 1;
+    jump.title = `${roundLabel(q)} ${q.number}번`;
+    jump.addEventListener("click", () => scrollToCard(idx));
+    quizJump.appendChild(jump);
+  });
+  updateScore();
 }
 
-revealBtn.addEventListener("click", () => {
-  answerReveal.classList.remove("hidden");
-  revealBtn.classList.add("hidden");
-  correctBtn.classList.remove("hidden");
-  wrongBtn.classList.remove("hidden");
-});
+function scrollToCard(idx) {
+  const card = document.getElementById(`qcard-${idx}`);
+  if (!card) return;
+  const offset = document.querySelector(".topbar").offsetHeight + document.querySelector(".scorebar").offsetHeight + 12;
+  window.scrollTo({ top: card.getBoundingClientRect().top + window.scrollY - offset, behavior: "smooth" });
+}
 
-function markResult(result) {
-  const q = currentQuestion();
+function buildQuizCard(q, idx) {
+  const grading = gradingOf(q);
+  const card = document.createElement("div");
+  card.className = "card quiz-card";
+  card.id = `qcard-${idx}`;
+
+  const inputs =
+    grading.mode === "auto"
+      ? grading.blanks
+          .map(
+            (b, i) => `
+        <label class="blank">
+          ${b.label ? `<span class="blank-label">${escapeText(b.label)}</span>` : ""}
+          <textarea class="blank-input" rows="1" data-blank="${i}" placeholder="답 입력"></textarea>
+        </label>`
+          )
+          .join("")
+      : `<label class="blank"><textarea class="blank-input" rows="2" data-blank="0" placeholder="답을 적어 보세요 (서술형이라 정답을 보고 스스로 채점해요)"></textarea></label>`;
+
+  card.innerHTML = `
+    <div class="quiz-card-head">
+      <span class="quiz-card-num">${idx + 1} / ${state.queue.length}</span>
+      <span class="quiz-card-status"></span>
+    </div>
+    <div class="quiz-meta"><span class="badge">${roundLabel(q)}</span><span class="badge">${q.category}</span><span class="badge">문제 ${q.number}</span>${annotationBadges(q)}</div>
+    <div class="quiz-prompt">${q.prompt_html}</div>
+    <div class="answer-area ${grading.mode === "auto" && grading.blanks.length > 1 ? "multi" : ""}">${inputs}</div>
+    <div class="answer-hint">Enter = 제출 · Shift+Enter = 줄바꿈${grading.mode === "self" ? " · 서술형은 스스로 채점" : ""}</div>
+    <div class="quiz-actions">
+      <button type="button" class="primary-btn submit-btn">${grading.mode === "auto" ? "제출하고 채점" : "정답 확인"}</button>
+      <button type="button" class="secondary-btn reveal-btn">정답 보기</button>
+    </div>
+    <div class="answer-reveal hidden">
+      <div class="verdict"></div>
+      <h3>정답</h3>
+      <div class="answer-text"></div>
+      ${q.explanation ? `<div class="explanation"><h3>해설</h3><div class="answer-text">${escapeText(q.explanation)}</div></div>` : ""}
+      <div class="quiz-actions self-mark hidden">
+        <button type="button" class="correct-btn">맞았음</button>
+        <button type="button" class="wrong-btn">틀렸음</button>
+      </div>
+      <button type="button" class="override-btn hidden">내 답도 맞아요 (정답 처리)</button>
+    </div>
+  `;
+  card.querySelector(".answer-reveal .answer-text").textContent = q.answer;
+
+  const fields = Array.from(card.querySelectorAll(".blank-input"));
+  fields.forEach((field, i) => {
+    field.addEventListener("input", () => autoGrow(field));
+    field.addEventListener("keydown", (e) => {
+      if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
+      e.preventDefault();
+      // Enter walks through the blanks, and submits from the last one
+      if (i < fields.length - 1) fields[i + 1].focus();
+      else submitCard(card, q, idx);
+    });
+  });
+  card.querySelector(".submit-btn").addEventListener("click", () => submitCard(card, q, idx));
+  card.querySelector(".reveal-btn").addEventListener("click", () => revealCard(card, q, idx));
+  card.querySelector(".correct-btn").addEventListener("click", () => recordCard(card, q, idx, "correct"));
+  card.querySelector(".wrong-btn").addEventListener("click", () => recordCard(card, q, idx, "wrong"));
+  card.querySelector(".override-btn").addEventListener("click", () => {
+    recordCard(card, q, idx, "correct", { override: true });
+    card.querySelector(".override-btn").classList.add("hidden");
+  });
+  return card;
+}
+
+function autoGrow(field) {
+  field.style.height = "auto";
+  field.style.height = `${field.scrollHeight}px`;
+}
+
+function submitCard(card, q, idx) {
+  if (state.results[idx]) return; // already graded; use the buttons to change it
+  const grading = gradingOf(q);
+  if (grading.mode !== "auto") {
+    revealCard(card, q, idx);
+    return;
+  }
+  const fields = Array.from(card.querySelectorAll(".blank-input"));
+  const perBlank = gradeBlanks(grading, fields.map((f) => f.value));
+  const allRight = perBlank.every(Boolean);
+
+  fields.forEach((f, i) => f.classList.add(perBlank[i] ? "is-correct" : "is-wrong"));
+  const verdict = card.querySelector(".verdict");
+  const rightCount = perBlank.filter(Boolean).length;
+  verdict.className = `verdict ${allRight ? "is-correct" : "is-wrong"}`;
+  verdict.innerHTML = allRight
+    ? "⭕ 정답!"
+    : `❌ 오답${grading.blanks.length > 1 ? ` (${rightCount} / ${grading.blanks.length}칸 맞음)` : ""}` +
+      grading.blanks
+        .map((b, i) =>
+          perBlank[i]
+            ? ""
+            : `<div class="verdict-line">${b.label ? `${escapeText(b.label)}: ` : ""}${escapeText(b.accept[0])}</div>`
+        )
+        .join("");
+
+  showReveal(card);
+  card.querySelector(".override-btn").classList.toggle("hidden", allRight);
+  recordCard(card, q, idx, allRight ? "correct" : "wrong");
+}
+
+function revealCard(card, q, idx) {
+  showReveal(card);
+  // without an auto grade, the reader decides
+  if (!state.results[idx]) card.querySelector(".self-mark").classList.remove("hidden");
+}
+
+function showReveal(card) {
+  card.querySelector(".answer-reveal").classList.remove("hidden");
+  card.querySelector(".reveal-btn").classList.add("hidden");
+  card.querySelector(".submit-btn").classList.add("hidden");
+}
+
+function recordCard(card, q, idx, result, { override = false } = {}) {
   const entry = state.progress[q.id] || { attempts: 0, correct: 0 };
-  entry.attempts += 1;
-  if (result === "correct") entry.correct += 1;
+  if (override) {
+    if (entry.lastResult !== "correct") entry.correct += 1;
+  } else {
+    entry.attempts += 1;
+    if (result === "correct") entry.correct += 1;
+  }
   entry.lastResult = result;
   entry.lastAt = Date.now();
   state.progress[q.id] = entry;
   saveProgress();
 
-  if (state.index < state.queue.length - 1) {
-    state.index += 1;
-    renderQuiz();
-  } else {
-    alert("이번 세트를 모두 풀었습니다!");
-    switchView("stats");
+  state.results[idx] = result;
+  card.classList.remove("is-correct", "is-wrong");
+  card.classList.add(result === "correct" ? "is-correct" : "is-wrong");
+  card.querySelector(".quiz-card-status").textContent = result === "correct" ? "⭕ 정답" : "❌ 오답";
+  card.querySelector(".self-mark").classList.add("hidden");
+  if (override) {
+    const verdict = card.querySelector(".verdict");
+    verdict.className = "verdict is-correct";
+    verdict.textContent = "⭕ 정답 처리됨";
   }
+  updateScore();
 }
 
-correctBtn.addEventListener("click", () => markResult("correct"));
-wrongBtn.addEventListener("click", () => markResult("wrong"));
-
-prevBtn.addEventListener("click", () => {
-  if (state.index > 0) {
-    state.index -= 1;
-    renderQuiz();
-  }
-});
-
-nextBtn.addEventListener("click", () => {
-  if (state.index < state.queue.length - 1) {
-    state.index += 1;
-    renderQuiz();
-  }
-});
+function updateScore() {
+  const results = Object.values(state.results);
+  const correct = results.filter((r) => r === "correct").length;
+  const wrong = results.length - correct;
+  document.getElementById("score-correct").textContent = correct;
+  document.getElementById("score-wrong").textContent = wrong;
+  document.getElementById("score-left").textContent = state.queue.length - results.length;
+  document.getElementById("score-rate").textContent =
+    results.length > 0 ? `${Math.round((correct / results.length) * 100)}%` : "-";
+  progressFill.style.width = `${state.queue.length ? (results.length / state.queue.length) * 100 : 0}%`;
+  Array.from(quizJump.children).forEach((btn, idx) => {
+    btn.classList.toggle("is-correct", state.results[idx] === "correct");
+    btn.classList.toggle("is-wrong", state.results[idx] === "wrong");
+  });
+}
 
 // ---------- wrong notebook ----------
 
@@ -534,7 +703,14 @@ document.getElementById("reset-stats-btn").addEventListener("click", () => {
 
 // ---------- init ----------
 
+// the score bar sticks just under the (wrapping, so variable-height) top bar
+function syncTopbarHeight() {
+  document.documentElement.style.setProperty("--topbar-h", `${document.querySelector(".topbar").offsetHeight}px`);
+}
+window.addEventListener("resize", syncTopbarHeight);
+
 (async function init() {
+  syncTopbarHeight();
   applyBrand(localStorage.getItem(BRAND_STORAGE_KEY) || "goguma");
   await loadQuestions();
   state.progress = loadProgress();

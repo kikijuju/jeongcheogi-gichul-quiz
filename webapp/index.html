@@ -78,32 +78,17 @@
   </section>
 
   <section id="view-quiz" class="view">
-    <div class="quiz-progress">
-      <span id="quiz-progress-text">0 / 0</span>
+    <div class="scorebar">
+      <div class="score-summary">
+        <span>정답 <b id="score-correct">0</b></span>
+        <span>오답 <b id="score-wrong">0</b></span>
+        <span>남음 <b id="score-left">0</b></span>
+        <span class="score-rate">정답률 <b id="score-rate">-</b></span>
+      </div>
       <div class="progress-bar"><div id="quiz-progress-fill" class="progress-fill"></div></div>
+      <div id="quiz-jump" class="quiz-jump" aria-label="문제 바로가기"></div>
     </div>
-    <div class="card quiz-card">
-      <div id="quiz-meta" class="quiz-meta"></div>
-      <div id="quiz-prompt" class="quiz-prompt"></div>
-      <textarea id="quiz-answer-input" class="answer-input" placeholder="여기에 정답을 직접 적어보세요 (채점되지 않고, 스스로 비교하는 용도입니다)"></textarea>
-      <div id="quiz-answer-reveal" class="answer-reveal hidden">
-        <h3>정답</h3>
-        <div id="quiz-answer-text" class="answer-text"></div>
-        <div id="quiz-explanation" class="explanation hidden">
-          <h3>해설</h3>
-          <div id="quiz-explanation-text" class="answer-text"></div>
-        </div>
-      </div>
-      <div class="quiz-actions">
-        <button id="reveal-btn" class="secondary-btn">정답 보기</button>
-        <button id="mark-correct-btn" class="correct-btn hidden">맞았음</button>
-        <button id="mark-wrong-btn" class="wrong-btn hidden">틀렸음</button>
-      </div>
-      <div class="quiz-nav">
-        <button id="prev-btn" class="nav-btn">이전</button>
-        <button id="next-btn" class="nav-btn">다음</button>
-      </div>
-    </div>
+    <div id="quiz-list"></div>
   </section>
 
   <section id="view-wrong" class="view">

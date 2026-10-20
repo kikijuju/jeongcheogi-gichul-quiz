@@ -141,6 +141,13 @@ IMAGE_TRANSCRIPTIONS = json.loads(
     (Path(__file__).resolve().parent / "image_transcriptions.json").read_text(encoding="utf-8")
 )
 
+# Typos in the source blog's answers (misspelled keywords, output spacing that
+# doesn't match what the code prints): question id -> [old, new] substring
+# replacements, applied after scraping.
+ANSWER_FIXES = json.loads(
+    (Path(__file__).resolve().parent / "answer_fixes.json").read_text(encoding="utf-8")
+)
+
 
 def classify(text: str, override_key=None) -> str:
     if override_key in MANUAL_CATEGORY_OVERRIDES:
@@ -308,6 +315,9 @@ def parse_post(html: str, year: int, round_no: int):
                 suffix = "" if seen == 0 else chr(ord("a") + seen - 1)
                 number_seen[current_num] = seen + 1
                 qid = f"{year}-{round_no}-{current_num}{suffix}"
+                for old, new in ANSWER_FIXES.get(qid, []):
+                    assert old in answer, f"{qid}: answer fix {old!r} no longer matches"
+                    answer = answer.replace(old, new)
 
                 images = IMAGE_TRANSCRIPTIONS.get(qid)
                 images = list(images) if images else None
