@@ -27,6 +27,15 @@
 <main id="app">
 
   <section id="view-home" class="view active">
+    <div class="card mock-card">
+      <div>
+        <h2>📝 실전 모의고사</h2>
+        <p class="empty-msg">최근 기출 비율대로 20문제를 뽑아 150분 동안 풀고, 제출하면 한 번에 채점해요.</p>
+        <p class="mock-mix-line">구성: <span id="mock-mix"></span></p>
+      </div>
+      <button id="mock-btn" class="primary-btn">모의고사 시작 (20문제 · 150분)</button>
+    </div>
+
     <div class="card">
       <h2>회차 선택</h2>
       <div id="round-grid" class="round-grid"></div>
@@ -73,6 +82,7 @@
           <button type="button" id="side-close" class="side-toggle" aria-label="사이드바 닫기" title="사이드바 닫기"><svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2" fill="none" stroke="currentColor" stroke-width="1.8"/><path d="M9 4v16" stroke="currentColor" stroke-width="1.8"/><path d="M15.5 9.5 13 12l2.5 2.5" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         </div>
         <div class="side-score">
+          <div class="mock-timer side-timer hidden"></div>
           <div class="side-rate-wrap">정답률 <b id="side-rate">-</b></div>
           <div class="score-track" title="초록이 눈금(합격선 60%)을 넘으면 합격권">
             <div class="fill-correct"></div><div class="fill-wrong"></div><i class="pass-line"></i>
@@ -93,6 +103,7 @@
             <span>정답 <b id="score-correct">0</b></span>
             <span>오답 <b id="score-wrong">0</b></span>
             <span>남음 <b id="score-left">0</b></span>
+            <span class="mock-timer hidden"></span>
             <span class="score-rate">정답률 <b id="score-rate">-</b></span>
           </div>
           <div class="score-track" title="초록이 눈금(합격선 60%)을 넘으면 합격권">
@@ -109,9 +120,14 @@
     <div class="card">
       <h2>오답노트</h2>
       <p id="wrong-empty" class="empty-msg hidden">아직 틀린 문제가 없습니다.</p>
+      <div id="wrong-filter-row" class="filter-row">
+        <span class="filter-label">카테고리</span>
+        <div id="wrong-category-filter" class="chip-group"></div>
+        <span id="wrong-count" class="selected-count"></span>
+      </div>
       <button id="retry-wrong-btn" class="primary-btn">오답만 다시 풀기</button>
-      <div id="wrong-list" class="wrong-list"></div>
     </div>
+    <div id="wrong-list" class="wrong-list"></div>
   </section>
 
   <section id="view-concepts" class="view">
@@ -121,6 +137,13 @@
       <div class="filter-row">
         <span class="filter-label">카테고리</span>
         <div id="concept-category-filter" class="chip-group"></div>
+      </div>
+      <div class="filter-row">
+        <span class="filter-label">보기 방식</span>
+        <div id="concept-mode" class="chip-group">
+          <button type="button" class="chip" data-mode="list">📋 목록</button>
+          <button type="button" class="chip" data-mode="flash">🃏 플래시카드</button>
+        </div>
       </div>
       <div class="filter-row">
         <span class="filter-label">검색</span>

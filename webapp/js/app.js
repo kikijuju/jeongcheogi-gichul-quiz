@@ -11,6 +11,8 @@ const state = {
   cardState: {},
   bookmarks: new Set(),
   bookmarkOnly: false,
+  mock: null,
+  conceptMode: "list",
   conceptCategories: new Set(),
   conceptSearch: "",
 };
@@ -184,8 +186,18 @@ function renderHome() {
   const answered = Object.keys(state.results).length;
   const unfinished = state.queue.length > 0 && answered < state.queue.length;
   resume.classList.toggle("hidden", !unfinished);
-  if (unfinished) resume.textContent = `▶ 이어서 풀기 (${answered} / ${state.queue.length})`;
+  if (unfinished) resume.textContent = mockLocked()
+    ? `▶ 모의고사 이어서 풀기 (남은 시간 ${formatClock(mockRemainingMs())})`
+    : `▶ 이어서 풀기 (${answered} / ${state.queue.length})`;
+  document.getElementById("mock-mix").textContent = mockQuotas()
+    .map((x) => `${x.cat} ${x.n}`)
+    .join(" · ");
 }
+
+document.getElementById("mock-btn").addEventListener("click", () => {
+  if (mockLocked() && !confirm("진행 중인 모의고사가 있어요. 새로 시작할까요?")) return;
+  startMock();
+});
 
 document.getElementById("bookmark-filter").addEventListener("click", () => {
   state.bookmarkOnly = !state.bookmarkOnly;
@@ -226,10 +238,12 @@ document.getElementById("start-btn").addEventListener("click", () => {
   startQuiz(list);
 });
 
-function startQuiz(list) {
-  if (state.order === "random") state.queue = shuffle(list.slice());
+function startQuiz(list, { mock = false } = {}) {
+  if (mock) state.queue = list.slice();
+  else if (state.order === "random") state.queue = shuffle(list.slice());
   else if (state.order === "frequency") state.queue = list.slice().sort(byFrequency);
   else state.queue = list.slice();
+  state.mock = mock ? { startedAt: Date.now(), minutes: MOCK_MINUTES, submitted: false } : null;
   state.results = {}; // queue index -> "correct" | "wrong", for this run only
   state.cardState = {}; // queue index -> { values, result, override, revealed }
   saveSession();
@@ -246,6 +260,126 @@ function shuffle(arr) {
   return arr;
 }
 
+// ---------- 실전 모의고사 ----------
+
+const MOCK_SIZE = 20;
+const MOCK_MINUTES = 150; // 실기 시험 시간
+
+// true while a mock exam is running and not yet handed in: no answers shown,
+// Enter only moves on, everything is graded at once on 제출
+function mockLocked() {
+  return Boolean(state.mock && !state.mock.submitted);
+}
+
+// How many questions of each category a real paper has had lately
+// (2024+ rounds), scaled to MOCK_SIZE with largest-remainder rounding.
+function mockQuotas() {
+  const recent = state.questions.filter((q) => q.year >= 2024);
+  const rounds = new Set(recent.map(roundKey)).size || 1;
+  const per = new Map();
+  recent.forEach((q) => per.set(q.category, (per.get(q.category) || 0) + 1 / rounds));
+  const total = Array.from(per.values()).reduce((a, b) => a + b, 0);
+  const raw = Array.from(per.entries()).map(([cat, n]) => ({ cat, exact: (n / total) * MOCK_SIZE }));
+  raw.forEach((r) => (r.n = Math.floor(r.exact)));
+  let left = MOCK_SIZE - raw.reduce((a, r) => a + r.n, 0);
+  raw.sort((a, b) => (b.exact - b.n) - (a.exact - a.n));
+  for (const r of raw) {
+    if (left <= 0) break;
+    r.n += 1;
+    left -= 1;
+  }
+  return raw.filter((r) => r.n > 0).sort((a, b) => CATEGORY_ORDER.indexOf(a.cat) - CATEGORY_ORDER.indexOf(b.cat));
+}
+
+function buildMockPaper() {
+  const paper = [];
+  mockQuotas().forEach(({ cat, n }) => {
+    const pool = state.questions.filter((q) => q.category === cat);
+    // questions not yet answered right come first, newest rounds slightly favoured
+    const ranked = shuffle(pool.slice()).sort((a, b) => {
+      const sa = (state.progress[a.id]?.lastResult === "correct" ? 1 : 0) - a.year / 10000;
+      const sb = (state.progress[b.id]?.lastResult === "correct" ? 1 : 0) - b.year / 10000;
+      return sa - sb;
+    });
+    paper.push(...ranked.slice(0, n));
+  });
+  return shuffle(paper);
+}
+
+function startMock() {
+  startQuiz(buildMockPaper(), { mock: true });
+}
+
+function mockRemainingMs() {
+  if (!state.mock) return 0;
+  return state.mock.startedAt + state.mock.minutes * 60000 - Date.now();
+}
+
+function formatClock(ms) {
+  const s = Math.max(0, Math.floor(ms / 1000));
+  const h = Math.floor(s / 3600);
+  const m = Math.floor((s % 3600) / 60);
+  const sec = s % 60;
+  return `${h}:${String(m).padStart(2, "0")}:${String(sec).padStart(2, "0")}`;
+}
+
+function tickMock() {
+  const on = mockLocked();
+  document.body.classList.toggle("mock-running", on);
+  document.querySelectorAll(".mock-timer").forEach((el) => {
+    el.classList.toggle("hidden", !on);
+    if (!on) return;
+    const ms = mockRemainingMs();
+    el.textContent = `⏱ ${formatClock(ms)}`;
+    el.classList.toggle("urgent", ms < 10 * 60000);
+  });
+  if (on && mockRemainingMs() <= 0) submitMock();
+}
+setInterval(tickMock, 1000);
+
+// Hand in: grade every auto question at once; 서술형 wait for self-marking
+function submitMock() {
+  if (!mockLocked()) return;
+  state.mock.submitted = true;
+  saveSession();
+  renderQuiz();
+  state.queue.forEach((q, idx) => {
+    if (state.results[idx]) return;
+    const card = document.getElementById(`qcard-${idx}`);
+    const grading = gradingOf(q);
+    if (grading.mode === "auto") {
+      const values = Array.from(card.querySelectorAll(".blank-input")).map((f) => f.value);
+      const allRight = showAutoGrade(card, grading, values);
+      recordCard(card, q, idx, allRight ? "correct" : "wrong", { via: "auto" });
+    } else {
+      revealCard(card, q, idx);
+    }
+  });
+  tickMock();
+  document.getElementById("quiz-summary").scrollIntoView({ behavior: "smooth", block: "start" });
+}
+
+function filledCount() {
+  return state.queue.filter((q, idx) => (state.cardState[idx]?.values || []).some((v) => v && v.trim())).length;
+}
+
+function renderMockPending(card) {
+  const total = state.queue.length;
+  const filled = filledCount();
+  card.innerHTML = `
+    <div class="summary-head">📝 실전 모의고사 진행 중</div>
+    <div class="summary-score">
+      <span class="summary-big mock-timer"></span>
+      <span>답 작성 ${filled} / ${total}${filled < total ? ` · 빈 답안 ${total - filled}개` : ""}</span>
+    </div>
+    <p class="empty-msg">실제 시험처럼 풀이 중에는 정답이 보이지 않아요. 다 풀었으면 제출해서 한 번에 채점하세요. 시간이 끝나면 자동으로 제출돼요.</p>
+    <div class="summary-actions">
+      <button type="button" class="primary-btn mock-submit">제출하고 채점하기</button>
+    </div>`;
+  card.querySelector(".mock-submit").addEventListener("click", submitMock);
+  tickMock();
+}
+
 // ---------- quiz session (이어풀기) ----------
 
 // The current run — which questions, what was typed, what was graded — so a
@@ -256,7 +390,7 @@ function saveSession() {
   try {
     localStorage.setItem(
       SESSION_KEY,
-      JSON.stringify({ ids: state.queue.map((q) => q.id), cards: state.cardState, savedAt: Date.now() })
+      JSON.stringify({ ids: state.queue.map((q) => q.id), cards: state.cardState, mock: state.mock, savedAt: Date.now() })
     );
   } catch (e) {
     /* storage full or blocked: the run just won't survive a reload */
@@ -272,6 +406,7 @@ function loadSession() {
     if (queue.length === 0) return false;
     state.queue = queue;
     state.cardState = saved.cards || {};
+    state.mock = saved.mock || null;
     state.results = {};
     Object.entries(state.cardState).forEach(([idx, cs]) => {
       if (cs.result) state.results[idx] = cs.result;
@@ -597,6 +732,12 @@ function nextOpenCard(idx) {
 }
 
 function goNext(idx) {
+  // a mock exam is walked straight through, then on to the 제출 card
+  if (mockLocked()) {
+    if (idx + 1 < state.queue.length) scrollToCard(idx + 1, { focus: true });
+    else document.getElementById("quiz-summary").scrollIntoView({ behavior: "smooth", block: "center" });
+    return;
+  }
   const next = nextOpenCard(idx);
   if (next >= 0) scrollToCard(next, { focus: true });
   else document.getElementById("quiz-summary").scrollIntoView({ behavior: "smooth", block: "center" });
@@ -699,6 +840,7 @@ function buildQuizCard(q, idx) {
   `;
   card.querySelector(".answer-reveal .answer-text").textContent = q.answer;
   enhanceCode(card.querySelector(".quiz-prompt"), q);
+  if (mockLocked()) card.querySelector(".reveal-btn").classList.add("hidden");
 
   const fields = Array.from(card.querySelectorAll(".blank-input"));
   fields.forEach((field, i) => {
@@ -706,12 +848,13 @@ function buildQuizCard(q, idx) {
       autoGrow(field);
       cardStateOf(idx).values = fields.map((f) => f.value);
       saveSessionSoon();
+      if (mockLocked()) renderSummary(); // live "답 작성 n / 20"
     });
     field.addEventListener("keydown", (e) => {
       if (e.key !== "Enter" || e.shiftKey || e.isComposing) return;
       e.preventDefault();
-      // once graded, Enter just moves on to the next open question
-      if (state.results[idx]) return goNext(idx);
+      // once graded (or during a mock exam), Enter just moves on
+      if (state.results[idx] || (mockLocked() && i === fields.length - 1)) return goNext(idx);
       // Enter walks through the blanks, and submits from the last one
       if (i < fields.length - 1) fields[i + 1].focus();
       else submitCard(card, q, idx);
@@ -773,6 +916,7 @@ function autoGrow(field) {
 }
 
 function submitCard(card, q, idx) {
+  if (mockLocked()) return goNext(idx); // graded together on 제출
   if (state.results[idx]) return; // already graded; use the buttons to change it
   const grading = gradingOf(q);
   if (grading.mode !== "auto") {
@@ -934,6 +1078,7 @@ function buildSummaryCard() {
 function renderSummary() {
   const card = document.getElementById("quiz-summary");
   if (!card) return;
+  if (mockLocked()) return renderMockPending(card);
   const total = state.queue.length;
   const answered = Object.keys(state.results).length;
   const correct = Object.values(state.results).filter((r) => r === "correct").length;
@@ -951,7 +1096,7 @@ function renderSummary() {
   const wrongCount = Object.values(state.results).filter((r) => r === "wrong").length;
 
   card.innerHTML = `
-    <div class="summary-head">${done ? "🎉 세트 완료!" : `아직 ${total - answered}문제 남았어요`}</div>
+    <div class="summary-head">${state.mock ? "📝 모의고사 결과 · " : ""}${done ? "🎉 세트 완료!" : state.mock ? `서술형 ${total - answered}문제는 정답을 보고 직접 채점해 주세요` : `아직 ${total - answered}문제 남았어요`}</div>
     <div class="summary-score ${done ? (passed ? "pass" : "fail") : ""}">
       <span class="summary-big">${score}<small>점</small></span>
       <span>${correct} / ${total} 정답${done ? ` · ${passed ? "합격권 (60점 이상) 🎉" : "합격선 60점까지 " + Math.ceil(total * PASS_RATE - correct) + "문제 더"}` : ""}</span>
@@ -978,45 +1123,7 @@ function renderSummary() {
   card.querySelector(".summary-home").addEventListener("click", () => switchView("home"));
 }
 
-// ---------- wrong notebook ----------
-
-function wrongQuestions() {
-  return state.questions.filter((q) => {
-    const entry = state.progress[q.id];
-    return entry && entry.lastResult === "wrong";
-  });
-}
-
-function renderWrongList() {
-  const list = wrongQuestions();
-  const wrap = document.getElementById("wrong-list");
-  const empty = document.getElementById("wrong-empty");
-  const retryBtn = document.getElementById("retry-wrong-btn");
-  wrap.innerHTML = "";
-
-  if (list.length === 0) {
-    empty.classList.remove("hidden");
-    retryBtn.classList.add("hidden");
-    return;
-  }
-  empty.classList.add("hidden");
-  retryBtn.classList.remove("hidden");
-
-  list.forEach((q) => {
-    const item = document.createElement("div");
-    item.className = "wrong-item";
-    item.innerHTML = `
-      <div class="wrong-meta">${roundLabel(q)} · ${q.category} · 문제 ${q.number}${q.difficulty ? ` · 난이도 ${q.difficulty}` : ""}</div>
-      <div class="wrong-prompt">${q.prompt_html}</div>
-      <details>
-        <summary>정답 보기</summary>
-        <div class="wrong-answer">${escapeText(q.answer)}</div>
-        ${q.explanation ? `<div class="wrong-answer explanation explain-body">${renderExplanation(q.explanation)}</div>` : ""}
-      </details>
-    `;
-    wrap.appendChild(item);
-  });
-}
+// ---------- shared: clean answer + review card ----------
 
 function escapeText(text) {
   const div = document.createElement("div");
@@ -1024,8 +1131,134 @@ function escapeText(text) {
   return div.innerHTML;
 }
 
+// The stored answer of older rounds carries the source blog's notes after the
+// actual answer. The grading key holds the clean answer, so show that and
+// keep the original text one click away.
+function cleanAnswerHtml(q) {
+  const g = gradingOf(q);
+  if (g.mode !== "auto") return `<div class="clean-answer essay">${escapeText(q.answer)}</div>`;
+  if (g.blanks.length === 1 && !g.blanks[0].label)
+    return `<div class="clean-answer">${escapeText(g.blanks[0].accept[0])}</div>`;
+  return `<div class="clean-answer multi">${g.blanks
+    .map(
+      (b) =>
+        `<div class="clean-row">${b.label ? `<span class="clean-label">${escapeText(b.label)}</span>` : ""}<span>${escapeText(b.accept[0])}</span></div>`
+    )
+    .join("")}</div>`;
+}
+
+function hasExtraMemo(q) {
+  const g = gradingOf(q);
+  if (g.mode !== "auto") return false;
+  const clean = g.blanks.map((b) => b.accept[0]).join("");
+  return normalizeAnswer(q.answer).length > normalizeAnswer(clean).length + 12;
+}
+
+function reviewAnswerHtml(q) {
+  return `
+    ${cleanAnswerHtml(q)}
+    ${hasExtraMemo(q) ? `<details class="raw-memo"><summary>원문 메모 보기</summary><div>${escapeText(q.answer)}</div></details>` : ""}`;
+}
+
+// A read-only question card for 오답노트 / 개념정리: same look as the quiz,
+// answer and 풀이 behind one "정답 보기" button.
+function buildReviewCard(q, { badge = "", sourceText = "" } = {}) {
+  const card = document.createElement("div");
+  card.className = "qcard review-card";
+  card.innerHTML = `
+    <div class="qcard-top">
+      <span class="q-tag">기출</span>
+      ${difficultyBadge(q)}
+      ${q.topic ? `<span class="q-topic">${escapeText(q.topic)} · ${q.topicRounds}회 출제</span>` : ""}
+      <span class="q-status">${badge}</span>
+    </div>
+    <div class="qrow qrow-source">
+      <div class="qlabel">기출</div>
+      <div class="qbody"><span class="q-source">${sourceText || `[실기] ${String(q.year).slice(2)}년 ${q.round}회 · ${q.number}번`}</span><span class="q-cat">${q.category}</span></div>
+    </div>
+    <div class="qrow">
+      <div class="qlabel">문제</div>
+      <div class="qbody quiz-prompt">${q.prompt_html}</div>
+    </div>
+    <div class="qrow qrow-answer">
+      <div class="qlabel">정답</div>
+      <div class="qbody">
+        <button type="button" class="reveal-btn">정답 보기</button>
+        <div class="review-answer hidden">${reviewAnswerHtml(q)}</div>
+      </div>
+    </div>
+    ${q.explanation ? `<div class="qrow qcard-explanation hidden"><div class="qlabel">풀이</div><div class="qbody explain-body">${renderExplanation(q.explanation)}</div></div>` : ""}
+  `;
+  enhanceCode(card.querySelector(".quiz-prompt"), q);
+  card.querySelector(".reveal-btn").addEventListener("click", () => {
+    card.querySelector(".reveal-btn").classList.add("hidden");
+    card.querySelector(".review-answer").classList.remove("hidden");
+    const ex = card.querySelector(".qcard-explanation");
+    if (ex) ex.classList.remove("hidden");
+  });
+  return card;
+}
+
+function categoryChips(containerId, selected, cats, onChange) {
+  const wrap = document.getElementById(containerId);
+  wrap.innerHTML = "";
+  cats.forEach((cat) => {
+    const label = document.createElement("label");
+    label.className = "chip" + (selected.has(cat) ? " active" : "");
+    label.innerHTML = `<input type="checkbox" ${selected.has(cat) ? "checked" : ""} /> ${escapeText(cat)}`;
+    label.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (selected.has(cat)) selected.delete(cat);
+      else selected.add(cat);
+      onChange();
+    });
+    wrap.appendChild(label);
+  });
+}
+
+// ---------- wrong notebook ----------
+
+const wrongCategories = new Set();
+
+function wrongQuestions() {
+  return state.questions
+    .filter((q) => {
+      const entry = state.progress[q.id];
+      return entry && entry.lastResult === "wrong";
+    })
+    .sort((a, b) => (state.progress[b.id].lastAt || 0) - (state.progress[a.id].lastAt || 0));
+}
+
+function filteredWrongQuestions() {
+  return wrongQuestions().filter((q) => wrongCategories.size === 0 || wrongCategories.has(q.category));
+}
+
+function renderWrongList() {
+  const all = wrongQuestions();
+  const list = filteredWrongQuestions();
+  const wrap = document.getElementById("wrong-list");
+  const empty = document.getElementById("wrong-empty");
+  const retryBtn = document.getElementById("retry-wrong-btn");
+  wrap.innerHTML = "";
+
+  const present = allCategories().filter((c) => all.some((q) => q.category === c));
+  categoryChips("wrong-category-filter", wrongCategories, present, renderWrongList);
+  document.getElementById("wrong-filter-row").classList.toggle("hidden", all.length === 0);
+  document.getElementById("wrong-count").textContent = all.length ? `${list.length}문제` : "";
+
+  empty.classList.toggle("hidden", all.length > 0);
+  retryBtn.classList.toggle("hidden", list.length === 0);
+  retryBtn.textContent = `오답 ${list.length}문제 다시 풀기`;
+
+  list.forEach((q) => {
+    const entry = state.progress[q.id];
+    const misses = entry.attempts - entry.correct;
+    wrap.appendChild(buildReviewCard(q, { badge: `❌ ${misses}번 틀림` }));
+  });
+}
+
 document.getElementById("retry-wrong-btn").addEventListener("click", () => {
-  const list = wrongQuestions();
+  const list = filteredWrongQuestions();
   if (list.length === 0) return;
   startQuiz(list);
 });
@@ -1038,15 +1271,7 @@ function conceptGroups() {
     .filter((q) => CONCEPT_CATEGORIES.includes(q.category))
     .forEach((q) => {
       const key = `${q.category}::${q.prompt_text.trim()}`;
-      if (!map.has(key)) {
-        map.set(key, {
-          category: q.category,
-          prompt_html: q.prompt_html,
-          answer: q.answer,
-          explanation: q.explanation,
-          rounds: [],
-        });
-      }
+      if (!map.has(key)) map.set(key, { key, category: q.category, q, rounds: [] });
       map.get(key).rounds.push({ year: q.year, round: q.round });
     });
 
@@ -1056,72 +1281,202 @@ function conceptGroups() {
   });
 }
 
-function renderConcepts() {
-  const catWrap = document.getElementById("concept-category-filter");
-  catWrap.innerHTML = "";
-  CONCEPT_CATEGORIES.forEach((cat) => {
-    const label = document.createElement("label");
-    label.className = "chip" + (state.conceptCategories.has(cat) ? " active" : "");
-    label.innerHTML = `<input type="checkbox" ${state.conceptCategories.has(cat) ? "checked" : ""} /> ${cat}`;
-    label.addEventListener("click", (e) => {
-      e.preventDefault();
-      if (state.conceptCategories.has(cat)) state.conceptCategories.delete(cat);
-      else state.conceptCategories.add(cat);
-      renderConcepts();
-    });
-    catWrap.appendChild(label);
-  });
-
-  const groups = conceptGroups()
+function filteredConceptGroups() {
+  const term = state.conceptSearch.toLowerCase();
+  return conceptGroups()
     // nothing ticked means every category, like the home filter
     .filter((g) => state.conceptCategories.size === 0 || state.conceptCategories.has(g.category))
-    .filter((g) => {
-      if (!state.conceptSearch) return true;
-      const haystack = (g.prompt_html + " " + g.answer).toLowerCase();
-      return haystack.includes(state.conceptSearch.toLowerCase());
-    });
+    .filter((g) => !term || `${g.q.prompt_text} ${g.q.answer} ${g.q.explanation || ""}`.toLowerCase().includes(term))
+    .sort((a, b) => b.rounds.length - a.rounds.length || CONCEPT_CATEGORIES.indexOf(a.category) - CONCEPT_CATEGORIES.indexOf(b.category));
+}
 
+function roundsLabel(g) {
+  const shown = g.rounds.slice(-3).map((r) => `${String(r.year).slice(2)}년 ${r.round}회`);
+  return `[실기] ${shown.join(", ")}${g.rounds.length > 3 ? ` 외 ${g.rounds.length - 3}회` : ""}`;
+}
+
+function renderConcepts() {
+  categoryChips("concept-category-filter", state.conceptCategories, CONCEPT_CATEGORIES, renderConcepts);
+  document.querySelectorAll("#concept-mode .chip").forEach((chip) => {
+    chip.classList.toggle("active", chip.dataset.mode === state.conceptMode);
+  });
+
+  const groups = filteredConceptGroups();
   document.getElementById("concept-count").textContent = `${groups.length}개 개념`;
-
   const listWrap = document.getElementById("concept-list");
   listWrap.innerHTML = "";
 
+  if (state.conceptMode === "flash") {
+    renderFlashcards(groups);
+    return;
+  }
+
   CONCEPT_CATEGORIES.forEach((cat) => {
-    const items = groups.filter((g) => g.category === cat).sort((a, b) => b.rounds.length - a.rounds.length);
+    const items = groups.filter((g) => g.category === cat);
     if (items.length === 0) return;
-
-    const section = document.createElement("div");
-    section.className = "concept-section";
     const heading = document.createElement("h3");
+    heading.className = "concept-heading";
     heading.textContent = `${cat} (${items.length})`;
-    section.appendChild(heading);
-
+    listWrap.appendChild(heading);
     items.forEach((g) => {
-      const roundsText = g.rounds.map((r) => `${r.year}년 ${r.round}회`).join(", ");
-      const item = document.createElement("div");
-      item.className = "concept-item";
-      item.innerHTML = `
-        <div class="concept-meta">
-          <span>${roundsText}</span>
-          <span class="concept-freq">${g.rounds.length}회 출제</span>
-        </div>
-        <div class="concept-prompt">${g.prompt_html}</div>
-        <details>
-          <summary>정답 보기</summary>
-          <div class="concept-answer">${escapeText(g.answer)}</div>
-          ${g.explanation ? `<div class="concept-answer explanation explain-body">${renderExplanation(g.explanation)}</div>` : ""}
-        </details>
-      `;
-      section.appendChild(item);
+      listWrap.appendChild(
+        buildReviewCard(g.q, { badge: `<span class="concept-freq">${g.rounds.length}회 출제</span>`, sourceText: roundsLabel(g) })
+      );
     });
-
-    listWrap.appendChild(section);
   });
 }
 
 document.getElementById("concept-search").addEventListener("input", (e) => {
   state.conceptSearch = e.target.value;
+  flash.deck = null;
   renderConcepts();
+});
+
+document.querySelectorAll("#concept-mode .chip").forEach((chip) => {
+  chip.addEventListener("click", () => {
+    state.conceptMode = chip.dataset.mode;
+    flash.deck = null;
+    renderConcepts();
+  });
+});
+
+// ---------- flashcards ----------
+
+const FLASH_KEY = "itq-flash-v1";
+const flash = { deck: null, pos: 0, flipped: false, onlyUnknown: false, marks: loadFlashMarks() };
+
+function loadFlashMarks() {
+  try {
+    return JSON.parse(localStorage.getItem(FLASH_KEY)) || {};
+  } catch (e) {
+    return {};
+  }
+}
+
+function saveFlashMarks() {
+  try {
+    localStorage.setItem(FLASH_KEY, JSON.stringify(flash.marks));
+  } catch (e) {
+    /* ignore */
+  }
+}
+
+function renderFlashcards(groups) {
+  const listWrap = document.getElementById("concept-list");
+  if (!flash.deck) {
+    const pool = flash.onlyUnknown ? groups.filter((g) => flash.marks[g.key] !== "know") : groups;
+    flash.deck = pool.map((g) => g.key);
+    flash.pos = 0;
+    flash.flipped = false;
+  }
+  const byKey = new Map(groups.map((g) => [g.key, g]));
+  const deck = flash.deck.filter((k) => byKey.has(k));
+  const known = groups.filter((g) => flash.marks[g.key] === "know").length;
+  const unknown = groups.filter((g) => flash.marks[g.key] === "dont").length;
+
+  const box = document.createElement("div");
+  box.className = "flash";
+  const head = `
+    <div class="flash-head">
+      <span>${Math.min(flash.pos + 1, deck.length)} / ${deck.length}</span>
+      <span class="flash-know">알아요 ${known}</span>
+      <span class="flash-dont">모르겠어요 ${unknown}</span>
+      <label class="flash-only"><input type="checkbox" ${flash.onlyUnknown ? "checked" : ""} /> 아는 카드 빼기</label>
+      <button type="button" class="secondary-btn flash-shuffle">섞기</button>
+    </div>`;
+
+  if (flash.pos >= deck.length) {
+    const left = deck.filter((k) => flash.marks[k] === "dont").length;
+    box.innerHTML = `${head}
+      <div class="flash-card flash-done">
+        <div class="summary-head">🎉 ${deck.length}장을 다 봤어요</div>
+        <p>알아요 ${deck.length - left}장 · 모르겠어요 ${left}장</p>
+        <div class="summary-actions">
+          ${left ? `<button type="button" class="primary-btn flash-again-dont">모르는 ${left}장만 다시 보기</button>` : ""}
+          <button type="button" class="secondary-btn flash-restart">처음부터 다시</button>
+        </div>
+      </div>`;
+  } else {
+    const g = byKey.get(deck[flash.pos]);
+    const mark = flash.marks[g.key];
+    box.innerHTML = `${head}
+      <div class="flash-card ${flash.flipped ? "flipped" : ""}" tabindex="0">
+        <div class="flash-meta">
+          ${difficultyBadge(g.q)}<span class="q-cat">${g.category}</span><span class="concept-freq">${g.rounds.length}회 출제</span>
+          ${mark ? `<span class="flash-mark ${mark}">${mark === "know" ? "알아요" : "모르겠어요"}</span>` : ""}
+        </div>
+        <div class="flash-front quiz-prompt">${g.q.prompt_html}</div>
+        <div class="flash-back ${flash.flipped ? "" : "hidden"}">
+          <div class="flash-back-title">정답</div>
+          ${reviewAnswerHtml(g.q)}
+          ${g.q.explanation ? `<details class="flash-explain"><summary>💡 풀이 보기</summary><div class="explain-body">${renderExplanation(g.q.explanation)}</div></details>` : ""}
+        </div>
+        ${flash.flipped ? "" : `<div class="flash-hint">카드를 누르거나 Space로 뒤집기</div>`}
+      </div>
+      <div class="flash-actions">
+        <button type="button" class="wrong-btn flash-dont-btn">← 모르겠어요</button>
+        <button type="button" class="secondary-btn flash-flip">${flash.flipped ? "앞면" : "뒤집기"}</button>
+        <button type="button" class="correct-btn flash-know-btn">알아요 →</button>
+      </div>`;
+    enhanceCode(box.querySelector(".flash-front"), g.q);
+  }
+  listWrap.appendChild(box);
+
+  box.querySelector(".flash-only input").addEventListener("change", (e) => {
+    flash.onlyUnknown = e.target.checked;
+    flash.deck = null;
+    renderConcepts();
+  });
+  box.querySelector(".flash-shuffle").addEventListener("click", () => {
+    flash.deck = shuffle(deck.slice());
+    flash.pos = 0;
+    flash.flipped = false;
+    renderConcepts();
+  });
+  const on = (sel, fn) => box.querySelector(sel) && box.querySelector(sel).addEventListener("click", fn);
+  on(".flash-card:not(.flash-done)", (e) => {
+    if (e.target.closest("details, a, button")) return;
+    flipFlash();
+  });
+  on(".flash-flip", flipFlash);
+  on(".flash-know-btn", () => markFlash("know"));
+  on(".flash-dont-btn", () => markFlash("dont"));
+  on(".flash-again-dont", () => {
+    flash.deck = deck.filter((k) => flash.marks[k] === "dont");
+    flash.pos = 0;
+    flash.flipped = false;
+    renderConcepts();
+  });
+  on(".flash-restart", () => {
+    flash.pos = 0;
+    flash.flipped = false;
+    renderConcepts();
+  });
+}
+
+function flipFlash() {
+  flash.flipped = !flash.flipped;
+  renderConcepts();
+}
+
+function markFlash(kind) {
+  const key = flash.deck && flash.deck[flash.pos];
+  if (!key) return;
+  flash.marks[key] = kind;
+  saveFlashMarks();
+  flash.pos += 1;
+  flash.flipped = false;
+  renderConcepts();
+}
+
+document.addEventListener("keydown", (e) => {
+  if (state.conceptMode !== "flash" || !document.getElementById("view-concepts").classList.contains("active")) return;
+  if (e.target.closest && e.target.closest("input, textarea")) return;
+  if (e.key === " ") {
+    e.preventDefault();
+    flipFlash();
+  } else if (e.key === "ArrowRight") markFlash("know");
+  else if (e.key === "ArrowLeft") markFlash("dont");
 });
 
 // ---------- stats ----------

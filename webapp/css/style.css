@@ -1217,3 +1217,111 @@ b.fail { color: var(--wrong) !important; }
 
 /* wide prompt tables scroll inside their box instead of widening the page */
 .qbody.quiz-prompt, .wrong-prompt, .concept-prompt { overflow-x: auto; }
+
+/* ---------- mock exam ---------- */
+
+.mock-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  flex-wrap: wrap;
+  border-color: color-mix(in srgb, var(--accent) 35%, var(--border));
+  background: color-mix(in srgb, var(--accent) 5%, var(--surface));
+}
+
+.mock-card h2 { margin-bottom: 4px; }
+.mock-card .empty-msg { margin: 0; }
+.mock-card .primary-btn { width: auto; padding: 10px 20px; }
+.mock-mix-line { margin: 6px 0 0; font-size: 12px; color: var(--text-muted); }
+
+.mock-timer { font-weight: 700; font-variant-numeric: tabular-nums; color: var(--accent); }
+.mock-timer.urgent { color: var(--wrong-ink); }
+.side-timer { font-size: 22px; margin-bottom: 6px; }
+.summary-big.mock-timer { font-size: 32px; }
+body.mock-running .score-rate, body.mock-running .side-rate-wrap { display: none; }
+
+/* ---------- review cards (오답노트 / 개념정리) ---------- */
+
+.wrong-list { display: flex; flex-direction: column; }
+.concept-heading { margin: 22px 0 10px; font-size: 15px; }
+.review-card .q-status { color: var(--text-muted); font-weight: 500; }
+.chip { font-family: inherit; color: var(--text); }
+
+.clean-answer {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--correct-ink);
+  white-space: pre-wrap;
+}
+
+.clean-answer.essay { font-weight: 500; color: var(--text); line-height: 1.75; }
+.clean-answer.multi { display: flex; flex-direction: column; gap: 4px; }
+.clean-row { display: flex; align-items: baseline; gap: 8px; }
+
+.clean-label {
+  flex: 0 0 auto;
+  min-width: 26px;
+  padding: 0 6px;
+  border-radius: 6px;
+  background: var(--correct-soft);
+  border: 1px solid var(--correct-line);
+  text-align: center;
+  font-size: 12px;
+}
+
+.raw-memo { margin-top: 10px; font-size: 12.5px; color: var(--text-muted); }
+.raw-memo summary { cursor: pointer; }
+.raw-memo > div { margin-top: 6px; padding: 8px 10px; border-radius: 6px; background: var(--code-block-bg); white-space: pre-wrap; line-height: 1.6; }
+
+/* ---------- flashcards ---------- */
+
+.flash { display: flex; flex-direction: column; gap: 12px; }
+
+.flash-head {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px 14px;
+  font-size: 13px;
+  color: var(--text-muted);
+}
+
+.flash-head .secondary-btn { padding: 4px 12px; font-size: 12px; margin-left: auto; }
+.flash-know { color: var(--correct-ink); }
+.flash-dont { color: var(--wrong-ink); }
+.flash-only { display: inline-flex; gap: 4px; align-items: center; cursor: pointer; }
+
+.flash-card {
+  min-height: 260px;
+  padding: 20px 22px;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  background: var(--surface);
+  cursor: pointer;
+  font-size: 15px;
+  line-height: 1.7;
+}
+
+.flash-card.flipped { cursor: default; border-color: var(--correct-line); }
+.flash-card.flash-done { cursor: default; text-align: center; }
+.flash-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 12px; font-size: 12px; }
+.flash-mark { padding: 1px 8px; border-radius: 999px; font-size: 11px; }
+.flash-mark.know { background: var(--correct-soft); color: var(--correct-ink); }
+.flash-mark.dont { background: var(--wrong-soft); color: var(--wrong-ink); }
+.flash-front > :first-child { margin-top: 0; }
+
+.flash-back {
+  margin-top: 16px;
+  padding-top: 14px;
+  border-top: 1px dashed var(--border);
+}
+
+.flash-back-title { font-size: 12px; font-weight: 600; color: var(--text-muted); margin-bottom: 6px; }
+.flash-explain { margin-top: 12px; }
+.flash-explain summary { cursor: pointer; font-size: 13px; color: var(--correct-ink); }
+.flash-explain .explain-body { margin-top: 10px; }
+.flash-hint { margin-top: 16px; text-align: center; font-size: 12px; color: var(--text-muted); }
+
+.flash-actions { display: grid; grid-template-columns: 1fr auto 1fr; gap: 8px; }
+.flash-actions .secondary-btn { padding: 10px 18px; }
