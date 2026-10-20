@@ -132,87 +132,14 @@ MANUAL_CATEGORY_OVERRIDES = {
 }
 
 
-def _html_table(header, rows) -> str:
-    head = "".join(f'<td style="text-align: center;"><b>{h}</b></td>' for h in header)
-    body = "".join(
-        "<tr>" + "".join(f'<td style="text-align: center;">{c}</td>' for c in row) + "</tr>\n"
-        for row in rows
-    )
-    return (
-        '<table border="1" style="border-collapse: collapse; width: 100%;">\n<tbody>\n'
-        f"<tr>{head}</tr>\n{body}</tbody>\n</table>"
-    )
-
-
-def _html_code(code: str) -> str:
-    # escape_html is defined further down, after this table is built
-    code = code.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
-    return f"<pre><code>{code}</code></pre>"
-
-
-# Some posts put tables / SQL in screenshots, which carry no text and are
-# served from expiring signed URLs. Hand-transcribed replacements, one entry
-# per <img> in the question (in order); None drops a purely decorative image.
-IMAGE_TRANSCRIPTIONS = {
-    "2026-2-1": [
-        "<p>[표] 점수별 등급 기준</p>\n"
-        + _html_table(["점수", "등급"], [["90 ~ 100", "A"], ["80 ~ 89", "B"], ["70 ~ 79", "C"], ["60 ~ 69", "D"]])
-    ],
-    "2026-2-8": [
-        _html_table(["프로세스", "도착시간", "버스트시간"], [["P1", 0, 8], ["P2", 1, 4], ["P3", 2, 9], ["P4", 3, 5]])
-    ],
-    "2026-2-10": [
-        _html_table(
-            ["번호", "IP 주소 / 서브넷"],
-            [[1, "192.168.35.3/24"], [2, "(　　　)"], [3, "129.200.10.72/22"],
-             [4, "(　　　)"], [5, "(　　　)"], [6, "192.168.36.16/24"]],
-        )
-    ],
-    "2026-2-12": [
-        "<p>[표] &lt;학생&gt;</p>\n"
-        + _html_table(
-            ["학번", "성명", "학과"],
-            [["2020001", "이몽룡", "컴퓨터공학과"], ["2020002", "김철수", "전자공학과"],
-             ["2020003", "이순신", "정보통신공학과"], ["2020004", "박영희", "컴퓨터공학과"]],
-        )
-        + "\n<p>[SQL문]</p>\n"
-        + _html_code("SELECT * FROM 학생\nWHERE 성명 LIKE '( 1 )'\nORDER BY 학번 ( 2 );")
-    ],
-    "2026-2-13": [
-        "<p>[표] &lt;A&gt;</p>\n"
-        + _html_table(["id", "x"], [[1, 10], [2, 20], [3, 30], [4, 40]])
-        + "\n<p>[표] &lt;B&gt;</p>\n"
-        + _html_table(["id", "y"], [[1, 5], [1, 15], [2, 20], [3, 35], [5, 50]])
-        + "\n<p>[SQL문]</p>\n"
-        + _html_code(
-            "SELECT COUNT(*) AS RESULT\nFROM A\nWHERE x > (\n    SELECT AVG(y)\n    FROM B\n"
-            "    WHERE B.id IN (\n        SELECT A2.id\n        FROM A AS A2\n        WHERE A2.x < A.x\n    )\n);"
-        )
-    ],
-    "2026-2-14": [
-        "<p>[표] &lt;A&gt;</p>\n"
-        + _html_table(["id", "v"], [[1, 10], [1, 20], [2, 30]])
-        + "\n<p>[표] &lt;B&gt;</p>\n"
-        + _html_table(["id", "w"], [[1, 100], [3, 300], [4, 400]])
-        + "\n<p>[SQL문]</p>\n"
-        + _html_code("SELECT COUNT(*)\nFROM A\nRIGHT OUTER JOIN B\n    ON A.id = B.id\nWHERE A.id IS NULL;")
-    ],
-    "2026-2-19": [
-        _html_code(
-            "CREATE DOMAIN SEASON AS VARCHAR(6)\n"
-            "    (        ) (VALUE IN ('spring', 'summer', 'autumn', 'winter'));"
-        )
-    ],
-    "2026-2-20": [
-        "<p>(밑줄 = 기본키: 고객아이디 + 강좌명)</p>\n"
-        + _html_table(
-            ["<u>고객아이디</u>", "<u>강좌명</u>", "강사번호"],
-            [["apple", "영어회화", "P001"], ["banana", "기초토익", "P002"], ["carrot", "영어회화", "P001"],
-             ["carrot", "기초토익", "P004"], ["orange", "영어회화", "P003"], ["orange", "기초토익", "P004"]],
-        ),
-        None,  # 시험지 스톡 사진
-    ],
-}
+# Some posts put tables / SQL / diagrams in screenshots, which carry no text
+# and are served from expiring signed URLs. Hand-transcribed replacements live
+# in image_transcriptions.json: question id -> one HTML string per <img> in
+# that question (in order); null drops a purely decorative image. Diagrams that
+# can't be retyped point at a copy under webapp/img/.
+IMAGE_TRANSCRIPTIONS = json.loads(
+    (Path(__file__).resolve().parent / "image_transcriptions.json").read_text(encoding="utf-8")
+)
 
 
 def classify(text: str, override_key=None) -> str:
@@ -374,11 +301,6 @@ def parse_post(html: str, year: int, round_no: int):
                 answer = mc.get_text("\n", strip=True) if mc else ""
                 # buffer includes the moreless div itself; strip it from the prompt
                 prompt_nodes = buffer[:-1]
-                images = IMAGE_TRANSCRIPTIONS.get(f"{year}-{round_no}-{current_num}")
-                images = list(images) if images else None
-                prompt_html = render_prompt_html(prompt_nodes, images)
-                plain = prompt_plain_text(prompt_nodes)
-
                 # the source blog occasionally repeats a question number by
                 # mistake; suffix repeats so every id stays unique without
                 # renumbering (and without changing ids nothing has moved)
@@ -386,6 +308,11 @@ def parse_post(html: str, year: int, round_no: int):
                 suffix = "" if seen == 0 else chr(ord("a") + seen - 1)
                 number_seen[current_num] = seen + 1
                 qid = f"{year}-{round_no}-{current_num}{suffix}"
+
+                images = IMAGE_TRANSCRIPTIONS.get(qid)
+                images = list(images) if images else None
+                prompt_html = render_prompt_html(prompt_nodes, images)
+                plain = prompt_plain_text(prompt_nodes)
 
                 questions.append(
                     {

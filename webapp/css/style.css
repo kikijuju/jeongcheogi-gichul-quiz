@@ -666,3 +666,14 @@ body {
   color: var(--text-muted);
   flex-shrink: 0;
 }
+
+.quiz-prompt img,
+.wrong-prompt img,
+.concept-prompt img {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  margin: 8px 0;
+  background: #ffffff; /* diagrams are dark-on-transparent; keep them legible in dark mode */
+  border-radius: 6px;
+}

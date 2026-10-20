@@ -195,7 +195,7 @@
     "round": 1,
     "number": 20,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>20. 다음은 모듈의 관계를 나타낸 다이어그램이다. fan-in  개수가 2 이상인 모듈 명칭을 쓰시오.</p>",
+    "prompt_html": "<p>20. 다음은 모듈의 관계를 나타낸 다이어그램이다. fan-in  개수가 2 이상인 모듈 명칭을 쓰시오.</p>\n<img src=\"img/2020-1-20_1.png\" alt=\"모듈 호출 관계 다이어그램\" />\n<p>호출 관계: A→B, A→C, A→D, B→E, B→F, C→F, C→G, D→J, E→H, F→H, G→I</p>",
     "prompt_text": "20. 다음은 모듈의 관계를 나타낸 다이어그램이다. fan-in  개수가 2 이상인 모듈 명칭을 쓰시오.",
     "answer": "F,H\n모듈에서 화살표가 나가는 경우 팬아웃이고 모듈에서 화살표가 들어오는 경우 팬인이라고 합니다."
   },
@@ -465,7 +465,7 @@
     "round": 3,
     "number": 7,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>7. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.</p>",
+    "prompt_html": "<p>7. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.</p>\n<img src=\"img/2020-3-7_1.png\" alt=\"제어 흐름도\" />\n<p>1 POINTER = FALSE → 2 X &gt; K ? (YES → 3 POINTER = TRUE → 4, NO → 4) → 4 X = X + 2 → 5 CALL SUB(X, POINTER, RESULT) → 6 RESULT &gt; 1 ? (YES → 1, NO → 7 PRINT RESULT)</p>",
     "prompt_text": "7. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.",
     "answer": "1234561, 124567  or 1234567, 124561\n결정 커버리지는 결정 포인트 내의 전체 조건식이 적어도 한 번은 참과 거짓의 결과를 수행해야 하기 때문에 첫 번째 분기문도 참, 거짓이 와야 하고, 두 번째 분기도 참, 거짓이 한 번씩 와야 한다."
   },
@@ -625,7 +625,7 @@
     "round": 4,
     "number": 3,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>3. 다음은 판매와 관련된 다이어그램이다. 해당 다이어그램의 명칭을 쓰시오.</p>",
+    "prompt_html": "<p>3. 다음은 판매와 관련된 다이어그램이다. 해당 다이어그램의 명칭을 쓰시오.</p>\n<img src=\"img/2020-4-3_1.png\" alt=\"패키지 다이어그램\" />\n<p>폴더 모양 패키지 ordering이 pricing과 products로 점선 화살표(의존)를 가지며, products 쪽에 &lt;&lt;import&gt;&gt; 스테레오타입이 붙어 있음</p>",
     "prompt_text": "3. 다음은 판매와 관련된 다이어그램이다. 해당 다이어그램의 명칭을 쓰시오.",
     "answer": "패키지 다이어그램\nUML(Unified Modeling Laguage)다이어그램 :\nUML 다이어그램은 통합 모델링 언어를 사용하여 시스템 상호작용, 업무흐름, 시스템 구조, 컴포넌스 관계 등을 그린 도면입니다. 사용이유는 프로그래밍을 단순화 시켜 표현하여 의사소통하기 좋고, 대규모 프로젝트 구조의 로드맵을 만들거나 개발을 위한 시스템 구축에 기본을 마련합니다.\nUML 다이어그램의 종류 :\n클래스 다이어그램 / 객체 다이어그램 / 유스케이스 다이어그램 / 상태 다이어그램 / 시퀸스 다이어그램 /\n활동 다이어그램 / 통신 다이어그램 / 컴포넌트 다이어그램 / 배포 다이어그램 / 복합체 구조 다이어그램 /\n교류 개요 다이어그램 / 타이밍 다이어그램 / 패키지 다이어그램\n패키지 다이어그램은 UML 다이어그램의 안에 속하는 다이어그램입니다.\n폴더 모양의 패키지와 점섬으로 표시된 의존관계, import라는 스테레오 타입 표기를 통해 패키지 다이어그램인지 파악합니다."
   },
@@ -725,7 +725,7 @@
     "round": 4,
     "number": 13,
     "category": "운영체제",
-    "prompt_html": "<p>13. 다음은 프로세스 상태 전이도이다. 1,2,3에 알맞은 상태를 쓰시오.</p>",
+    "prompt_html": "<p>13. 다음은 프로세스 상태 전이도이다. 1,2,3에 알맞은 상태를 쓰시오.</p>\n<img src=\"img/2020-4-13_1.png\" alt=\"프로세스 상태 전이도\" />\n<p>생성 → 1. / 1. →(디스패치) 2. / 2. →(타이머 런 아웃) 1. / 2. →(입출력 발생) 3. / 3. →(웨이크 업) 1. / 2. →(종료) 완료</p>",
     "prompt_text": "13. 다음은 프로세스 상태 전이도이다. 1,2,3에 알맞은 상태를 쓰시오.",
     "answer": "1. 준비\n2. 실행\n3. 대기"
   },
@@ -1035,7 +1035,7 @@
     "round": 2,
     "number": 4,
     "category": "SQL/DB",
-    "prompt_html": "<p>4. 다음은 제 ( ) 정규형으로써, 부분 함수적 종속성을 제거하여, 완전 함수적 종속을 만족하는 정규형은?</p>",
+    "prompt_html": "<p>4. 다음은 제 ( ) 정규형으로써, 부분 함수적 종속성을 제거하여, 완전 함수적 종속을 만족하는 정규형은?</p>\n<p>[표] &lt;제품주문&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b><u>주문번호</u></b></td><td style=\"text-align: center;\"><b><u>제품번호</u></b></td><td style=\"text-align: center;\"><b>고객번호</b></td><td style=\"text-align: center;\"><b>주소</b></td><td style=\"text-align: center;\"><b>주문수량</b></td></tr>\n<tr><td style=\"text-align: center;\">A345</td><td style=\"text-align: center;\">1001</td><td style=\"text-align: center;\">100</td><td style=\"text-align: center;\">서울</td><td style=\"text-align: center;\">150</td></tr>\n<tr><td style=\"text-align: center;\">D347</td><td style=\"text-align: center;\">1001</td><td style=\"text-align: center;\">200</td><td style=\"text-align: center;\">부산</td><td style=\"text-align: center;\">300</td></tr>\n<tr><td style=\"text-align: center;\">A210</td><td style=\"text-align: center;\">1007</td><td style=\"text-align: center;\">300</td><td style=\"text-align: center;\">광주</td><td style=\"text-align: center;\">600</td></tr>\n<tr><td style=\"text-align: center;\">A345</td><td style=\"text-align: center;\">1007</td><td style=\"text-align: center;\">100</td><td style=\"text-align: center;\">서울</td><td style=\"text-align: center;\">400</td></tr>\n<tr><td style=\"text-align: center;\">B230</td><td style=\"text-align: center;\">1007</td><td style=\"text-align: center;\">200</td><td style=\"text-align: center;\">부산</td><td style=\"text-align: center;\">700</td></tr>\n<tr><td style=\"text-align: center;\">D347</td><td style=\"text-align: center;\">1201</td><td style=\"text-align: center;\">200</td><td style=\"text-align: center;\">부산</td><td style=\"text-align: center;\">300</td></tr>\n</tbody>\n</table>\n<p>↓ 분해</p>\n<p>[표] &lt;주문목록&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b><u>주문번호</u></b></td><td style=\"text-align: center;\"><b><u>제품번호</u></b></td><td style=\"text-align: center;\"><b>주문수량</b></td></tr>\n<tr><td style=\"text-align: center;\">A345</td><td style=\"text-align: center;\">1001</td><td style=\"text-align: center;\">150</td></tr>\n<tr><td style=\"text-align: center;\">D347</td><td style=\"text-align: center;\">1001</td><td style=\"text-align: center;\">300</td></tr>\n<tr><td style=\"text-align: center;\">A210</td><td style=\"text-align: center;\">1007</td><td style=\"text-align: center;\">600</td></tr>\n<tr><td style=\"text-align: center;\">A345</td><td style=\"text-align: center;\">1007</td><td style=\"text-align: center;\">400</td></tr>\n<tr><td style=\"text-align: center;\">B230</td><td style=\"text-align: center;\">1007</td><td style=\"text-align: center;\">700</td></tr>\n<tr><td style=\"text-align: center;\">D347</td><td style=\"text-align: center;\">1201</td><td style=\"text-align: center;\">300</td></tr>\n</tbody>\n</table>\n<p>[표] &lt;주문&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b><u>주문번호</u></b></td><td style=\"text-align: center;\"><b>고객번호</b></td><td style=\"text-align: center;\"><b>주소</b></td></tr>\n<tr><td style=\"text-align: center;\">A345</td><td style=\"text-align: center;\">100</td><td style=\"text-align: center;\">서울</td></tr>\n<tr><td style=\"text-align: center;\">D347</td><td style=\"text-align: center;\">200</td><td style=\"text-align: center;\">부산</td></tr>\n<tr><td style=\"text-align: center;\">A210</td><td style=\"text-align: center;\">300</td><td style=\"text-align: center;\">광주</td></tr>\n<tr><td style=\"text-align: center;\">B230</td><td style=\"text-align: center;\">200</td><td style=\"text-align: center;\">부산</td></tr>\n</tbody>\n</table>",
     "prompt_text": "4. 다음은 제 ( ) 정규형으로써, 부분 함수적 종속성을 제거하여, 완전 함수적 종속을 만족하는 정규형은?",
     "answer": "제 2 정규형\n- 기본키(주문번호 컬럼)이 제품번호에 의해 결정될 수 있기때문에 분해를 해야합니다.\n- 부분 함수적 종속성 : 기본키의 부분집합이 결정자가 되버린 현상\n제 1정규형 : 도메인이 원자값\n제 2정규형 :\n부분 함수적 종속 제거\n제 3정규형 :\n이행적 함수 종속 제거\nBCNF : 결정자이면서 후보키가 아닌 것 제거\n제 4정규형 :\n다치 종속 제거\n제 5정규형 :\n조인 종속 제거"
   },
@@ -1265,7 +1265,7 @@
     "round": 3,
     "number": 8,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>8. 다음은 테스트케이스의 구성요소에 대한 설명이다. 괄호 ( ) 안에 들어갈 알맞는 보기를 고르시오.</p>\n<p>(실제 기출문제에서는 답에 대한 보기가 주어집니다.)</p>",
+    "prompt_html": "<p>8. 다음은 테스트케이스의 구성요소에 대한 설명이다. 괄호 ( ) 안에 들어갈 알맞는 보기를 고르시오.</p>\n<p>(실제 기출문제에서는 답에 대한 보기가 주어집니다.)</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>식별자 ID</b></td><td style=\"text-align: center;\"><b>테스트 항목</b></td><td style=\"text-align: center;\"><b>(　　　)</b></td><td style=\"text-align: center;\"><b>(　　　)</b></td><td style=\"text-align: center;\"><b>(　　　)</b></td></tr>\n<tr><td style=\"text-align: center;\">DS-45S-21</td><td style=\"text-align: center;\">로그인 기능</td><td style=\"text-align: center;\">사용자 초기 화면</td><td style=\"text-align: center;\">사용자 아이디 (Test11)<br/>비밀번호 (test@#@!#)</td><td style=\"text-align: center;\">로그인 성공</td></tr>\n<tr><td style=\"text-align: center;\">DS-45S-25</td><td style=\"text-align: center;\">로그인 기능</td><td style=\"text-align: center;\">사용자 초기 화면</td><td style=\"text-align: center;\">사용자 아이디 (Test11)<br/>비밀번호 (\"\")</td><td style=\"text-align: center;\">로그인 실패</td></tr>\n</tbody>\n</table>",
     "prompt_text": "8. 다음은 테스트케이스의 구성요소에 대한 설명이다. 괄호 ( ) 안에 들어갈 알맞는 보기를 고르시오. (실제 기출문제에서는 답에 대한 보기가 주어집니다.)",
     "answer": "1. 테스트 조건\n2. 테스트 데이터\n3. 예상 결과\n테스트 케이스란 특정 프로그램의 부분 및 경로를 실행해보거나,\n요구사항에 준수하는지 확인하기 위해 개발된 입력 값, 조건, 예상된 결과 세트입니다.\n케스트 케이스를 함으로써 오류감소 / 비용감소 / 의사소통의 효과가 나타납니다.\n테스트 케이스의 설계 기법 종류로는\n블랙박스 기법의 명세기반 / 경험기반 기법과\n화이트박스 기법의 구조기반 기법이 있습니다."
   },
@@ -1295,7 +1295,7 @@
     "round": 3,
     "number": 13,
     "category": "SQL/DB",
-    "prompt_html": "<p>13. 다음은, 테이블에서 조건값을 실행한 화면이다. 이에 대한 알맞는 결과값을 작성하시오.</p>",
+    "prompt_html": "<p>13. 다음은, 테이블에서 조건값을 실행한 화면이다. 이에 대한 알맞는 결과값을 작성하시오.</p>\n<p>[표] &lt;T1&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>CODE</b></td><td style=\"text-align: center;\"><b>NAME</b></td></tr>\n<tr><td style=\"text-align: center;\">3258</td><td style=\"text-align: center;\">smith</td></tr>\n<tr><td style=\"text-align: center;\">4324</td><td style=\"text-align: center;\">allen</td></tr>\n<tr><td style=\"text-align: center;\">5432</td><td style=\"text-align: center;\">scott</td></tr>\n</tbody>\n</table>\n<p>[표] &lt;T2&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>NO</b></td><td style=\"text-align: center;\"><b>RULE</b></td></tr>\n<tr><td style=\"text-align: center;\">12</td><td style=\"text-align: center;\">s%</td></tr>\n<tr><td style=\"text-align: center;\">32</td><td style=\"text-align: center;\">%t%</td></tr>\n</tbody>\n</table>\n<p>[SQL문]</p>\n<pre><code>SELECT COUNT(*) CNT FROM T1 A\nCROSS JOIN T2 B\nWHERE A.NAME LIKE B.RULE;</code></pre>\n<p>결과: (　　　)</p>",
     "prompt_text": "13. 다음은, 테이블에서 조건값을 실행한 화면이다. 이에 대한 알맞는 결과값을 작성하시오.",
     "answer": "4\ncross join은 join을 해서 나올 수 있는 모든 행의 조합을 보여주는 것으로 각 결과를 곱해주면 됩니다.\n즉, S로 시작하는 A.NAME의 개수는 2개, T를 포함하는 A.NAME의 개수 또한 2개이므로 2*2 = 4가 됩니다."
   },
@@ -1385,7 +1385,7 @@
     "round": 1,
     "number": 4,
     "category": "SQL/DB",
-    "prompt_html": "<p>4. 다음 SQL 결과에 알맞는 쿼리을 작성하시오.</p>\n<pre><code>SELECT name, score FROM 성적 ( 1 ) BY ( 2 ) ( 3 )</code></pre>",
+    "prompt_html": "<p>4. 다음 SQL 결과에 알맞는 쿼리을 작성하시오.</p>\n<p>[표] &lt;성적&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>Index</b></td><td style=\"text-align: center;\"><b>name</b></td><td style=\"text-align: center;\"><b>score</b></td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">Kim</td><td style=\"text-align: center;\">95</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">Gun</td><td style=\"text-align: center;\">90</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">Son</td><td style=\"text-align: center;\">80</td></tr>\n<tr><td style=\"text-align: center;\">4</td><td style=\"text-align: center;\">Jung</td><td style=\"text-align: center;\">60</td></tr>\n</tbody>\n</table>\n<pre><code>SELECT name, score FROM 성적 ( 1 ) BY ( 2 ) ( 3 )</code></pre>",
     "prompt_text": "4. 다음 SQL 결과에 알맞는 쿼리을 작성하시오. SELECT name, score FROM 성적 ( 1 ) BY ( 2 ) ( 3 )",
     "answer": "1. ORDER\n2. score\n3. DESC"
   },
@@ -1475,7 +1475,7 @@
     "round": 1,
     "number": 13,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>13. 다음 보기 중에서 블랙박스 테스트 기법을 3가지 골라 작성하시오.</p>",
+    "prompt_html": "<p>13. 다음 보기 중에서 블랙박스 테스트 기법을 3가지 골라 작성하시오.</p>\n<p>ㄱ. Cause-Decision Graph</p>\n<p>ㄴ. Decision Coverage</p>\n<p>ㄷ. Boundary Value Analysis</p>\n<p>ㄹ. Equivalence Partitioning</p>\n<p>ㅁ. Statement Coverage</p>\n<p>ㅂ. Cause-Effect Graph</p>\n<p>ㅅ. Base Path Testing</p>\n<p>ㅇ. Base Path Coverage</p>\n<p>ㅈ. Boundary Division Analysis</p>",
     "prompt_text": "13. 다음 보기 중에서 블랙박스 테스트 기법을 3가지 골라 작성하시오.",
     "answer": "ㄷ, ㄹ, ㅂ"
   },
@@ -1535,7 +1535,7 @@
     "round": 1,
     "number": 20,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>20. 다음은 V모델에서의 테스트 단계에 대한 설명으로 괄호안에 들어갈 답을 작성하시오.</p>",
+    "prompt_html": "<p>20. 다음은 V모델에서의 테스트 단계에 대한 설명으로 괄호안에 들어갈 답을 작성하시오.</p>\n<img src=\"img/2022-1-20_1.png\" alt=\"V모델 다이어그램: 개발 단계와 (1)~(4) 테스트 단계의 대응\" />\n<p>왼쪽 아래로: 요구분석 → 아키텍처 설계 → 모듈 설계 → 구현, 오른쪽 위로: 구현 → (1) → (2) → (3) → (4). 모듈 설계 ↔ (1) 모듈 검증, 아키텍처 설계 ↔ (2) 인터페이스 검증, 요구분석 ↔ (3) 요구 분석 검증.</p>",
     "prompt_text": "20. 다음은 V모델에서의 테스트 단계에 대한 설명으로 괄호안에 들어갈 답을 작성하시오.",
     "answer": "1. 단위 테스트\n2. 통합 테스트\n3. 시스템 테스트\n4. 인수 테스트"
   },
@@ -1565,7 +1565,7 @@
     "round": 2,
     "number": 3,
     "category": "SQL/DB",
-    "prompt_html": "<p>3. H회사의 전체 제품 단가 보다 큰 제품 출력을 하고자 한다. 괄호안에 들어갈 알맞는 용어를 작성하시오.</p>\n<p>[제품테이블]</p>\n<pre><code>SELECT 제조사, 제품명, 단가 FROM 제품 WHERE 단가 &gt; ( ) (SELECT 단가 FROM 제품 WHERE 제조사='H')</code></pre>",
+    "prompt_html": "<p>3. H회사의 전체 제품 단가 보다 큰 제품 출력을 하고자 한다. 괄호안에 들어갈 알맞는 용어를 작성하시오.</p>\n<p>[제품테이블]</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>제조사</b></td><td style=\"text-align: center;\"><b>제품명</b></td><td style=\"text-align: center;\"><b>단가</b></td></tr>\n<tr><td style=\"text-align: center;\">A</td><td style=\"text-align: center;\">과자</td><td style=\"text-align: center;\">1,000</td></tr>\n<tr><td style=\"text-align: center;\">B</td><td style=\"text-align: center;\">초콜릿</td><td style=\"text-align: center;\">6,000</td></tr>\n<tr><td style=\"text-align: center;\">H</td><td style=\"text-align: center;\">사탕</td><td style=\"text-align: center;\">2,000</td></tr>\n<tr><td style=\"text-align: center;\">C</td><td style=\"text-align: center;\">아이스크림</td><td style=\"text-align: center;\">5,000</td></tr>\n<tr><td style=\"text-align: center;\">H</td><td style=\"text-align: center;\">사탕</td><td style=\"text-align: center;\">3,000</td></tr>\n</tbody>\n</table>\n<pre><code>SELECT 제조사, 제품명, 단가 FROM 제품 WHERE 단가 &gt; ( ) (SELECT 단가 FROM 제품 WHERE 제조사='H')</code></pre>",
     "prompt_text": "3. H회사의 전체 제품 단가 보다 큰 제품 출력을 하고자 한다. 괄호안에 들어갈 알맞는 용어를 작성하시오. [제품테이블] SELECT 제조사, 제품명, 단가 FROM 제품 WHERE 단가 > ( ) (SELECT 단가 FROM 제품 WHERE 제조사='H')",
     "answer": "ALL"
   },
@@ -1575,7 +1575,7 @@
     "round": 2,
     "number": 4,
     "category": "SQL/DB",
-    "prompt_html": "<p>4. 다음 SQL 결과에 알맞는 답을 작성하시오.</p>\n<p>[TABLE]</p>\n<pre><code>SELECT count(col2) FROM TABLE WHERE col1 in(2,3) or col2 in(3,5);</code></pre>",
+    "prompt_html": "<p>4. 다음 SQL 결과에 알맞는 답을 작성하시오.</p>\n<p>[TABLE]</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>Index</b></td><td style=\"text-align: center;\"><b>col1</b></td><td style=\"text-align: center;\"><b>col2</b></td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">Null</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">6</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">5</td><td style=\"text-align: center;\">5</td></tr>\n<tr><td style=\"text-align: center;\">4</td><td style=\"text-align: center;\">6</td><td style=\"text-align: center;\">3</td></tr>\n<tr><td style=\"text-align: center;\">5</td><td style=\"text-align: center;\">Null</td><td style=\"text-align: center;\">3</td></tr>\n</tbody>\n</table>\n<pre><code>SELECT count(col2) FROM TABLE WHERE col1 in(2,3) or col2 in(3,5);</code></pre>",
     "prompt_text": "4. 다음 SQL 결과에 알맞는 답을 작성하시오. [TABLE] SELECT count(col2) FROM TABLE WHERE col1 in(2,3) or col2 in(3,5);",
     "answer": "4"
   },
@@ -1655,7 +1655,7 @@
     "round": 2,
     "number": 12,
     "category": "SQL/DB",
-    "prompt_html": "<p>12. 다음 테이블에서 πTTL(employee)에 대한 연산 결과 값을 작성하시오.</p>\n<p>[employee테이블]</p>",
+    "prompt_html": "<p>12. 다음 테이블에서 πTTL(employee)에 대한 연산 결과 값을 작성하시오.</p>\n<p>[employee테이블]</p>\n<p>[표] &lt;employee&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>Index</b></td><td style=\"text-align: center;\"><b>AGE</b></td><td style=\"text-align: center;\"><b>TTL</b></td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">55</td><td style=\"text-align: center;\">부장</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">35</td><td style=\"text-align: center;\">대리</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">42</td><td style=\"text-align: center;\">과장</td></tr>\n<tr><td style=\"text-align: center;\">4</td><td style=\"text-align: center;\">45</td><td style=\"text-align: center;\">차장</td></tr>\n</tbody>\n</table>\n<p>[결과]</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>①</b></td></tr>\n<tr><td style=\"text-align: center;\">②</td></tr>\n<tr><td style=\"text-align: center;\">③</td></tr>\n<tr><td style=\"text-align: center;\">④</td></tr>\n<tr><td style=\"text-align: center;\">⑤</td></tr>\n</tbody>\n</table>",
     "prompt_text": "12. 다음 테이블에서 πTTL(employee)에 대한 연산 결과 값을 작성하시오. [employee테이블]",
     "answer": "1. TTL\n2. 부장\n3. 대리\n4. 과장\n5. 차장"
   },
@@ -1695,7 +1695,7 @@
     "round": 2,
     "number": 18,
     "category": "SQL/DB",
-    "prompt_html": "<p>18. 다음은 함수 종속성에 대한 설명이다. 해당 문제에 대한 알맞는 답을 보기에서 골라 작성하시오. (실제 기출문제에서는 답의 보기가 주어집니다.(오답 중, union 등..))</p>\n<p>1. 성적은 {학생,학과}에 대해서 ( ) Functional Dependency이다.</p>\n<p>2. 성적은 학과만 알아도 식별이 가능하므로, 이 경우에는 성적 속성은 기본키에 ( ) Functional Dependency이다.</p>\n<p>3. 릴레이션에서 X, Y, Z라는 3 개의 속성이 있을 때 X→Y, Y→Z 이란 종속 관계가 있을 경우, X→Z가 성립될 경우</p>",
+    "prompt_html": "<p>18. 다음은 함수 종속성에 대한 설명이다. 해당 문제에 대한 알맞는 답을 보기에서 골라 작성하시오. (실제 기출문제에서는 답의 보기가 주어집니다.(오답 중, union 등..))</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b><u>학생</u></b></td><td style=\"text-align: center;\"><b><u>학과</u></b></td><td style=\"text-align: center;\"><b>성적</b></td><td style=\"text-align: center;\"><b>학년</b></td></tr>\n<tr><td style=\"text-align: center;\">김정보</td><td style=\"text-align: center;\">무역학과</td><td style=\"text-align: center;\">35</td><td style=\"text-align: center;\">1</td></tr>\n<tr><td style=\"text-align: center;\">김정보</td><td style=\"text-align: center;\">경영학과</td><td style=\"text-align: center;\">60</td><td style=\"text-align: center;\">1</td></tr>\n<tr><td style=\"text-align: center;\">이실기</td><td style=\"text-align: center;\">경영학과</td><td style=\"text-align: center;\">60</td><td style=\"text-align: center;\">3</td></tr>\n<tr><td style=\"text-align: center;\">강처리</td><td style=\"text-align: center;\">컴퓨터학과</td><td style=\"text-align: center;\">94</td><td style=\"text-align: center;\">4</td></tr>\n<tr><td style=\"text-align: center;\">강처리</td><td style=\"text-align: center;\">영문학과</td><td style=\"text-align: center;\">75</td><td style=\"text-align: center;\">4</td></tr>\n</tbody>\n</table>\n<p>1. 성적은 {학생,학과}에 대해서 ( ) Functional Dependency이다.</p>\n<p>2. 성적은 학과만 알아도 식별이 가능하므로, 이 경우에는 성적 속성은 기본키에 ( ) Functional Dependency이다.</p>\n<p>3. 릴레이션에서 X, Y, Z라는 3 개의 속성이 있을 때 X→Y, Y→Z 이란 종속 관계가 있을 경우, X→Z가 성립될 경우</p>",
     "prompt_text": "18. 다음은 함수 종속성에 대한 설명이다. 해당 문제에 대한 알맞는 답을 보기에서 골라 작성하시오. (실제 기출문제에서는 답의 보기가 주어집니다.(오답 중, union 등..)) 1. 성적은 {학생,학과}에 대해서 ( ) Functional Dependency이다. 2. 성적은 학과만 알아도 식별이 가능하므로, 이 경우에는 성적 속성은 기본키에 ( ) Functional Dependency이다. 3. 릴레이션에서 X, Y, Z라는 3 개의 속성이 있을 때 X→Y, Y→Z 이란 종속 관계가 있을 경우, X→Z가 성립될 경우",
     "answer": "1. Full\n2. Partial\n3. Transitive"
   },
@@ -1715,7 +1715,7 @@
     "round": 2,
     "number": 20,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>20. 다음 모듈 F에 대한 Fan-in과 Fan-out을 작성하시오.</p>",
+    "prompt_html": "<p>20. 다음 모듈 F에 대한 Fan-in과 Fan-out을 작성하시오.</p>\n<img src=\"img/2022-2-20_1.png\" alt=\"모듈 호출 구조도 (A~H)\" />\n<p>호출 관계: A→D, A→F, B→E, B→F, C→F, D→G, D→H, E→H, F→G, F→H.</p>",
     "prompt_text": "20. 다음 모듈 F에 대한 Fan-in과 Fan-out을 작성하시오.",
     "answer": "Fan-in : 3\nFan-out :\n2"
   },
@@ -1725,7 +1725,7 @@
     "round": 3,
     "number": 1,
     "category": "C",
-    "prompt_html": "<p>1. 아래는 C언어의 2차원 배열 형태이다. field의 경우 2차원 배열 형태는 예시처럼 출력되므로, 이를 참고하여 mines의 2차원 배열 형태를 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 void main{ field {{ 0 , 1 , 0 , 1 },{ 0 , 0 , 0 , 1 },{ 1 , 1 , 1 , 0 },{ 0 , 1 , 1 , 1 }}; mines {{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 }}; int w = 4 , h = 4 ; for (y = 0 ; y &lt; h; y + + ) { for (x = 0 ; x &lt; w; x + + ) { if (field[y][x] = = 0 ) continue ; for (i = y - 1 ; i &lt; = y + 1 ; i + + ) { for (j = x - 1 ; j &lt; = x + 1 ; j + + ) { if (calculate(w,h,j,i) = = 1 ) { mines[i][j] + = 1 ; } } } } } for (y = 0 ; y &lt; h; y + + ){ for (x = 0 ; x &lt; w; x + + ) printf ( \"%d\" , mines[y][x]); printf ( \"\\n\" ); } } int calculate(w,h,j,i) { if (i &gt; = 0 &amp; &amp; i &lt; h &amp; &amp; j &gt; = 0 &amp; &amp; j &lt; w) return 1 ; return 0 ; } Colored by Color Scripter cs</p>",
+    "prompt_html": "<p>1. 아래는 C언어의 2차원 배열 형태이다. field의 경우 2차원 배열 형태는 예시처럼 출력되므로, 이를 참고하여 mines의 2차원 배열 형태를 작성하시오.</p>\n<p>1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 void main{ field {{ 0 , 1 , 0 , 1 },{ 0 , 0 , 0 , 1 },{ 1 , 1 , 1 , 0 },{ 0 , 1 , 1 , 1 }}; mines {{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 }}; int w = 4 , h = 4 ; for (y = 0 ; y &lt; h; y + + ) { for (x = 0 ; x &lt; w; x + + ) { if (field[y][x] = = 0 ) continue ; for (i = y - 1 ; i &lt; = y + 1 ; i + + ) { for (j = x - 1 ; j &lt; = x + 1 ; j + + ) { if (calculate(w,h,j,i) = = 1 ) { mines[i][j] + = 1 ; } } } } } for (y = 0 ; y &lt; h; y + + ){ for (x = 0 ; x &lt; w; x + + ) printf ( \"%d\" , mines[y][x]); printf ( \"\\n\" ); } } int calculate(w,h,j,i) { if (i &gt; = 0 &amp; &amp; i &lt; h &amp; &amp; j &gt; = 0 &amp; &amp; j &lt; w) return 1 ; return 0 ; } Colored by Color Scripter cs</p>\n<p>[예시] field</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td></tr>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">0</td></tr>\n<tr><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td></tr>\n</tbody>\n</table>\n<p>[정답칸] mines</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n<tr><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td><td style=\"text-align: center;\">(　　　)</td></tr>\n</tbody>\n</table>",
     "prompt_text": "1. 아래는 C언어의 2차원 배열 형태이다. field의 경우 2차원 배열 형태는 예시처럼 출력되므로, 이를 참고하여 mines의 2차원 배열 형태를 작성하시오. 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 void main{ field {{ 0 , 1 , 0 , 1 },{ 0 , 0 , 0 , 1 },{ 1 , 1 , 1 , 0 },{ 0 , 1 , 1 , 1 }}; mines {{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 },{ 0 , 0 , 0 , 0 }}; int w = 4 , h = 4 ; for (y = 0 ; y < h; y + + ) { for (x = 0 ; x < w; x + + ) { if (field[y][x] = = 0 ) continue ; for (i = y - 1 ; i < = y + 1 ; i + + ) { for (j = x - 1 ; j < = x + 1 ; j + + ) { if (calculate(w,h,j,i) = = 1 ) { mines[i][j] + = 1 ; } } } } } for (y = 0 ; y < h; y + + ){ for (x = 0 ; x < w; x + + ) printf ( \"%d\" , mines[y][x]); printf ( \"\\n\" ); } } int calculate(w,h,j,i) { if (i > = 0 & & i < h & & j > = 0 & & j < w) return 1 ; return 0 ; } Colored by Color Scripter cs",
     "answer": "1, 1, 3, 2\n3, 4, 5, 3\n3, 5, 6, 4\n3, 5, 5, 3"
   },
@@ -1735,7 +1735,7 @@
     "round": 3,
     "number": 2,
     "category": "SQL/DB",
-    "prompt_html": "<p>2. 아래 예시를 보고 관계 대수에 대한 기호를 작성하시오.</p>",
+    "prompt_html": "<p>2. 아래 예시를 보고 관계 대수에 대한 기호를 작성하시오.</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>항목</b></td><td style=\"text-align: center;\"><b>기호</b></td></tr>\n<tr><td style=\"text-align: center;\">합집합</td><td style=\"text-align: center;\">A (　　　) B</td></tr>\n<tr><td style=\"text-align: center;\">차집합</td><td style=\"text-align: center;\">A (　　　) B</td></tr>\n<tr><td style=\"text-align: center;\">카티션 프로덕트</td><td style=\"text-align: center;\">A (　　　) B</td></tr>\n<tr><td style=\"text-align: center;\">프로젝트</td><td style=\"text-align: center;\">A (　　　) B</td></tr>\n<tr><td style=\"text-align: center;\">조인</td><td style=\"text-align: center;\">A (　　　) B</td></tr>\n</tbody>\n</table>",
     "prompt_text": "2. 아래 예시를 보고 관계 대수에 대한 기호를 작성하시오.",
     "answer": "U, -, X, π, ⋈"
   },
@@ -1775,7 +1775,7 @@
     "round": 3,
     "number": 6,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>6. 아래 표를 확인하여 보기에 알맞는 값을 고르시오.</p>\n<p>(기호식 보기가 있습니다. ex: Boundary Value Partitioning​, Equivalence Partitioning 등)</p>",
+    "prompt_html": "<p>6. 아래 표를 확인하여 보기에 알맞는 값을 고르시오.</p>\n<p>(기호식 보기가 있습니다. ex: Boundary Value Partitioning​, Equivalence Partitioning 등)</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>점수</b></td><td style=\"text-align: center;\"><b>금액</b></td></tr>\n<tr><td style=\"text-align: center;\">90 ~ 100</td><td style=\"text-align: center;\">700만원</td></tr>\n<tr><td style=\"text-align: center;\">80 ~ 89</td><td style=\"text-align: center;\">500만원</td></tr>\n<tr><td style=\"text-align: center;\">70 ~ 79</td><td style=\"text-align: center;\">300만원</td></tr>\n<tr><td style=\"text-align: center;\">0 ~ 69</td><td style=\"text-align: center;\">0원</td></tr>\n</tbody>\n</table>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>테스트 케이스</b></td><td style=\"text-align: center;\"><b>1</b></td><td style=\"text-align: center;\"><b>2</b></td><td style=\"text-align: center;\"><b>3</b></td><td style=\"text-align: center;\"><b>4</b></td><td style=\"text-align: center;\"><b>5</b></td><td style=\"text-align: center;\"><b>6</b></td><td style=\"text-align: center;\"><b>7</b></td><td style=\"text-align: center;\"><b>8</b></td><td style=\"text-align: center;\"><b>9</b></td><td style=\"text-align: center;\"><b>10</b></td><td style=\"text-align: center;\"><b>11</b></td><td style=\"text-align: center;\"><b>12</b></td><td style=\"text-align: center;\"><b>13</b></td><td style=\"text-align: center;\"><b>14</b></td><td style=\"text-align: center;\"><b>15</b></td></tr>\n<tr><td style=\"text-align: center;\"><b>입력값</b></td><td style=\"text-align: center;\">-1</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">69</td><td style=\"text-align: center;\">70</td><td style=\"text-align: center;\">71</td><td style=\"text-align: center;\">79</td><td style=\"text-align: center;\">80</td><td style=\"text-align: center;\">81</td><td style=\"text-align: center;\">89</td><td style=\"text-align: center;\">90</td><td style=\"text-align: center;\">91</td><td style=\"text-align: center;\">99</td><td style=\"text-align: center;\">100</td><td style=\"text-align: center;\">101</td></tr>\n<tr><td style=\"text-align: center;\"><b>결과값</b></td><td style=\"text-align: center;\">error</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">0</td><td style=\"text-align: center;\">300</td><td style=\"text-align: center;\">300</td><td style=\"text-align: center;\">300</td><td style=\"text-align: center;\">500</td><td style=\"text-align: center;\">500</td><td style=\"text-align: center;\">500</td><td style=\"text-align: center;\">700</td><td style=\"text-align: center;\">700</td><td style=\"text-align: center;\">700</td><td style=\"text-align: center;\">700</td><td style=\"text-align: center;\">error</td></tr>\n</tbody>\n</table>",
     "prompt_text": "6. 아래 표를 확인하여 보기에 알맞는 값을 고르시오. (기호식 보기가 있습니다. ex: Boundary Value Partitioning​, Equivalence Partitioning 등)",
     "answer": "Boundary Value Analysis"
   },
@@ -1785,7 +1785,7 @@
     "round": 3,
     "number": 7,
     "category": "기타",
-    "prompt_html": "<p>7. 아래 데이터 명령어를 적용할 경우 알맞는 출력값을 작성하시오.​</p>\n<p>​</p>\n<p>​</p>",
+    "prompt_html": "<p>7. 아래 데이터 명령어를 적용할 경우 알맞는 출력값을 작성하시오.​</p>\n<p>​</p>\n<p>​</p>\n<p>[SQL문]</p>\n<pre><code>CREATE TABLE 부서 (\n  부서코드 int, 부서명 varchar(50)\n  PRIMARY KEY (부서코드)\n  FOREIGN KEY (부서코드)\n  REFERENCES 직원(부서코드)\n  ON DELETE CASCADE\n);\n\n\nCREATE TABLE 직원 (\n  직원코드 int, 부서코드 int\n  PRIMARY KEY (직원코드 )\n  FOREIGN KEY (부서코드) REFERENCES 부서(부서코드)\n);\n\n\ninsert into 부서 (부서코드, 부서명) value (10, 영업부);\ninsert into 부서 (부서코드, 부서명) value (20, 기획부);\ninsert into 부서 (부서코드, 부서명) value (30, 개발부);\n\n\ninsert into 직원 (직원코드, 부서코드) value (1000, 10);\ninsert into 직원 (직원코드, 부서코드) value (2000, 10);\ninsert into 직원 (직원코드, 부서코드) value (3000, 20);\ninsert into 직원 (직원코드, 부서코드) value (4000, 20);\ninsert into 직원 (직원코드, 부서코드) value (5000, 20);\ninsert into 직원 (직원코드, 부서코드) value (6000, 30);\ninsert into 직원 (직원코드, 부서코드) value (7000, 30);\n\n\n1. SELECT DISTINCT COUNT(직원코드) FROM 직원 WHERE 부서코드='20';\n\n(        (1)          )\n\n\n2. DELETE FROM 부서 WHERE 부서코드='20';\n   SELECT DISTINCT COUNT(직원코드) FROM 직원;\n\n(        (2)          )</code></pre>",
     "prompt_text": "7. 아래 데이터 명령어를 적용할 경우 알맞는 출력값을 작성하시오.​ ​ ​",
     "answer": "(1). 3\n(2). 4"
   },
@@ -1825,7 +1825,7 @@
     "round": 3,
     "number": 11,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>11. 다음 보기 중, 형상 관리 항목을 3가지 고르시오.</p>",
+    "prompt_html": "<p>11. 다음 보기 중, 형상 관리 항목을 3가지 고르시오.</p>\n<p>[보기]</p>\n<p>ㄱ. ATM　　ㄴ. CVS　　ㄷ. OLAP</p>\n<p>ㄹ. DDOS　　ㅁ. SVN　　ㅂ. Cyber Kill Chain</p>\n<p>ㅅ. OLTP　　ㅇ. GIT</p>",
     "prompt_text": "11. 다음 보기 중, 형상 관리 항목을 3가지 고르시오.",
     "answer": "CVS, SVN, GIT"
   },
@@ -1875,7 +1875,7 @@
     "round": 3,
     "number": 16,
     "category": "운영체제",
-    "prompt_html": "<p>16. 다음은 스케줄링에 관한 내용이다. 괄호안에 알맞는 답을 작성하시오.</p>",
+    "prompt_html": "<p>16. 다음은 스케줄링에 관한 내용이다. 괄호안에 알맞는 답을 작성하시오.</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>스케줄링</b></td><td style=\"text-align: center;\"><b>내용</b></td></tr>\n<tr><td style=\"text-align: center;\">(　　　) 스케줄링</td><td style=\"text-align: center;\">Ready Queue에 있는 프로세스 중 CPU 처리 시간이 짧은 순서대로 CPU를 할당하는 비선점형 방식이며, 늦게 도착하더라도 CPU 처리 시간이 앞에 대기중인 프로세스보다 짧으면 먼저 CPU를 할당받을 수 있다.</td></tr>\n<tr><td style=\"text-align: center;\">(　　　) 스케줄링</td><td style=\"text-align: center;\">프로세스가 도착한 순서대로 프로세스를 디스패치하지만 정해진 시간 할당량(또는 시간 간격)에 의해 실행을 제한한다. 즉, 시간 할당량을 매 프로세스에 주고 할당된 시간 안에 완료되지 못한 프로세스는 준비 큐의 맨 뒤에 배치되도록 하여 CPU를 독점하지 않고 공평하게 이용될 수 있게 한다.</td></tr>\n<tr><td style=\"text-align: center;\">(　　　) 스케줄링</td><td style=\"text-align: center;\">선점 스케줄링 방식으로 변경한 기법이다.<br/>CPU를 점유중인 프로세스보다 남은 CPU 처리 시간이 짧은 프로세스가 Ready Queue에 들어올 경우 새로 들어온 프로세스가 CPU를 점유할 수 있다.<br/>어떤 알고리즘보다 평균 대기 시간이 가장 짧은 알고리즘이지만, 기본적으로 선점형 방식이기 때문에 잦은 Context Switching이 일어나고 그에 따른 오버헤드가 커진다.</td></tr>\n</tbody>\n</table>",
     "prompt_text": "16. 다음은 스케줄링에 관한 내용이다. 괄호안에 알맞는 답을 작성하시오.",
     "answer": "SJF, RR, SRT"
   },
@@ -1895,7 +1895,7 @@
     "round": 3,
     "number": 18,
     "category": "SQL/DB",
-    "prompt_html": "<p>18. 다음은 E-R다이어그램에 관한 설명이다. 괄호 안에 알맞는 답을 작성하시오.</p>\n<p>(아래 그래프 기호는 정확히 기억이 나지 않아 임의로 작성한 것이니 참고만 해주세요.)</p>\n<p>(    1    )  :  개체집합 - 관계집합 연결</p>\n<p>(    2    )  :  개체 집합과의 연결</p>\n<p>(    3    )  :  관계집합 - 관계집합의 속성 연결</p>\n<p>(    4    )  :  두 개체집합 관계에서 생성되는 값을 저장하는 속성</p>\n<p>(    5    )  :  같은 속성을 공유하는 개체들의 모임</p>",
+    "prompt_html": "<p>18. 다음은 E-R다이어그램에 관한 설명이다. 괄호 안에 알맞는 답을 작성하시오.</p>\n<p>(아래 그래프 기호는 정확히 기억이 나지 않아 임의로 작성한 것이니 참고만 해주세요.)</p>\n<img src=\"img/2022-3-18_1.png\" alt=\"학생-과목 E-R 다이어그램\" />\n<p>학생(<u>학생과목</u>, 이름, 성별, 나이) 사각형과 과목(<u>과목코드</u>, 과목이름) 사각형이 가운데 마름모와 실선으로 연결되고, 마름모 위의 DATA 사각형은 점선으로 연결됨. 기호 위치: ㄱ=학생 사각형, ㄴ=DATA, ㄷ=학생-마름모 실선, ㄹ=마름모-DATA 점선, ㅂ=마름모</p>\n<p>(    1    )  :  개체집합 - 관계집합 연결</p>\n<p>(    2    )  :  개체 집합과의 연결</p>\n<p>(    3    )  :  관계집합 - 관계집합의 속성 연결</p>\n<p>(    4    )  :  두 개체집합 관계에서 생성되는 값을 저장하는 속성</p>\n<p>(    5    )  :  같은 속성을 공유하는 개체들의 모임</p>",
     "prompt_text": "18. 다음은 E-R다이어그램에 관한 설명이다. 괄호 안에 알맞는 답을 작성하시오. (아래 그래프 기호는 정확히 기억이 나지 않아 임의로 작성한 것이니 참고만 해주세요.) (    1    )  :  개체집합 - 관계집합 연결 (    2    )  :  개체 집합과의 연결 (    3    )  :  관계집합 - 관계집합의 속성 연결 (    4    )  :  두 개체집합 관계에서 생성되는 값을 저장하는 속성 (    5    )  :  같은 속성을 공유하는 개체들의 모임",
     "answer": "1. 실선 (ㄷ)\n2. 관계집합 (ㅂ)\n3. 점선 (ㄹ)\n4. 관계집합의 속성 (ㄴ)\n5.  개체집합 (ㄱ)"
   },
@@ -2045,7 +2045,7 @@
     "round": 1,
     "number": 13,
     "category": "SQL/DB",
-    "prompt_html": "<p>13. [학생] 테이블에서 학생 이름이 '민수'인 튜플을 삭제하는 쿼리를 작성하시오.</p>\n<p>조건 - 컬럼의 값이 문자열일 경우 작은 따움표 ('  ')를 표시하시오. - SQL 마지막에 세미콜론(;)은 표기하지 않아도 관계 없습니다.</p>",
+    "prompt_html": "<p>13. [학생] 테이블에서 학생 이름이 '민수'인 튜플을 삭제하는 쿼리를 작성하시오.</p>\n<p>[표] &lt;학생&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>순번</b></td><td style=\"text-align: center;\"><b>학년</b></td><td style=\"text-align: center;\"><b>이름</b></td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">종현</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">민수</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">수연</td></tr>\n<tr><td style=\"text-align: center;\">4</td><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">수지</td></tr>\n</tbody>\n</table>\n<p>조건 - 컬럼의 값이 문자열일 경우 작은 따움표 ('  ')를 표시하시오. - SQL 마지막에 세미콜론(;)은 표기하지 않아도 관계 없습니다.</p>",
     "prompt_text": "13. [학생] 테이블에서 학생 이름이 '민수'인 튜플을 삭제하는 쿼리를 작성하시오. 조건 - 컬럼의 값이 문자열일 경우 작은 따움표 ('  ')를 표시하시오. - SQL 마지막에 세미콜론(;)은 표기하지 않아도 관계 없습니다.",
     "answer": "delete from 학생 where 이름 = '민수';"
   },
@@ -2075,7 +2075,7 @@
     "round": 1,
     "number": 16,
     "category": "SQL/DB",
-    "prompt_html": "<p>16. 다음 성적 테이블에서 과목별 점수의 평균이 90점 이상인 '과목이름', '최소점수', '최대점수' 를 검색하고자 한다. [조건]을 참고하여 적합한 SQL문을 작성하시오.</p>\n<p>조건 : - where사용하지 말하야 한다. - SELECT절에 별칭을 사용하여 작성해야 한다. - SQL 구문 마지막에 세미콜론 생락 가능하다. - 반드시 GROUP BY와 having을 사용해야 한다. - 집계함수를 사용해야 한다.</p>",
+    "prompt_html": "<p>16. 다음 성적 테이블에서 과목별 점수의 평균이 90점 이상인 '과목이름', '최소점수', '최대점수' 를 검색하고자 한다. [조건]을 참고하여 적합한 SQL문을 작성하시오.</p>\n<p>[표] 성적 테이블</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>순번</b></td><td style=\"text-align: center;\"><b>과목이름</b></td><td style=\"text-align: center;\"><b>점수</b></td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">데이터베이스</td><td style=\"text-align: center;\">89</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">데이터베이스</td><td style=\"text-align: center;\">92</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">네트워크</td><td style=\"text-align: center;\">88</td></tr>\n<tr><td style=\"text-align: center;\">4</td><td style=\"text-align: center;\">소프트웨어</td><td style=\"text-align: center;\">91</td></tr>\n<tr><td style=\"text-align: center;\">5</td><td style=\"text-align: center;\">네트워크</td><td style=\"text-align: center;\">89</td></tr>\n<tr><td style=\"text-align: center;\">6</td><td style=\"text-align: center;\">소프트웨어</td><td style=\"text-align: center;\">85</td></tr>\n</tbody>\n</table>\n<p>[표] 결과</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>과목이름</b></td><td style=\"text-align: center;\"><b>최소점수</b></td><td style=\"text-align: center;\"><b>최대점수</b></td></tr>\n<tr><td style=\"text-align: center;\">데이터베이스</td><td style=\"text-align: center;\">89</td><td style=\"text-align: center;\">92</td></tr>\n</tbody>\n</table>\n<p>조건 : - where사용하지 말하야 한다. - SELECT절에 별칭을 사용하여 작성해야 한다. - SQL 구문 마지막에 세미콜론 생락 가능하다. - 반드시 GROUP BY와 having을 사용해야 한다. - 집계함수를 사용해야 한다.</p>",
     "prompt_text": "16. 다음 성적 테이블에서 과목별 점수의 평균이 90점 이상인 '과목이름', '최소점수', '최대점수' 를 검색하고자 한다. [조건]을 참고하여 적합한 SQL문을 작성하시오. 조건 : - where사용하지 말하야 한다. - SELECT절에 별칭을 사용하여 작성해야 한다. - SQL 구문 마지막에 세미콜론 생락 가능하다. - 반드시 GROUP BY와 having을 사용해야 한다. - 집계함수를 사용해야 한다.",
     "answer": "SELECT\n과목이름\n,MIN(점수) AS 최소점수\n,MAX(점수) AS 최대점수\nFrom\n성적\nGROUP BY\n과목이름\nHAVING\nAVG(점수) >= 90"
   },
@@ -2105,7 +2105,7 @@
     "round": 1,
     "number": 19,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>19. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.</p>",
+    "prompt_html": "<p>19. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.</p>\n<img src=\"img/2023-1-19_1.png\" alt=\"노드 1~7 제어 흐름도\" />\n<p>1 POINTER = FALSE → 2 X &gt; K ? (YES → 3 POINTER = TRUE → 4, NO → 4) → 4 X = X + 2 → 5 CALL SUB(X, POINTER, RESULT) → 6 RESULT &gt; 1 ? (YES → 1, NO → 7 PRINT RESULT)</p>",
     "prompt_text": "19. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.",
     "answer": "1234561, 124567  or 1234567, 124561"
   },
@@ -2215,7 +2215,7 @@
     "round": 2,
     "number": 10,
     "category": "SQL/DB",
-    "prompt_html": "<p>10. 데이터베이스 설계 순서에 관한 내용이다. 보기를 이용하여 괄호안에 알맞은 내용을 작성하시오.</p>\n<p>보기</p>\n<p>구현, 요구조건 분석, 개념적 설계, 물리적 설계, 논리적 설계</p>",
+    "prompt_html": "<p>10. 데이터베이스 설계 순서에 관한 내용이다. 보기를 이용하여 괄호안에 알맞은 내용을 작성하시오.</p>\n<p>(　　　) → (　　　) → (　　　) → (　　　) → (　　　)</p>\n<p>보기</p>\n<p>구현, 요구조건 분석, 개념적 설계, 물리적 설계, 논리적 설계</p>",
     "prompt_text": "10. 데이터베이스 설계 순서에 관한 내용이다. 보기를 이용하여 괄호안에 알맞은 내용을 작성하시오. 보기 구현, 요구조건 분석, 개념적 설계, 물리적 설계, 논리적 설계",
     "answer": "요구조건 분석, 개념적 설계, 논리적 설계, 물리적 설계, 구현"
   },
@@ -2465,7 +2465,7 @@
     "round": 3,
     "number": 15,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>15. 다음은 판매와 관련된 다이어그램이다. 해당 다이어그램의 명칭을 쓰시오.</p>",
+    "prompt_html": "<p>15. 다음은 판매와 관련된 다이어그램이다. 해당 다이어그램의 명칭을 쓰시오.</p>\n<img src=\"img/2023-3-15_1.png\" alt=\"ordering, pricing, products 패키지 다이어그램\" />\n<p>ordering 패키지에서 pricing 패키지로 점선 화살표, ordering에서 products 패키지로 &lt;&lt;import&gt;&gt; 점선 화살표</p>",
     "prompt_text": "15. 다음은 판매와 관련된 다이어그램이다. 해당 다이어그램의 명칭을 쓰시오.",
     "answer": "패키지"
   },
@@ -2485,7 +2485,7 @@
     "round": 3,
     "number": 17,
     "category": "기타",
-    "prompt_html": "<p>17. 다음은 클라우드에 대한 유형 문제이다. 괄호안에 알맞는 답을 보기에 골라 작성하시오.</p>\n<p>출처 :&amp;nbsp; https://www.whatap.io/ko/blog/9/</p>\n<p>보기</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr>\n<td style=\"width: 100%;\"><span style=\"color: #333333; text-align: start;\">PaaS               <span> </span></span> SaaS                  IaaS                 </td>\n</tr>\n</tbody>\n</table>",
+    "prompt_html": "<p>17. 다음은 클라우드에 대한 유형 문제이다. 괄호안에 알맞는 답을 보기에 골라 작성하시오.</p>\n<img src=\"img/2023-3-17_1.png\" alt=\"전통적인 IT와 클라우드 서비스 유형 (1)(2)(3)별 제공 범위 비교\" />\n<p>계층(위→아래): 애플리케이션, 데이터, 런타임, 미들웨어, 운영체제, 가상화, 서버, 스토리지, 네트워크. 전통적인 IT는 전 계층을 기업이 관리. (1)은 가상화~네트워크만 서비스로 제공, (2)는 런타임~네트워크까지 제공(애플리케이션·데이터만 기업 관리), (3)은 애플리케이션까지 전 계층을 서비스로 제공.</p>\n<p>보기</p>\n<table border=\"1\" data-ke-align=\"alignLeft\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr>\n<td style=\"width: 100%;\"><span style=\"color: #333333; text-align: start;\">PaaS               <span> </span></span> SaaS                  IaaS                 </td>\n</tr>\n</tbody>\n</table>",
     "prompt_text": "17. 다음은 클라우드에 대한 유형 문제이다. 괄호안에 알맞는 답을 보기에 골라 작성하시오. 출처 :&nbsp; https://www.whatap.io/ko/blog/9/ 보기 PaaS SaaS                  IaaS",
     "answer": "(1) laas\n(2) PaaS\n(3) SaaS"
   },
@@ -2565,7 +2565,7 @@
     "round": 1,
     "number": 5,
     "category": "네트워크",
-    "prompt_html": "<p>5. 아래 그림에서의 네트워크에서 라우터을 통한 할당 가능한 2번, 4번, 5번의 IP를 작성하시오.</p>\n<p>1) 192.168.35.3/24 3) 129.200.10.16/22 6) 192.168.36.24/24</p>\n<p>보기</p>\n<p>192.168.35.0</p>\n<p>192.168.35.72</p>\n<p>192.168.36.0</p>\n<p>192.168.36.249</p>\n<p>129.200.8.0</p>\n<p>129.200.8.249</p>",
+    "prompt_html": "<p>5. 아래 그림에서의 네트워크에서 라우터을 통한 할당 가능한 2번, 4번, 5번의 IP를 작성하시오.</p>\n<img src=\"img/2024-1-5_1.png\" alt=\"라우터로 연결된 세 네트워크 구성도\" />\n<p>네트워크 A(1, 2) — 라우터 — 네트워크 B(3, 4) — 라우터 — 네트워크 C(5, 6). 같은 점선 박스 안의 호스트는 같은 네트워크다.</p>\n<p>1) 192.168.35.3/24 3) 129.200.10.16/22 6) 192.168.36.24/24</p>\n<p>보기</p>\n<p>192.168.35.0</p>\n<p>192.168.35.72</p>\n<p>192.168.36.0</p>\n<p>192.168.36.249</p>\n<p>129.200.8.0</p>\n<p>129.200.8.249</p>",
     "prompt_text": "5. 아래 그림에서의 네트워크에서 라우터을 통한 할당 가능한 2번, 4번, 5번의 IP를 작성하시오. 1) 192.168.35.3/24 3) 129.200.10.16/22 6) 192.168.36.24/24 보기 192.168.35.0 192.168.35.72 192.168.36.0 192.168.36.249 129.200.8.0 129.200.8.249",
     "answer": "2)192.168.35.72\n4)129.200.8.249\n5)192.168.36.249"
   },
@@ -2645,7 +2645,7 @@
     "round": 1,
     "number": 13,
     "category": "SQL/DB",
-    "prompt_html": "<p>13. 아래 보기의 SQL 문장과 테이블을 참고하여 출력 값을 표로 작성하시오.</p>\n<pre><code>SELECT\n    B\nFROM\n    R1\nWHERE\n    C IN (SELECT C FROM R2 WHERE D=\"k\");</code></pre>\n<p>보기</p>",
+    "prompt_html": "<p>13. 아래 보기의 SQL 문장과 테이블을 참고하여 출력 값을 표로 작성하시오.</p>\n<pre><code>SELECT\n    B\nFROM\n    R1\nWHERE\n    C IN (SELECT C FROM R2 WHERE D=\"k\");</code></pre>\n<p>보기</p>\n<p>[표] R1</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>A</b></td><td style=\"text-align: center;\"><b>B</b></td><td style=\"text-align: center;\"><b>C</b></td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">a</td><td style=\"text-align: center;\">x</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">b</td><td style=\"text-align: center;\">x</td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">c</td><td style=\"text-align: center;\">w</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">d</td><td style=\"text-align: center;\">w</td></tr>\n</tbody>\n</table>\n<p>[표] R2</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>C</b></td><td style=\"text-align: center;\"><b>D</b></td><td style=\"text-align: center;\"><b>E</b></td></tr>\n<tr><td style=\"text-align: center;\">x</td><td style=\"text-align: center;\">k</td><td style=\"text-align: center;\">3</td></tr>\n<tr><td style=\"text-align: center;\">y</td><td style=\"text-align: center;\">k</td><td style=\"text-align: center;\">3</td></tr>\n<tr><td style=\"text-align: center;\">z</td><td style=\"text-align: center;\">s</td><td style=\"text-align: center;\">2</td></tr>\n</tbody>\n</table>",
     "prompt_text": "13. 아래 보기의 SQL 문장과 테이블을 참고하여 출력 값을 표로 작성하시오. 1 2 3 4 5 6 SELECT B FROM R1 WHERE C IN ( SELECT C FROM R2 WHERE D = \"k\" ); cs 보기",
     "answer": "B\na\nb"
   },
@@ -2695,7 +2695,7 @@
     "round": 1,
     "number": 18,
     "category": "SQL/DB",
-    "prompt_html": "<p>18. 아래의 SQL 코드와 테이블을 참고하여 결과 값을 작성하시오.</p>\n<pre><code>SELECT \n    COUNT(*) \nFROM \n    TABLE \nWHERE \n    EMPNO &gt; 100 \nAND \n    SAL &gt;= 3000 OR EMPNO = 200</code></pre>",
+    "prompt_html": "<p>18. 아래의 SQL 코드와 테이블을 참고하여 결과 값을 작성하시오.</p>\n<p>[표] TABLE</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>EMPNO</b></td><td style=\"text-align: center;\"><b>SAL</b></td></tr>\n<tr><td style=\"text-align: center;\">100</td><td style=\"text-align: center;\">1000</td></tr>\n<tr><td style=\"text-align: center;\">200</td><td style=\"text-align: center;\">3000</td></tr>\n<tr><td style=\"text-align: center;\">300</td><td style=\"text-align: center;\">1500</td></tr>\n</tbody>\n</table>\n<pre><code>SELECT \n    COUNT(*) \nFROM \n    TABLE \nWHERE \n    EMPNO &gt; 100 \nAND \n    SAL &gt;= 3000 OR EMPNO = 200</code></pre>",
     "prompt_text": "18. 아래의 SQL 코드와 테이블을 참고하여 결과 값을 작성하시오. 1 2 3 4 5 6 7 8 SELECT COUNT( * ) FROM TABLE WHERE EMPNO > 100 AND SAL > = 3000 OR EMPNO = 200 cs",
     "answer": "1"
   },
@@ -2755,7 +2755,7 @@
     "round": 2,
     "number": 4,
     "category": "SQL/DB",
-    "prompt_html": "<p>4. 다음 릴레이션의 Cardinality와 Degree를 작성하시오.</p>\n<p>Cardinality : (  ①  )</p>\n<p>Degree : (  ②  )</p>",
+    "prompt_html": "<p>4. 다음 릴레이션의 Cardinality와 Degree를 작성하시오.</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>이름</b></td><td style=\"text-align: center;\"><b>나이</b></td><td style=\"text-align: center;\"><b>A</b></td><td style=\"text-align: center;\"><b>B</b></td></tr>\n<tr><td style=\"text-align: center;\">김ㅇㅇ</td><td style=\"text-align: center;\">23</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">5</td></tr>\n<tr><td style=\"text-align: center;\">박ㅇㅇ</td><td style=\"text-align: center;\">25</td><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">3</td></tr>\n<tr><td style=\"text-align: center;\">고ㅇㅇ</td><td style=\"text-align: center;\">42</td><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">8</td></tr>\n<tr><td style=\"text-align: center;\">최ㅇㅇ</td><td style=\"text-align: center;\">20</td><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">9</td></tr>\n<tr><td style=\"text-align: center;\">이ㅇㅇ</td><td style=\"text-align: center;\">25</td><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">2</td></tr>\n</tbody>\n</table>\n<p>Cardinality : (  ①  )</p>\n<p>Degree : (  ②  )</p>",
     "prompt_text": "4. 다음 릴레이션의 Cardinality와 Degree를 작성하시오. Cardinality : (  ①  ) Degree : (  ②  )",
     "answer": "①\n: 5\n②\n: 4"
   },
@@ -2825,7 +2825,7 @@
     "round": 2,
     "number": 11,
     "category": "네트워크",
-    "prompt_html": "<p>11. 아래 그림을 바탕으로 RIP을 구성하여 최단 경로 비용을 계산하여 흐름에 맞게 작성하시오.</p>\n<p>예제</p>\n<p>A  →</p>",
+    "prompt_html": "<p>11. 아래 그림을 바탕으로 RIP을 구성하여 최단 경로 비용을 계산하여 흐름에 맞게 작성하시오.</p>\n<img src=\"img/2024-2-11_1.png\" alt=\"노드 A~F와 링크 비용이 표시된 네트워크 그래프\" />\n<p>링크 비용: A-B 2, A-D 1, B-D 2, D-C 2, C-E 1, C-F 5, E-F 2</p>\n<p>예제</p>\n<p>A  →</p>",
     "prompt_text": "11. 아래 그림을 바탕으로 RIP을 구성하여 최단 경로 비용을 계산하여 흐름에 맞게 작성하시오. 예제 A  →",
     "answer": "A → D\n→ C\n→ F"
   },
@@ -2945,7 +2945,7 @@
     "round": 3,
     "number": 3,
     "category": "SQL/DB",
-    "prompt_html": "<p>3. 아래의 employee테이블과 project테이블을 참고하여 보기의 SQL명령어에 알맞는 출력 값을 작성하시오.</p>\n<p>보기</p>\n<pre><code>SELECT \n    count(*) \nFROM employee AS e JOIN project AS p ON e.project_id = p.project_id \nWHERE p.name IN (\n    SELECT name FROM project p WHERE p.project_id IN (\n        SELECT project_id FROM employee GROUP BY project_id HAVING count(*) &lt; 2\n    )\n);</code></pre>",
+    "prompt_html": "<p>3. 아래의 employee테이블과 project테이블을 참고하여 보기의 SQL명령어에 알맞는 출력 값을 작성하시오.</p>\n<p>[employee]</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>no</b></td><td style=\"text-align: center;\"><b>first_name</b></td><td style=\"text-align: center;\"><b>last_name</b></td><td style=\"text-align: center;\"><b>project_id</b></td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">John</td><td style=\"text-align: center;\">Doe</td><td style=\"text-align: center;\">10</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">Jim</td><td style=\"text-align: center;\">Carry</td><td style=\"text-align: center;\">20</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">Rachel</td><td style=\"text-align: center;\">Redmond</td><td style=\"text-align: center;\">10</td></tr>\n</tbody>\n</table>\n<p>[project]</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>project_id</b></td><td style=\"text-align: center;\"><b>name</b></td></tr>\n<tr><td style=\"text-align: center;\">10</td><td style=\"text-align: center;\">Alpha</td></tr>\n<tr><td style=\"text-align: center;\">20</td><td style=\"text-align: center;\">Beta</td></tr>\n<tr><td style=\"text-align: center;\">10</td><td style=\"text-align: center;\">Gamma</td></tr>\n</tbody>\n</table>\n<p>보기</p>\n<pre><code>SELECT \n    count(*) \nFROM employee AS e JOIN project AS p ON e.project_id = p.project_id \nWHERE p.name IN (\n    SELECT name FROM project p WHERE p.project_id IN (\n        SELECT project_id FROM employee GROUP BY project_id HAVING count(*) &lt; 2\n    )\n);</code></pre>",
     "prompt_text": "3. 아래의 employee테이블과 project테이블을 참고하여 보기의 SQL명령어에 알맞는 출력 값을 작성하시오. 보기 1 2 3 4 5 6 7 8 SELECT count( * ) FROM employee AS e JOIN project AS p ON e.project_id = p.project_id WHERE p.name IN ( SELECT name FROM project p WHERE p.project_id IN ( SELECT project_id FROM employee GROUP BY project_id HAVING count( * ) < 2 ) ); Colored by Color Scripter cs",
     "answer": "1"
   },
@@ -2995,7 +2995,7 @@
     "round": 3,
     "number": 8,
     "category": "SQL/DB",
-    "prompt_html": "<p>8. 다음은 무결성제약조건에 대한 문제이다. 아래 표에서 어떠한 (       ) 무결성을 위반하였는지 작성하시오.</p>",
+    "prompt_html": "<p>8. 다음은 무결성제약조건에 대한 문제이다. 아래 표에서 어떠한 (       ) 무결성을 위반하였는지 작성하시오.</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><u><b>StudentID</b></u></td><td style=\"text-align: center;\"><b>Name</b></td><td style=\"text-align: center;\"><b>Age</b></td><td style=\"text-align: center;\"><b>Major</b></td></tr>\n<tr><td style=\"text-align: center;\">101</td><td style=\"text-align: center;\">Alice</td><td style=\"text-align: center;\">20</td><td style=\"text-align: center;\">Computer Science</td></tr>\n<tr><td style=\"text-align: center;\">102</td><td style=\"text-align: center;\">Bob</td><td style=\"text-align: center;\">21</td><td style=\"text-align: center;\">Mathematics</td></tr>\n<tr><td style=\"text-align: center;\">101</td><td style=\"text-align: center;\">David</td><td style=\"text-align: center;\">23</td><td style=\"text-align: center;\">Chemistry</td></tr>\n<tr><td style=\"text-align: center;\">NULL</td><td style=\"text-align: center;\">Eve</td><td style=\"text-align: center;\">22</td><td style=\"text-align: center;\">Biology</td></tr>\n</tbody>\n</table>",
     "prompt_text": "8. 다음은 무결성제약조건에 대한 문제이다. 아래 표에서 어떠한 (       ) 무결성을 위반하였는지 작성하시오.",
     "answer": "개체"
   },
@@ -3005,7 +3005,7 @@
     "round": 3,
     "number": 9,
     "category": "네트워크",
-    "prompt_html": "<p>9. 다음은 URL 구조에 관한 문제이다 . 아래  보기의 순서대로 URL에 해당하는 번호를 작성하시오.</p>\n<p>보기</p>\n<p>query : 서버에 전달할 추가 데이터 path : 서버 내의 특정 자원을 가리키는 경로</p>\n<p>scheme : 리소스에 접근하는 방법이나 프로토콜</p>\n<p>authority : 사용자 정보, 호스트명, 포트 번호</p>\n<p>fragment : 특정 문서 내의 위치</p>",
+    "prompt_html": "<p>9. 다음은 URL 구조에 관한 문제이다 . 아래  보기의 순서대로 URL에 해당하는 번호를 작성하시오.</p>\n<pre><code>foo://localhost:8080/over/there?name=ferret#nose</code></pre>\n<p>(1) foo　(2) localhost:8080　(3) /over/there　(4) name=ferret　(5) nose</p>\n<p>보기</p>\n<p>query : 서버에 전달할 추가 데이터 path : 서버 내의 특정 자원을 가리키는 경로</p>\n<p>scheme : 리소스에 접근하는 방법이나 프로토콜</p>\n<p>authority : 사용자 정보, 호스트명, 포트 번호</p>\n<p>fragment : 특정 문서 내의 위치</p>",
     "prompt_text": "9. 다음은 URL 구조에 관한 문제이다 . 아래  보기의 순서대로 URL에 해당하는 번호를 작성하시오. 보기 query : 서버에 전달할 추가 데이터 path : 서버 내의 특정 자원을 가리키는 경로 scheme : 리소스에 접근하는 방법이나 프로토콜 authority : 사용자 정보, 호스트명, 포트 번호 fragment : 특정 문서 내의 위치",
     "answer": "43125"
   },
@@ -3055,7 +3055,7 @@
     "round": 3,
     "number": 14,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>14.아래는 UML클래스의 관계에 관한 문제이다. 보기를 보고 알맞는 관계를 선택하여 작성하시오.</p>\n<p>보기</p>\n<p>ㄱ. 의존         ㄴ. 연관         ㄷ. 일반화</p>",
+    "prompt_html": "<p>14.아래는 UML클래스의 관계에 관한 문제이다. 보기를 보고 알맞는 관계를 선택하여 작성하시오.</p>\n<img src=\"img/2024-3-14_1.png\" alt=\"UML 클래스 관계 세 가지 그림\" />\n<p>(1) 차 — 타이어, 바퀴, 엔진 (실선 연결)　(2) 버스, 택시, 승용차 → 차 (실선, 차 쪽 화살표)　(3) 텔레비전 → 리모콘 (점선 화살표)</p>\n<p>보기</p>\n<p>ㄱ. 의존         ㄴ. 연관         ㄷ. 일반화</p>",
     "prompt_text": "14.아래는 UML클래스의 관계에 관한 문제이다. 보기를 보고 알맞는 관계를 선택하여 작성하시오. 보기 ㄱ. 의존         ㄴ. 연관         ㄷ. 일반화",
     "answer": "(1) 연관\n(2) 일반화\n(3) 의존"
   },
@@ -3135,7 +3135,7 @@
     "round": 1,
     "number": 2,
     "category": "SQL/DB",
-    "prompt_html": "<p>2. 다음은 제약조건과 관련된 문제이다. 괄호안에 알맞는 용어를 보기에 골라 작성하시오.</p>\n<p>[보기]</p>\n<p>개체, 참조, 도메인</p>",
+    "prompt_html": "<p>2. 다음은 제약조건과 관련된 문제이다. 괄호안에 알맞는 용어를 보기에 골라 작성하시오.</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>구분</b></td><td style=\"text-align: center;\"><b>( ㄱ ) 무결성 제약조건</b></td><td style=\"text-align: center;\"><b>( ㄴ ) 무결성 제약조건</b></td><td style=\"text-align: center;\"><b>( ㄷ ) 무결성 제약조건</b></td></tr>\n<tr><td style=\"text-align: center;\">제약 대상</td><td style=\"text-align: center;\">속성</td><td style=\"text-align: center;\">투플</td><td style=\"text-align: center;\">속성과 투플</td></tr>\n<tr><td style=\"text-align: center;\">NULL 값</td><td style=\"text-align: center;\">-</td><td style=\"text-align: center;\">기본키</td><td style=\"text-align: center;\">외래키</td></tr>\n<tr><td style=\"text-align: center;\">릴레이션 내 제약조건의 개수</td><td style=\"text-align: center;\">송상의 개수와 동일</td><td style=\"text-align: center;\">1개</td><td style=\"text-align: center;\">0~여러 개</td></tr>\n<tr><td style=\"text-align: center;\">기타</td><td style=\"text-align: center;\">- 투플 삽입/수정 시 제약사항 우선 확인</td><td style=\"text-align: center;\">- 투플 삽입/수정 시 제약사항 우선 확인</td><td style=\"text-align: center;\">- 투플 삽입/수정 시 제약사항 우선 확인<br>- 부모 릴레이션의 투플 수정/삭제 시 제약사항 우선 확인</td></tr>\n</tbody>\n</table>\n<p>[보기]</p>\n<p>개체, 참조, 도메인</p>",
     "prompt_text": "2. 다음은 제약조건과 관련된 문제이다. 괄호안에 알맞는 용어를 보기에 골라 작성하시오. [보기] 개체, 참조, 도메인",
     "answer": "ㄱ. 도메인\nㄴ. 개체\nㄷ. 참조"
   },
@@ -3185,7 +3185,7 @@
     "round": 1,
     "number": 7,
     "category": "SQL/DB",
-    "prompt_html": "<p>7. 다음은 SQL 문제이다. 아래 두 테이블을 참고하여 보기에 쿼리 실행 결과를 작성하시오.</p>\n<p>[보기]</p>\n<pre><code>SELECT name, incentive FROM emp, sal WHERE emp.id = sal.id and incentives &gt;= 500</code></pre>",
+    "prompt_html": "<p>7. 다음은 SQL 문제이다. 아래 두 테이블을 참고하여 보기에 쿼리 실행 결과를 작성하시오.</p>\n<p>[표] &lt;emp 테이블&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>id</b></td><td style=\"text-align: center;\"><b>name</b></td></tr>\n<tr><td style=\"text-align: center;\">1001</td><td style=\"text-align: center;\">김철수</td></tr>\n<tr><td style=\"text-align: center;\">1002</td><td style=\"text-align: center;\">홍길동</td></tr>\n<tr><td style=\"text-align: center;\">1004</td><td style=\"text-align: center;\">강감찬</td></tr>\n<tr><td style=\"text-align: center;\">1008</td><td style=\"text-align: center;\">이순신</td></tr>\n</tbody>\n</table>\n<p>[표] &lt;sal 테이블&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>id</b></td><td style=\"text-align: center;\"><b>incentives</b></td></tr>\n<tr><td style=\"text-align: center;\">1002</td><td style=\"text-align: center;\">300</td></tr>\n<tr><td style=\"text-align: center;\">1004</td><td style=\"text-align: center;\">300</td></tr>\n<tr><td style=\"text-align: center;\">1008</td><td style=\"text-align: center;\">1000</td></tr>\n<tr><td style=\"text-align: center;\">1009</td><td style=\"text-align: center;\">500</td></tr>\n</tbody>\n</table>\n<p>[보기]</p>\n<pre><code>SELECT name, incentive FROM emp, sal WHERE emp.id = sal.id and incentives &gt;= 500</code></pre>",
     "prompt_text": "7. 다음은 SQL 문제이다. 아래 두 테이블을 참고하여 보기에 쿼리 실행 결과를 작성하시오. [보기] SELECT name, incentive FROM emp, sal WHERE emp.id = sal.id and incentives >= 500",
     "answer": "name  |  incentives\n이순신 | 1000"
   },
@@ -3255,7 +3255,7 @@
     "round": 1,
     "number": 14,
     "category": "디자인패턴",
-    "prompt_html": "<p>14. 아래는 디자인 패턴에 대한 설명이다. 알맞는 답을 보기에 골라 작성하시오. 서로 다른 인터페이스를 가진 클래스들을 연결해 사용 가능하게 한다. 기존 클래스(Adaptee)를 원하는 인터페이스(Target)에 맞게 변환하는 어댑터(Adapter)를 만든다. 기존 클래스를 감싸서(wrapper) 인터페이스를 변환해주는 역할을 한다.</p>",
+    "prompt_html": "<p>14. 아래는 디자인 패턴에 대한 설명이다. 알맞는 답을 보기에 골라 작성하시오. 서로 다른 인터페이스를 가진 클래스들을 연결해 사용 가능하게 한다. 기존 클래스(Adaptee)를 원하는 인터페이스(Target)에 맞게 변환하는 어댑터(Adapter)를 만든다. 기존 클래스를 감싸서(wrapper) 인터페이스를 변환해주는 역할을 한다.</p>\n<p>[보기]</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>생성</b></td><td style=\"text-align: center;\"><b>구조</b></td><td style=\"text-align: center;\"><b>행위</b></td></tr>\n<tr><td style=\"text-align: center;\">Singleton</td><td style=\"text-align: center;\">Adapter</td><td style=\"text-align: center;\">Strategy</td></tr>\n<tr><td style=\"text-align: center;\">Factory Method</td><td style=\"text-align: center;\">Bridge</td><td style=\"text-align: center;\">Template Method</td></tr>\n<tr><td style=\"text-align: center;\">Abstract Factory</td><td style=\"text-align: center;\">Composite</td><td style=\"text-align: center;\">Observer</td></tr>\n<tr><td style=\"text-align: center;\">Builder</td><td style=\"text-align: center;\">Decorator</td><td style=\"text-align: center;\">State</td></tr>\n<tr><td style=\"text-align: center;\">Prototype</td><td style=\"text-align: center;\">Façade</td><td style=\"text-align: center;\">Command</td></tr>\n</tbody>\n</table>",
     "prompt_text": "14. 아래는 디자인 패턴에 대한 설명이다. 알맞는 답을 보기에 골라 작성하시오. 서로 다른 인터페이스를 가진 클래스들을 연결해 사용 가능하게 한다. 기존 클래스(Adaptee)를 원하는 인터페이스(Target)에 맞게 변환하는 어댑터(Adapter)를 만든다. 기존 클래스를 감싸서(wrapper) 인터페이스를 변환해주는 역할을 한다.",
     "answer": "Adapter"
   },
@@ -3265,7 +3265,7 @@
     "round": 1,
     "number": 15,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>15. 문장(Statement) 커버리지 테스트를 수행하려고 한다. 코드를 아래의 제어 흐름도 빈칸에 연결되도록 작성하고 문장 커버리지 순서대로 작성하시오.</p>\n<pre><code>int Main(int b[], int m, int x) {\n    int a = 0;\n    while (a &lt; m || b[a] &lt; x) {\n        if (b[a] &lt; 0)\n            b[a] = -b[a];\n        a++;\n    }\n    return 1;\n}</code></pre>\n<p>[흐름도]</p>\n<p>1. (    ①    )    2. (    ②    )    3. (    ③    )    4. (    ④    )    5. (    ⑤    )  6. (    ⑥    )</p>\n<p>문장 커버리지 순서 1 → 2 → (          ⑦           )</p>",
+    "prompt_html": "<p>15. 문장(Statement) 커버리지 테스트를 수행하려고 한다. 코드를 아래의 제어 흐름도 빈칸에 연결되도록 작성하고 문장 커버리지 순서대로 작성하시오.</p>\n<pre><code>int Main(int b[], int m, int x) {\n    int a = 0;\n    while (a &lt; m || b[a] &lt; x) {\n        if (b[a] &lt; 0)\n            b[a] = -b[a];\n        a++;\n    }\n    return 1;\n}</code></pre>\n<p>[흐름도]</p>\n<img src=\"img/2025-1-15_1.png\" alt=\"제어 흐름도: 1~6 노드\" />\n<p>흐름: 1 → 2(조건), 2 → 3(조건) 또는 2 → 6, 3 → 4 또는 3 → 5, 4 → 5, 5 → 2(반복)</p>\n<p>1. (    ①    )    2. (    ②    )    3. (    ③    )    4. (    ④    )    5. (    ⑤    )  6. (    ⑥    )</p>\n<p>문장 커버리지 순서 1 → 2 → (          ⑦           )</p>",
     "prompt_text": "15. 문장(Statement) 커버리지 테스트를 수행하려고 한다. 코드를 아래의 제어 흐름도 빈칸에 연결되도록 작성하고 문장 커버리지 순서대로 작성하시오. 1 2 3 4 5 6 7 8 9 int Main( int b[], int m, int x) { int a = 0 ; while (a < m | | b[a] < x) { if (b[a] < 0 ) b[a] = - b[a]; a + + ; } return 1 ; } Colored by Color Scripter cs [흐름도] 1. (    ①    )    2. (    ②    )    3. (    ③    )    4. (    ④    )    5. (    ⑤    )  6. (    ⑥    ) 문장 커버리지 순서 1 → 2 → (          ⑦           )",
     "answer": "(1) int a = 0\n(2) a < m || b[a] < x\n(3) b[a] < 0\n(4) b[a] = -b[a];\n(5) a++;\n(6) return 1;\n(7) ③ → ④ → ⑤ → ② → ⑥"
   },
@@ -3425,7 +3425,7 @@
     "round": 2,
     "number": 11,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>11. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.</p>",
+    "prompt_html": "<p>11. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.</p>\n<img src=\"img/2025-2-11_1.png\" alt=\"제어 흐름 그래프: 1~7 노드\" />\n<p>① POINTER = FALSE → ② X &gt; K ? (YES → ③ POINTER = TRUE → ④, NO → ④) → ④ X = X + 2 → ⑤ CALL SUB(X, POINTER, RESULT) → ⑥ RESULT &gt; 1 ? (YES → ①, NO → ⑦ PRINT RESULT)</p>",
     "prompt_text": "11. 다음 아래 제어 흐름 그래프가 분기 커버리지를 만족하기 위한 테스팅 순서를 쓰시오.",
     "answer": "1234561, 124567  or 1234567, 124561"
   },
@@ -3515,7 +3515,7 @@
     "round": 2,
     "number": 20,
     "category": "SQL/DB",
-    "prompt_html": "<p>20. 다음 테이블에서 πTTL(employee)에 대한 연산 결과 값을 작성하시오.</p>\n<p>[employee테이블]</p>",
+    "prompt_html": "<p>20. 다음 테이블에서 πTTL(employee)에 대한 연산 결과 값을 작성하시오.</p>\n<p>[employee테이블]</p>\n<p>[employee테이블]</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>Index</b></td><td style=\"text-align: center;\"><b>AGE</b></td><td style=\"text-align: center;\"><b>TTL</b></td></tr>\n<tr><td style=\"text-align: center;\">1</td><td style=\"text-align: center;\">55</td><td style=\"text-align: center;\">부장</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">35</td><td style=\"text-align: center;\">대리</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">42</td><td style=\"text-align: center;\">과장</td></tr>\n<tr><td style=\"text-align: center;\">4</td><td style=\"text-align: center;\">45</td><td style=\"text-align: center;\">차장</td></tr>\n</tbody>\n</table>\n<p>[결과]</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>①</b></td></tr>\n<tr><td style=\"text-align: center;\">②</td></tr>\n<tr><td style=\"text-align: center;\">③</td></tr>\n<tr><td style=\"text-align: center;\">④</td></tr>\n<tr><td style=\"text-align: center;\">⑤</td></tr>\n</tbody>\n</table>",
     "prompt_text": "20. 다음 테이블에서 πTTL(employee)에 대한 연산 결과 값을 작성하시오. [employee테이블]",
     "answer": "1. TTL\n2. 부장\n3. 대리\n4. 과장\n5. 차장"
   },
@@ -3615,7 +3615,7 @@
     "round": 3,
     "number": 10,
     "category": "SQL/DB",
-    "prompt_html": "<p>10. 다음은 테이블에서 조건값을 실행한 화면이다. 이에 대한 알맞는 결과값을 작성하시오.</p>",
+    "prompt_html": "<p>10. 다음은 테이블에서 조건값을 실행한 화면이다. 이에 대한 알맞는 결과값을 작성하시오.</p>\n<p>[표] T1</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>CODE</b></td><td style=\"text-align: center;\"><b>NAME</b></td></tr>\n<tr><td style=\"text-align: center;\">3258</td><td style=\"text-align: center;\">smith</td></tr>\n<tr><td style=\"text-align: center;\">4324</td><td style=\"text-align: center;\">allen</td></tr>\n<tr><td style=\"text-align: center;\">5432</td><td style=\"text-align: center;\">scott</td></tr>\n</tbody>\n</table>\n<p>[표] T2</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>NO</b></td><td style=\"text-align: center;\"><b>RULE</b></td></tr>\n<tr><td style=\"text-align: center;\">12</td><td style=\"text-align: center;\">s%</td></tr>\n<tr><td style=\"text-align: center;\">32</td><td style=\"text-align: center;\">%t%</td></tr>\n</tbody>\n</table>\n<p>[실행값]</p>\n<pre><code>SELECT COUNT(*) CNT FROM T1 A\n    CROSS JOIN T2 B\n    WHERE A.NAME LIKE B.RULE;</code></pre>\n<p>결과: (　　　)</p>",
     "prompt_text": "10. 다음은 테이블에서 조건값을 실행한 화면이다. 이에 대한 알맞는 결과값을 작성하시오.",
     "answer": "4"
   },
@@ -3655,7 +3655,7 @@
     "round": 3,
     "number": 14,
     "category": "SQL/DB",
-    "prompt_html": "<p>14. 다음 아래의 테이블을 확인하여 R%S 의 결과를 테이블 형태로 기재하시오 .</p>",
+    "prompt_html": "<p>14. 다음 아래의 테이블을 확인하여 R%S 의 결과를 테이블 형태로 기재하시오 .</p>\n<p>[표] &lt;R테이블&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>A</b></td><td style=\"text-align: center;\"><b>B</b></td></tr>\n<tr><td style=\"text-align: center;\">a1</td><td style=\"text-align: center;\">b1</td></tr>\n<tr><td style=\"text-align: center;\">a2</td><td style=\"text-align: center;\">b2</td></tr>\n<tr><td style=\"text-align: center;\">a1</td><td style=\"text-align: center;\">b3</td></tr>\n</tbody>\n</table>\n<p>[표] &lt;S테이블&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>B</b></td></tr>\n<tr><td style=\"text-align: center;\">b1</td></tr>\n<tr><td style=\"text-align: center;\">b3</td></tr>\n</tbody>\n</table>",
     "prompt_text": "14. 다음 아래의 테이블을 확인하여 R%S 의 결과를 테이블 형태로 기재하시오 .",
     "answer": "A\na1"
   },
@@ -3705,7 +3705,7 @@
     "round": 3,
     "number": 19,
     "category": "소프트웨어공학",
-    "prompt_html": "<p>19. 다음은 테스트케이스의 구성요소에 대한 설명이다. 괄호 ( ) 안에 들어갈 알맞는 보기를 고르시오.</p>\n<p>[보기]</p>\n<p>ㄱ . 테스트 조건 ㄴ . 테스트 환경 ㄷ . 테스트 유형 ㄹ . 테스트 데이터</p>\n<p>ㅁ . 예상 결과 ㅂ . 수행 단계 ㅅ . 성공 / 실패 기준</p>",
+    "prompt_html": "<p>19. 다음은 테스트케이스의 구성요소에 대한 설명이다. 괄호 ( ) 안에 들어갈 알맞는 보기를 고르시오.</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>식별자 ID</b></td><td style=\"text-align: center;\"><b>테스트 항목</b></td><td style=\"text-align: center;\"><b>(　　　)</b></td><td style=\"text-align: center;\"><b>(　　　)</b></td><td style=\"text-align: center;\"><b>(　　　)</b></td></tr>\n<tr><td style=\"text-align: center;\">DS-45S-21</td><td style=\"text-align: center;\">로그인 기능</td><td style=\"text-align: center;\">사용자 초기 화면</td><td style=\"text-align: center;\">사용자 아이디 (Test11)<br>비밀번호 (test@#@!#)</td><td style=\"text-align: center;\">로그인 성공</td></tr>\n<tr><td style=\"text-align: center;\">DS-45S-25</td><td style=\"text-align: center;\">로그인 기능</td><td style=\"text-align: center;\">사용자 초기 화면</td><td style=\"text-align: center;\">사용자 아이디 (Test11)<br>비밀번호 (\"\")</td><td style=\"text-align: center;\">로그인 실패</td></tr>\n</tbody>\n</table>\n<p>[보기]</p>\n<p>ㄱ . 테스트 조건 ㄴ . 테스트 환경 ㄷ . 테스트 유형 ㄹ . 테스트 데이터</p>\n<p>ㅁ . 예상 결과 ㅂ . 수행 단계 ㅅ . 성공 / 실패 기준</p>",
     "prompt_text": "19. 다음은 테스트케이스의 구성요소에 대한 설명이다. 괄호 ( ) 안에 들어갈 알맞는 보기를 고르시오. [보기] ㄱ . 테스트 조건 ㄴ . 테스트 환경 ㄷ . 테스트 유형 ㄹ . 테스트 데이터 ㅁ . 예상 결과 ㅂ . 수행 단계 ㅅ . 성공 / 실패 기준",
     "answer": "(왼쪽순으로)\nㄱ\nㄹ\nㅁ"
   },
@@ -3715,7 +3715,7 @@
     "round": 3,
     "number": 20,
     "category": "SQL/DB",
-    "prompt_html": "<p>20. 다음은 SQL 에 관한 문제이다 . 아래 A 테이블을 참고하여 쿼리의 결과를 작성하시오 .</p>\n<p>[ SQL ]</p>\n<pre><code>SELECT count(col2) FROM A WHERE col1 IN (2, 3) OR col2 IN (3, 5)</code></pre>",
+    "prompt_html": "<p>20. 다음은 SQL 에 관한 문제이다 . 아래 A 테이블을 참고하여 쿼리의 결과를 작성하시오 .</p>\n<p>[표] &lt;A테이블&gt;</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>col1</b></td><td style=\"text-align: center;\"><b>col2</b></td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">null</td></tr>\n<tr><td style=\"text-align: center;\">3</td><td style=\"text-align: center;\">6</td></tr>\n<tr><td style=\"text-align: center;\">2</td><td style=\"text-align: center;\">3</td></tr>\n<tr><td style=\"text-align: center;\">null</td><td style=\"text-align: center;\">3</td></tr>\n<tr><td style=\"text-align: center;\">4</td><td style=\"text-align: center;\">5</td></tr>\n</tbody>\n</table>\n<p>[ SQL ]</p>\n<pre><code>SELECT count(col2) FROM A WHERE col1 IN (2, 3) OR col2 IN (3, 5)</code></pre>",
     "prompt_text": "20. 다음은 SQL 에 관한 문제이다 . 아래 A 테이블을 참고하여 쿼리의 결과를 작성하시오 . [ SQL ] SELECT count(col2) FROM A WHERE col1 IN (2, 3) OR col2 IN (3, 5)",
     "answer": "4"
   },
@@ -3745,7 +3745,7 @@
     "round": 1,
     "number": 3,
     "category": "SQL/DB",
-    "prompt_html": "<p>3. 데이터베이스(DB) 설계 절차를 순서대로 나타낸 것이다. 각 빈칸에 들어갈 알맞은 용어를 쓰시오.</p>",
+    "prompt_html": "<p>3. 데이터베이스(DB) 설계 절차를 순서대로 나타낸 것이다. 각 빈칸에 들어갈 알맞은 용어를 쓰시오.</p>\n<p>[DB 설계 절차]</p>\n<p>( ㄱ ) → ( ㄴ ) → ( ㄷ ) → ( ㄹ ) → ( ㅁ )</p>\n<p>[보기]</p>\n<p>구현 / 개념적 설계 / 논리적 설계 / 요구사항 분석 / 물리적 설계</p>",
     "prompt_text": "3. 데이터베이스(DB) 설계 절차를 순서대로 나타낸 것이다. 각 빈칸에 들어갈 알맞은 용어를 쓰시오.",
     "answer": "ㄱ.요구사항 분석\nㄴ.개념적 설계\nㄷ.논리적 설계\nㄹ.물리적 설계\nㅁ.구현"
   },
@@ -3895,7 +3895,7 @@
     "round": 1,
     "number": 18,
     "category": "SQL/DB",
-    "prompt_html": "<p>18. 다음은 SQL에 대한 문제이다. 아래 코드를 확인하여 알맞는 출력값을 작성하시오.</p>\n<pre><code>SELECT COUNT(*) FROM employee e JOIN dept d ON e.dep_id = d.dept_id WHERE d.budget &gt; ( SELECT AVG(budget) FROM dept );</code></pre>",
+    "prompt_html": "<p>18. 다음은 SQL에 대한 문제이다. 아래 코드를 확인하여 알맞는 출력값을 작성하시오.</p>\n<p>[표] employee</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>dep_id</b></td></tr>\n<tr><td style=\"text-align: center;\">10</td></tr>\n<tr><td style=\"text-align: center;\">20</td></tr>\n<tr><td style=\"text-align: center;\">20</td></tr>\n</tbody>\n</table>\n<p>[표] dept</p>\n<table border=\"1\" style=\"border-collapse: collapse; width: 100%;\">\n<tbody>\n<tr><td style=\"text-align: center;\"><b>dept_id</b></td><td style=\"text-align: center;\"><b>budget</b></td></tr>\n<tr><td style=\"text-align: center;\">10</td><td style=\"text-align: center;\">100</td></tr>\n<tr><td style=\"text-align: center;\">20</td><td style=\"text-align: center;\">300</td></tr>\n<tr><td style=\"text-align: center;\">30</td><td style=\"text-align: center;\">200</td></tr>\n</tbody>\n</table>\n<pre><code>SELECT COUNT(*) FROM employee e JOIN dept d ON e.dep_id = d.dept_id WHERE d.budget &gt; ( SELECT AVG(budget) FROM dept );</code></pre>",
     "prompt_text": "18. 다음은 SQL에 대한 문제이다. 아래 코드를 확인하여 알맞는 출력값을 작성하시오. SELECT COUNT(*) FROM employee e JOIN dept d ON e.dep_id = d.dept_id WHERE d.budget > ( SELECT AVG(budget) FROM dept );",
     "answer": "2"
   },
