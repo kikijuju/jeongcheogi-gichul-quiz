@@ -17,28 +17,6 @@ const state = {
 
 const CONCEPT_CATEGORIES = ["소프트웨어공학", "SQL/DB", "네트워크", "보안", "운영체제", "디자인패턴", "기타"];
 
-const BRAND_STORAGE_KEY = "itq-brand-v1";
-const BRAND_TEXT = {
-  goguma: { title: "정처기고구마", start: "🍠 퀴즈 시작", retry: "🍠 오답만 다시 풀기", toggle: "📘 심플 테마" },
-  plain: { title: "정처기 실기 기출 학습", start: "퀴즈 시작", retry: "오답만 다시 풀기", toggle: "🍠 고구마 테마" },
-};
-
-function applyBrand(brand) {
-  document.documentElement.setAttribute("data-brand", brand);
-  const t = BRAND_TEXT[brand];
-  document.title = t.title;
-  document.querySelector(".brand-text h1").textContent = t.title;
-  document.getElementById("start-btn").textContent = t.start;
-  document.getElementById("retry-wrong-btn").textContent = t.retry;
-  document.getElementById("brand-toggle").textContent = t.toggle;
-  localStorage.setItem(BRAND_STORAGE_KEY, brand);
-}
-
-document.getElementById("brand-toggle").addEventListener("click", () => {
-  const current = document.documentElement.getAttribute("data-brand") || "goguma";
-  applyBrand(current === "goguma" ? "plain" : "goguma");
-});
-
 function loadProgress() {
   try {
     return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
@@ -327,6 +305,30 @@ function toggleBookmark(id) {
   }
 }
 
+// ---------- sidebar open / closed ----------
+
+const SIDE_KEY = "itq-side-collapsed-v1";
+
+function readSideCollapsed() {
+  try {
+    return localStorage.getItem(SIDE_KEY) === "1";
+  } catch (e) {
+    return false;
+  }
+}
+
+function applySideCollapsed(collapsed) {
+  document.body.classList.toggle("side-collapsed", collapsed);
+  try {
+    localStorage.setItem(SIDE_KEY, collapsed ? "1" : "0");
+  } catch (e) {
+    /* ignore */
+  }
+}
+
+document.getElementById("side-close").addEventListener("click", () => applySideCollapsed(true));
+document.getElementById("side-open").addEventListener("click", () => applySideCollapsed(false));
+
 // ---------- quiz view ----------
 
 const quizList = document.getElementById("quiz-list");
@@ -438,6 +440,95 @@ function enhanceCode(container, q) {
       });
     });
   });
+}
+
+// ---------- explanation renderer ----------
+
+// Explanations use a tiny line-based markup (see annotations.json):
+//   #개념 a, b               related-concept chips (first line)
+//   ## 제목                  sub-heading
+//   1. … / - …              numbered / bullet list
+//   > …                     state box (variable values, intermediate results)
+//   |a|b|                   table, first row is the header
+//   !함정 / !팁 / !암기 …     callouts
+//   !용어 이름: 설명          glossary, collected at the end
+//   `code` and **bold** inline. Text is escaped first, so no raw HTML gets in.
+const CALLOUT_LABEL = { 함정: "⚠️ 함정", 팁: "💡 팁", 암기: "🧠 암기" };
+
+function inlineMarkup(text) {
+  // odd segments are `code` spans; **bold** only applies outside them (C's **p)
+  return escapeText(text)
+    .split("`")
+    .map((part, i) =>
+      i % 2 === 1 ? `<code class="ic">${part}</code>` : part.replace(/\*\*([^*]+)\*\*/g, "<strong>$1</strong>")
+    )
+    .join("");
+}
+
+function renderExplanation(source) {
+  const lines = source.replace(/\r/g, "").split("\n");
+  const isSpecial = (t) => !t || /^(#개념|## |\d+\.\s|- |>|\||!(함정|팁|암기|용어)\s)/.test(t);
+  let tags = [];
+  const terms = [];
+  let html = "";
+  let i = 0;
+  const take = (test, strip) => {
+    const items = [];
+    while (i < lines.length && test(lines[i].trim())) items.push(strip(lines[i++].trim()));
+    return items;
+  };
+  const cells = (row) => row.replace(/^\||\|$/g, "").split("|").map((c) => c.trim());
+
+  while (i < lines.length) {
+    const t = lines[i].trim();
+    if (!t) {
+      i++;
+    } else if (t.startsWith("#개념")) {
+      tags = t.slice(3).split(",").map((x) => x.trim()).filter(Boolean);
+      i++;
+    } else if (t.startsWith("## ")) {
+      html += `<h4>${inlineMarkup(t.slice(3))}</h4>`;
+      i++;
+    } else if (/^\d+\.\s/.test(t)) {
+      const items = take((x) => /^\d+\.\s/.test(x), (x) => x.replace(/^\d+\.\s+/, ""));
+      html += `<ol>${items.map((x) => `<li>${inlineMarkup(x)}</li>`).join("")}</ol>`;
+    } else if (t.startsWith("- ")) {
+      const items = take((x) => x.startsWith("- "), (x) => x.slice(2));
+      html += `<ul>${items.map((x) => `<li>${inlineMarkup(x)}</li>`).join("")}</ul>`;
+    } else if (t.startsWith(">")) {
+      const items = take((x) => x.startsWith(">"), (x) => x.replace(/^>\s?/, ""));
+      html += `<div class="ex-state">${items.map(inlineMarkup).join("<br>")}</div>`;
+    } else if (t.startsWith("|")) {
+      const [head, ...body] = take((x) => x.startsWith("|"), cells);
+      html +=
+        `<div class="ex-table-wrap"><table class="ex-table"><thead><tr>${head.map((c) => `<th>${inlineMarkup(c)}</th>`).join("")}</tr></thead>` +
+        `<tbody>${body.map((row) => `<tr>${row.map((c) => `<td>${inlineMarkup(c)}</td>`).join("")}</tr>`).join("")}</tbody></table></div>`;
+    } else if (/^!(함정|팁|암기)\s/.test(t)) {
+      const space = t.indexOf(" ");
+      const kind = t.slice(1, space);
+      html += `<div class="ex-callout ex-${kind}"><b>${CALLOUT_LABEL[kind]}</b> ${inlineMarkup(t.slice(space + 1))}</div>`;
+      i++;
+    } else if (t.startsWith("!용어 ")) {
+      terms.push(t.slice(4));
+      i++;
+    } else {
+      const para = take((x) => !isSpecial(x), (x) => x);
+      html += `<p>${para.map(inlineMarkup).join("<br>")}</p>`;
+    }
+  }
+
+  const tagHtml = tags.length
+    ? `<div class="ex-tags"><span class="ex-tags-label">🎓 관련 개념</span>${tags.map((x) => `<span class="ex-tag">${escapeText(x)}</span>`).join("")}</div>`
+    : "";
+  const termHtml = terms.length
+    ? `<div class="ex-terms"><div class="ex-terms-title">📖 용어 풀이</div><dl>${terms
+        .map((x) => {
+          const k = x.indexOf(":");
+          return k > 0 ? `<dt>${inlineMarkup(x.slice(0, k))}</dt><dd>${inlineMarkup(x.slice(k + 1).trim())}</dd>` : `<dd>${inlineMarkup(x)}</dd>`;
+        })
+        .join("")}</dl></div>`
+    : "";
+  return tagHtml + html + termHtml;
 }
 
 // ---------- quiz cards ----------
@@ -598,7 +689,7 @@ function buildQuizCard(q, idx) {
       <button type="button" class="override-btn hidden">내 답도 맞아요</button>
       <button type="button" class="next-btn">다음 문제 ↓</button>
     </div>
-    ${q.explanation ? `<div class="qcard-explanation hidden"><div class="answer-text">${escapeText(q.explanation)}</div></div>` : ""}
+    ${q.explanation ? `<div class="qrow qcard-explanation hidden"><div class="qlabel">풀이</div><div class="qbody explain-body">${renderExplanation(q.explanation)}</div></div>` : ""}
   `;
   card.querySelector(".answer-reveal .answer-text").textContent = q.answer;
   enhanceCode(card.querySelector(".quiz-prompt"), q);
@@ -854,7 +945,7 @@ function renderSummary() {
   const wrongCount = Object.values(state.results).filter((r) => r === "wrong").length;
 
   card.innerHTML = `
-    <div class="summary-head">${done ? "🍠 세트 완료!" : `아직 ${total - answered}문제 남았어요`}</div>
+    <div class="summary-head">${done ? "🎉 세트 완료!" : `아직 ${total - answered}문제 남았어요`}</div>
     <div class="summary-score ${done ? (passed ? "pass" : "fail") : ""}">
       <span class="summary-big">${score}<small>점</small></span>
       <span>${correct} / ${total} 정답${done ? ` · ${passed ? "합격권 (60점 이상) 🎉" : "합격선 60점까지 " + Math.ceil(total * PASS_RATE - correct) + "문제 더"}` : ""}</span>
@@ -914,7 +1005,7 @@ function renderWrongList() {
       <details>
         <summary>정답 보기</summary>
         <div class="wrong-answer">${escapeText(q.answer)}</div>
-        ${q.explanation ? `<div class="wrong-answer explanation">${escapeText(q.explanation)}</div>` : ""}
+        ${q.explanation ? `<div class="wrong-answer explanation explain-body">${renderExplanation(q.explanation)}</div>` : ""}
       </details>
     `;
     wrap.appendChild(item);
@@ -1011,7 +1102,7 @@ function renderConcepts() {
         <details>
           <summary>정답 보기</summary>
           <div class="concept-answer">${escapeText(g.answer)}</div>
-          ${g.explanation ? `<div class="concept-answer explanation">${escapeText(g.explanation)}</div>` : ""}
+          ${g.explanation ? `<div class="concept-answer explanation explain-body">${renderExplanation(g.explanation)}</div>` : ""}
         </details>
       `;
       section.appendChild(item);
@@ -1101,7 +1192,7 @@ window.addEventListener("resize", syncTopbarHeight);
 
 (async function init() {
   syncTopbarHeight();
-  applyBrand(localStorage.getItem(BRAND_STORAGE_KEY) || "goguma");
+  applySideCollapsed(readSideCollapsed());
   await loadQuestions();
   state.progress = loadProgress();
   state.bookmarks = loadBookmarks();
