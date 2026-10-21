@@ -1365,3 +1365,6 @@ body.mock-running .score-rate, body.mock-running .side-rate-wrap { display: none
 
 .note-picker { margin-bottom: 14px; }
 .note-picker .chip { font-size: 13.5px; padding: 6px 14px; }
+
+/* 합격선 only means something for a whole paper (모의고사 / 회차) */
+body.no-pass-line .pass-line { display: none; }

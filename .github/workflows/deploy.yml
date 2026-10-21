@@ -26,6 +26,14 @@ jobs:
       # stamp asset URLs with the commit so a deploy never serves a cached old app.js / style.css
       - name: Stamp asset versions
         run: sed -i "s/__BUILD__/${GITHUB_SHA::7}/g" webapp/index.html
+      # one real page per tab so /quiz/, /stats/ … open directly (and survive a reload);
+      # each copy points <base> one level up so assets and data resolve from the root
+      - name: Tab pages
+        run: |
+          for view in quiz wrong concepts notes stats; do
+            mkdir -p "webapp/$view"
+            sed 's|<base href="./" />|<base href="../" />|' webapp/index.html > "webapp/$view/index.html"
+          done
       - uses: actions/upload-pages-artifact@v3
         with:
           path: webapp

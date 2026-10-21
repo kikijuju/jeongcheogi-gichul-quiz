@@ -12,6 +12,7 @@ const state = {
   bookmarks: new Set(),
   bookmarkOnly: false,
   mock: null,
+  passMode: false,
   conceptMode: "list",
   conceptCategories: new Set(),
   conceptSearch: "",
@@ -103,7 +104,21 @@ function byFrequency(a, b) {
 
 // ---------- view switching ----------
 
-function switchView(view) {
+// Each tab has its own address (…/quiz/, …/wrong/, …/stats/ …). The deploy
+// writes a copy of index.html into each of those folders with <base href="../">,
+// and every copy freezes its base at the site root, so the relative pushState
+// URLs below and all asset paths resolve the same from any tab.
+const ROUTED_VIEWS = ["quiz", "wrong", "concepts", "notes", "stats"];
+
+function viewFromPath() {
+  const segment = location.pathname.split("/").filter(Boolean).pop();
+  return ROUTED_VIEWS.includes(segment) ? segment : "home";
+}
+
+window.addEventListener("popstate", () => switchView(viewFromPath(), { push: false }));
+
+function switchView(view, { push = true } = {}) {
+  if (push && view !== viewFromPath()) history.pushState({ view }, "", view === "home" ? "./" : `${view}/`);
   document.querySelectorAll(".view").forEach((el) => el.classList.remove("active"));
   document.getElementById(`view-${view}`).classList.add("active");
   document.querySelectorAll(".tab-btn").forEach((btn) => {
@@ -241,10 +256,14 @@ document.getElementById("start-btn").addEventListener("click", () => {
     alert("선택된 문제가 없습니다. 필터를 확인해주세요.");
     return;
   }
-  startQuiz(list);
+  // a 회차 picked without narrowing to categories/bookmarks is a whole paper,
+  // so it gets the 60점 pass verdict; category drills don't
+  const wholePaper = state.selectedRounds.size > 0 && state.selectedCategories.size === 0 && !state.bookmarkOnly;
+  startQuiz(list, { passMode: wholePaper });
 });
 
-function startQuiz(list, { mock = false, keepOrder = false } = {}) {
+function startQuiz(list, { mock = false, keepOrder = false, passMode = false } = {}) {
+  state.passMode = mock || passMode;
   if (mock || keepOrder) state.queue = list.slice();
   else if (state.order === "random") state.queue = shuffle(list.slice());
   else if (state.order === "frequency") state.queue = list.slice().sort(byFrequency);
@@ -396,7 +415,13 @@ function saveSession() {
   try {
     localStorage.setItem(
       SESSION_KEY,
-      JSON.stringify({ ids: state.queue.map((q) => q.id), cards: state.cardState, mock: state.mock, savedAt: Date.now() })
+      JSON.stringify({
+        ids: state.queue.map((q) => q.id),
+        cards: state.cardState,
+        mock: state.mock,
+        passMode: state.passMode,
+        savedAt: Date.now(),
+      })
     );
   } catch (e) {
     /* storage full or blocked: the run just won't survive a reload */
@@ -413,6 +438,7 @@ function loadSession() {
     state.queue = queue;
     state.cardState = saved.cards || {};
     state.mock = saved.mock || null;
+    state.passMode = Boolean(saved.passMode || saved.mock);
     state.results = {};
     Object.entries(state.cardState).forEach(([idx, cs]) => {
       if (cs.result) state.results[idx] = cs.result;
@@ -1054,14 +1080,15 @@ function updateScore() {
   const wrong = results.length - correct;
   const rate = results.length > 0 ? `${Math.round((correct / results.length) * 100)}%` : "-";
 
+  document.body.classList.toggle("no-pass-line", !state.passMode);
   ["score-correct", "side-correct"].forEach((id) => (document.getElementById(id).textContent = correct));
   ["score-wrong", "side-wrong"].forEach((id) => (document.getElementById(id).textContent = wrong));
   ["score-left", "side-left"].forEach((id) => (document.getElementById(id).textContent = total - results.length));
   ["score-rate", "side-rate"].forEach((id) => {
     const el = document.getElementById(id);
     el.textContent = rate;
-    el.classList.toggle("pass", results.length > 0 && correct / results.length >= PASS_RATE);
-    el.classList.toggle("fail", results.length > 0 && correct / results.length < PASS_RATE);
+    el.classList.toggle("pass", state.passMode && results.length > 0 && correct / results.length >= PASS_RATE);
+    el.classList.toggle("fail", state.passMode && results.length > 0 && correct / results.length < PASS_RATE);
   });
 
   // stacked bar of the whole set: green = right, red = wrong; the tick marks
@@ -1113,10 +1140,17 @@ function renderSummary() {
 
   card.innerHTML = `
     <div class="summary-head">${state.mock ? "📝 모의고사 결과 · " : ""}${done ? "🎉 세트 완료!" : state.mock ? `서술형 ${total - answered}문제는 정답을 보고 직접 채점해 주세요` : `아직 ${total - answered}문제 남았어요`}</div>
-    <div class="summary-score ${done ? (passed ? "pass" : "fail") : ""}">
+    ${
+      state.passMode
+        ? `<div class="summary-score ${done ? (passed ? "pass" : "fail") : ""}">
       <span class="summary-big">${score}<small>점</small></span>
       <span>${correct} / ${total} 정답${done ? ` · ${passed ? "합격권 (60점 이상) 🎉" : "합격선 60점까지 " + Math.ceil(total * PASS_RATE - correct) + "문제 더"}` : ""}</span>
-    </div>
+    </div>`
+        : `<div class="summary-score">
+      <span class="summary-big">${answered ? Math.round((correct / answered) * 100) : 0}<small>%</small></span>
+      <span>정답률 · ${correct} / ${answered} 정답${done ? "" : ` (${total - answered}문제 남음)`}</span>
+    </div>`
+    }
     <div class="summary-cats">
       ${Array.from(byCat.entries())
         .map(
@@ -1670,4 +1704,7 @@ window.addEventListener("resize", syncTopbarHeight);
   loadSession();
   renderQuiz();
   renderHome();
+  // open the tab the address points at (a shared /stats/ link, a reload …)
+  const initial = viewFromPath();
+  if (initial !== "home") switchView(initial, { push: false });
 })();
