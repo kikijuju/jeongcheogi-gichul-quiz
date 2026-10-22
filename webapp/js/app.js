@@ -500,6 +500,26 @@ function applySideCollapsed(collapsed) {
 document.getElementById("side-close").addEventListener("click", () => applySideCollapsed(true));
 document.getElementById("side-open").addEventListener("click", () => applySideCollapsed(false));
 
+// One ☆ button per card. Every copy of the same question on screen (a note can
+// list a question twice) flips together, and onChange lets a page update counts.
+function starButtonHtml(q) {
+  const on = state.bookmarks.has(q.id);
+  return `<button type="button" class="star-btn ${on ? "on" : ""}" data-qid="${q.id}" title="북마크" aria-pressed="${on}">${on ? "★" : "☆"}</button>`;
+}
+
+function wireStar(card, q, onChange) {
+  card.querySelector(".star-btn").addEventListener("click", () => {
+    toggleBookmark(q.id);
+    const on = state.bookmarks.has(q.id);
+    document.querySelectorAll(`.star-btn[data-qid="${q.id}"]`).forEach((star) => {
+      star.classList.toggle("on", on);
+      star.textContent = on ? "★" : "☆";
+      star.setAttribute("aria-pressed", on);
+    });
+    if (onChange) onChange();
+  });
+}
+
 // ---------- quiz view ----------
 
 const quizList = document.getElementById("quiz-list");
@@ -834,7 +854,6 @@ function buildQuizCard(q, idx) {
           .join("")
       : `<label class="blank"><textarea class="blank-input" rows="2" data-blank="0" placeholder="서술형 — 적어 본 뒤 정답을 보고 스스로 채점해요"></textarea></label>`;
 
-  const starred = state.bookmarks.has(q.id);
   card.innerHTML = `
     <div class="qcard-top">
       <span class="q-tag">기출</span>
@@ -842,7 +861,7 @@ function buildQuizCard(q, idx) {
       ${q.topic ? `<span class="q-topic">${escapeText(q.topic)} · ${q.topicRounds}회 출제</span>` : ""}
       <span class="q-status"></span>
       <span class="q-num">${idx + 1} / ${state.queue.length}</span>
-      <button type="button" class="star-btn ${starred ? "on" : ""}" title="북마크" aria-pressed="${starred}">${starred ? "★" : "☆"}</button>
+      ${starButtonHtml(q)}
     </div>
     <div class="qrow qrow-source">
       <div class="qlabel">기출</div>
@@ -918,14 +937,7 @@ function buildQuizCard(q, idx) {
   card.querySelector(".next-btn").addEventListener("click", () => goNext(idx));
   const explainBtn = card.querySelector(".explain-btn");
   if (explainBtn) explainBtn.addEventListener("click", () => toggleExplanation(card));
-  const star = card.querySelector(".star-btn");
-  star.addEventListener("click", () => {
-    toggleBookmark(q.id);
-    const on = state.bookmarks.has(q.id);
-    star.classList.toggle("on", on);
-    star.textContent = on ? "★" : "☆";
-    star.setAttribute("aria-pressed", on);
-  });
+  wireStar(card, q);
   return card;
 }
 
@@ -1212,7 +1224,7 @@ function reviewAnswerHtml(q) {
 
 // A read-only question card for 오답노트 / 개념정리: same look as the quiz,
 // answer and 풀이 behind one "정답 보기" button.
-function buildReviewCard(q, { badge = "", sourceText = "" } = {}) {
+function buildReviewCard(q, { badge = "", sourceText = "", onStar = null } = {}) {
   const card = document.createElement("div");
   card.className = "qcard review-card";
   card.innerHTML = `
@@ -1221,6 +1233,7 @@ function buildReviewCard(q, { badge = "", sourceText = "" } = {}) {
       ${difficultyBadge(q)}
       ${q.topic ? `<span class="q-topic">${escapeText(q.topic)} · ${q.topicRounds}회 출제</span>` : ""}
       <span class="q-status">${badge}</span>
+      ${starButtonHtml(q)}
     </div>
     <div class="qrow qrow-source">
       <div class="qlabel">기출</div>
@@ -1246,6 +1259,7 @@ function buildReviewCard(q, { badge = "", sourceText = "" } = {}) {
     const ex = card.querySelector(".qcard-explanation");
     if (ex) ex.classList.remove("hidden");
   });
+  wireStar(card, q, onStar);
   return card;
 }
 
@@ -1589,10 +1603,25 @@ function renderNotes() {
       <ol class="note-toc">${lesson.sections
         .map((s, i) => `<li><a href="#note-${lesson.id}-${i}">${escapeText(s.title.replace(/^\d+\.\s*/, ""))}</a></li>`)
         .join("")}</ol>
-      <button type="button" class="primary-btn note-practice">이 노트의 기출 ${exampleIds.length}문제 풀어보기</button>`;
+      <div class="note-actions">
+        <button type="button" class="primary-btn note-practice">이 노트의 기출 ${exampleIds.length}문제 풀어보기</button>
+        <button type="button" class="secondary-btn note-starred hidden"></button>
+      </div>
+      <p class="note-star-hint">기출 카드 오른쪽 위 ☆를 누르면 북마크돼요. 북마크한 문제는 여기와 홈의 '★ 북마크한 문제만'에서 모아 풀 수 있어요.</p>`;
     head.querySelector(".note-practice").addEventListener("click", () => {
       startQuiz(exampleIds.map((id) => byId.get(id)), { keepOrder: true });
     });
+    const starredBtn = head.querySelector(".note-starred");
+    const starredIds = () => exampleIds.filter((id) => state.bookmarks.has(id));
+    const refreshStarred = () => {
+      const n = starredIds().length;
+      starredBtn.classList.toggle("hidden", n === 0);
+      starredBtn.textContent = `★ 북마크한 ${n}문제만 풀기`;
+    };
+    starredBtn.addEventListener("click", () => {
+      startQuiz(starredIds().map((id) => byId.get(id)), { keepOrder: true });
+    });
+    refreshStarred();
     head.querySelectorAll(".note-toc a").forEach((a) =>
       a.addEventListener("click", (e) => {
         e.preventDefault();
@@ -1616,7 +1645,7 @@ function renderNotes() {
         label.className = "note-examples-label";
         label.textContent = `📌 기출 예시 ${examples.length}문제 — 문제를 먼저 풀어 보고 정답 보기를 누르세요`;
         body.appendChild(label);
-        examples.forEach((q) => body.appendChild(buildReviewCard(q)));
+        examples.forEach((q) => body.appendChild(buildReviewCard(q, { onStar: refreshStarred })));
       }
     });
   });

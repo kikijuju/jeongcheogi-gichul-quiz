@@ -1368,3 +1368,11 @@ body.mock-running .score-rate, body.mock-running .side-rate-wrap { display: none
 
 /* 합격선 only means something for a whole paper (모의고사 / 회차) */
 body.no-pass-line .pass-line { display: none; }
+
+/* 개념노트: practise-all + practise-starred side by side */
+.note-actions { display: flex; gap: 8px; flex-wrap: wrap; }
+.note-actions .primary-btn { flex: 1; width: auto; }
+.note-actions .secondary-btn { flex: 0 0 auto; font-weight: 600; color: #b38600; }
+.note-star-hint { margin: 8px 0 0; font-size: 12px; color: var(--text-muted); }
+.review-card .q-status { margin-left: auto; }
+.review-card .star-btn { margin-left: 4px; }
