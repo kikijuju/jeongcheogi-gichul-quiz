@@ -63,6 +63,11 @@ async function loadQuestions() {
   } catch (e) {
     state.predictions = null;
   }
+  try {
+    state.theory = await (await fetch("data/theory.json", { cache: "no-cache" })).json();
+  } catch (e) {
+    state.theory = null;
+  }
   computeTopicFrequency();
 }
 
@@ -113,7 +118,7 @@ function byFrequency(a, b) {
 // writes a copy of index.html into each of those folders with <base href="../">,
 // and every copy freezes its base at the site root, so the relative pushState
 // URLs below and all asset paths resolve the same from any tab.
-const ROUTED_VIEWS = ["predict", "quiz", "wrong", "concepts", "notes", "stats"];
+const ROUTED_VIEWS = ["predict", "glossary", "quiz", "wrong", "concepts", "notes", "stats"];
 
 function viewFromPath() {
   const segment = location.pathname.split("/").filter(Boolean).pop();
@@ -135,6 +140,7 @@ function switchView(view, { push = true } = {}) {
   if (view === "concepts") renderConcepts();
   if (view === "notes") renderNotes();
   if (view === "predict") renderPredict();
+  if (view === "glossary") renderGlossary();
   document.body.classList.toggle("quiz-active", view === "quiz");
   if (view === "quiz") document.querySelectorAll("#quiz-list .blank-input").forEach((f) => f.value && autoGrow(f));
 }
@@ -1665,19 +1671,20 @@ function renderNotes() {
   });
 }
 
-// ---------- 출제예상 ----------
+// ---------- 출제예상 · 용어집 ----------
 
-// predictions.json groups the code questions (C/Java/Python) by the type we
-// expect next; a group is its topics plus hand-picked include/exclude ids.
+// predictions.json (code) and theory.json (theory + glossary) group past
+// questions by the type we expect next; a group is a category's topics plus
+// hand-picked include/exclude ids. Both tabs render through renderStudyTab.
 const PREDICT_TIER = { 1: "거의 확정", 2: "유력", 3: "대비" };
 const PREDICT_RECENT = 8; // rounds the "N회 출제" line looks back over
-const CODE_CATEGORIES = ["C", "Java", "Python"];
 
 function predictMembers(g) {
   const include = new Set(g.include || []);
   const exclude = new Set(g.exclude || []);
+  const category = g.category || g.lang;
   return state.questions
-    .filter((q) => !exclude.has(q.id) && (include.has(q.id) || (q.category === g.lang && (g.topics || []).includes(q.topic))))
+    .filter((q) => !exclude.has(q.id) && (include.has(q.id) || (q.category === category && (g.topics || []).includes(q.topic))))
     .sort((a, b) => b.year - a.year || b.round - a.round || a.number - b.number);
 }
 
@@ -1690,38 +1697,46 @@ function notMastered(q) {
   return !entry || entry.lastResult !== "correct";
 }
 
-function renderPredict() {
-  const body = document.getElementById("predict-body");
+function scrollToId(id) {
+  const target = document.getElementById(id);
+  if (!target) return;
+  const top = target.getBoundingClientRect().top + window.scrollY - document.querySelector(".topbar").offsetHeight - 12;
+  window.scrollTo({ top, behavior: "smooth" });
+}
+
+// spec: { bodyId, data, prefix, title (html), groupLabel(g), shareCols: [[label, [categories]]], shareTotal, detailTitle, terms }
+function renderStudyTab(spec) {
+  const body = document.getElementById(spec.bodyId);
   body.innerHTML = "";
-  const data = state.predictions;
+  const data = spec.data;
   if (!data || !data.groups) {
-    body.innerHTML = `<div class="card"><p class="empty-msg">출제예상 데이터를 불러오지 못했어요.</p></div>`;
+    body.innerHTML = `<div class="card"><p class="empty-msg">데이터를 불러오지 못했어요.</p></div>`;
     return;
   }
   const groups = data.groups.map((g) => ({ ...g, members: predictMembers(g) }));
   const recent = recentRoundKeys();
   const roundName = (key) => key.replace(/^20(\d\d)-(\d)$/, "$1년 $2회");
 
-  // head: how big the code share is lately, how to study, practise-all buttons
+  // head: how big this area is lately, how to study, practise-all buttons
   const head = document.createElement("div");
   head.className = "card predict-head";
+  const allCats = spec.shareCols.flatMap(([, cats]) => cats);
   const shareRows = recent
     .slice()
     .reverse()
     .map((key) => {
       const qs = state.questions.filter((q) => roundKey(q) === key);
-      const n = (cat) => qs.filter((q) => q.category === cat).length;
-      const code = CODE_CATEGORIES.reduce((sum, cat) => sum + n(cat), 0);
-      return `<tr><td>${roundName(key)}</td><td>${n("C")}</td><td>${n("Java")}</td><td>${n("Python")}</td><td><b>${code}</b> / ${qs.length}</td></tr>`;
+      const n = (cats) => qs.filter((q) => cats.includes(q.category)).length;
+      return `<tr><td>${roundName(key)}</td>${spec.shareCols.map(([, cats]) => `<td>${n(cats)}</td>`).join("")}<td><b>${n(allCats)}</b> / ${qs.length}</td></tr>`;
     })
     .join("");
   const core = groups.filter((g) => g.tier <= 2).flatMap((g) => g.members);
   const coreLeft = core.filter(notMastered);
   head.innerHTML = `
-    <h2>🎯 ${escapeText(data.target)} 코드 문제 출제예상</h2>
+    <h2>${spec.title}</h2>
     <p class="note-summary">${escapeText(data.basis)}</p>
     <div class="ex-table-wrap"><table class="ex-table predict-share">
-      <thead><tr><th>회차</th><th>C</th><th>Java</th><th>Python</th><th>코드 합계</th></tr></thead>
+      <thead><tr><th>회차</th>${spec.shareCols.map(([label]) => `<th>${escapeText(label)}</th>`).join("")}<th>${escapeText(spec.shareTotal)}</th></tr></thead>
       <tbody>${shareRows}</tbody>
     </table></div>
     <div class="explain-body predict-guide">${renderExplanation(data.guide || "")}</div>
@@ -1739,15 +1754,12 @@ function renderPredict() {
     const chip = document.createElement("button");
     chip.type = "button";
     chip.className = "chip";
-    chip.textContent = `${g.lang} · ${g.title}`;
-    chip.addEventListener("click", () => {
-      const target = document.getElementById(`predict-${g.id}`);
-      const top = target.getBoundingClientRect().top + window.scrollY - document.querySelector(".topbar").offsetHeight - 12;
-      window.scrollTo({ top, behavior: "smooth" });
-    });
+    chip.textContent = `${spec.groupLabel(g)} · ${g.title}`;
+    chip.addEventListener("click", () => scrollToId(`${spec.prefix}-${g.id}`));
     toc.appendChild(chip);
   });
   body.appendChild(toc);
+  if (spec.terms) body.appendChild(glossaryToolbar(body));
 
   groups.forEach((g) => {
     const hits = recent.filter((key) => g.members.some((q) => roundKey(q) === key)).length;
@@ -1757,25 +1769,26 @@ function renderPredict() {
 
     const card = document.createElement("div");
     card.className = "card note-section predict-group";
-    card.id = `predict-${g.id}`;
+    card.id = `${spec.prefix}-${g.id}`;
     card.innerHTML = `
       <div class="predict-title">
         <span class="predict-tier tier-${g.tier}">${PREDICT_TIER[g.tier] || ""}</span>
-        <span class="predict-lang">${escapeText(g.lang)}</span>
+        <span class="predict-lang">${escapeText(spec.groupLabel(g))}</span>
         <h2>${escapeText(g.title)}</h2>
       </div>
       <p class="predict-meta">최근 ${recent.length}회 중 <b>${hits}회</b> 출제 · 기출 ${g.members.length}문제 · 맞힘 ${right.length} / 풀어봄 ${tried.length}</p>
       <p class="predict-why">${escapeText(g.why)}</p>
       <details class="predict-detail"${g.tier === 1 ? " open" : ""}>
-        <summary>핵심 정리</summary>
+        <summary>${spec.detailTitle}</summary>
         <div class="explain-body">${renderExplanation(g.body || "")}</div>
       </details>
+      ${spec.terms && g.terms && g.terms.length ? glossaryTermsHtml(g.terms) : ""}
       <div class="predict-qs" aria-label="이 유형의 기출 (초록 맞힘 · 빨강 틀림)"></div>
       <div class="note-actions">
         <button type="button" class="primary-btn">이 유형 ${g.members.length}문제 풀기 (최신순)</button>
         <button type="button" class="secondary-btn${left.length && left.length < g.members.length ? "" : " hidden"}">못 맞힌 ${left.length}문제만</button>
       </div>`;
-    enhanceCode(card, { category: g.lang });
+    enhanceCode(card, { category: g.lang || g.category });
 
     const qWrap = card.querySelector(".predict-qs");
     g.members.forEach((q) => {
@@ -1793,6 +1806,104 @@ function renderPredict() {
     allBtn.addEventListener("click", () => startQuiz(g.members, { keepOrder: true }));
     leftBtn.addEventListener("click", () => startQuiz(left, { keepOrder: true }));
     body.appendChild(card);
+  });
+  if (spec.terms) applyGlossaryFilter(body);
+}
+
+function renderPredict() {
+  renderStudyTab({
+    bodyId: "predict-body",
+    data: state.predictions,
+    prefix: "predict",
+    title: `🎯 ${escapeText((state.predictions && state.predictions.target) || "")} 코드 문제 출제예상`,
+    groupLabel: (g) => g.lang,
+    shareCols: [["C", ["C"]], ["Java", ["Java"]], ["Python", ["Python"]]],
+    shareTotal: "코드 합계",
+    detailTitle: "핵심 정리",
+  });
+}
+
+// ---------- 용어집 (theory) ----------
+
+const THEORY_LABEL = { "SQL/DB": "DB", 소프트웨어공학: "SW공학", 네트워크: "네트워크", 보안: "보안", 운영체제: "OS", 디자인패턴: "패턴", 기타: "기타" };
+const glossaryView = { search: "", hide: false };
+
+function glossaryTermsHtml(terms) {
+  // most-asked first; a term not yet on a paper is tagged as a 대비 term
+  const rows = terms
+    .slice()
+    .sort((a, b) => b.r.length - a.r.length)
+    .map((t) => {
+      const tags = t.r.length
+        ? t.r.map((r) => `<span class="${t.r.length >= 2 ? "hot" : ""}">${escapeText(r)}</span>`).join("")
+        : `<span class="new">기출 외 대비</span>`;
+      const text = `${t.t} ${t.e} ${t.d.replace(/\*\*/g, "")}`.toLowerCase();
+      return `<div class="gl-term" data-text="${escapeText(text).replace(/"/g, "&quot;")}">
+        <div class="gl-top"><span class="gl-name">${escapeText(t.t)}</span><span class="gl-en">${escapeText(t.e)}</span><span class="gl-rounds">${tags}</span></div>
+        <p class="gl-def">${inlineMarkup(t.d)}</p>
+      </div>`;
+    })
+    .join("");
+  return `<div class="gl-terms"><div class="gl-terms-title">용어 ${terms.length}개 · 빨간 태그는 2번 이상 출제</div>${rows}</div>`;
+}
+
+function glossaryToolbar(body) {
+  const bar = document.createElement("div");
+  bar.className = "gl-toolbar";
+  bar.innerHTML = `
+    <input type="search" class="search-input gl-search" placeholder="용어·약어·뜻 검색 (예: 결합도, OSPF)" aria-label="용어 검색" />
+    <button type="button" class="secondary-btn gl-hide" aria-pressed="false">가리기</button>`;
+  const input = bar.querySelector(".gl-search");
+  input.value = glossaryView.search;
+  input.addEventListener("input", () => {
+    glossaryView.search = input.value;
+    applyGlossaryFilter(body);
+  });
+  bar.querySelector(".gl-hide").addEventListener("click", () => {
+    glossaryView.hide = !glossaryView.hide;
+    body.querySelectorAll(".gl-term.show").forEach((t) => t.classList.remove("show"));
+    applyGlossaryFilter(body);
+  });
+  return bar;
+}
+
+// tapping a hidden definition reveals just that one
+document.getElementById("glossary-body").addEventListener("click", (e) => {
+  const def = e.target.closest(".gl-def");
+  if (def && glossaryView.hide) def.parentElement.classList.toggle("show");
+});
+
+function applyGlossaryFilter(body) {
+  const term = glossaryView.search.trim().toLowerCase();
+  body.classList.toggle("gl-hiding", glossaryView.hide);
+  const hideBtn = body.querySelector(".gl-hide");
+  if (hideBtn) {
+    hideBtn.setAttribute("aria-pressed", String(glossaryView.hide));
+    hideBtn.textContent = glossaryView.hide ? "가리기 켜짐 · 뜻을 탭하면 보여요" : "가리기";
+  }
+  body.querySelectorAll(".predict-group").forEach((card) => {
+    let shown = 0;
+    card.querySelectorAll(".gl-term").forEach((row) => {
+      const ok = !term || row.dataset.text.includes(term);
+      row.classList.toggle("hidden", !ok);
+      if (ok) shown += 1;
+    });
+    // while searching, only types with a matching term stay
+    card.classList.toggle("hidden", Boolean(term) && shown === 0);
+  });
+}
+
+function renderGlossary() {
+  renderStudyTab({
+    bodyId: "glossary-body",
+    data: state.theory,
+    prefix: "glossary",
+    title: `📚 ${escapeText((state.theory && state.theory.title) || "이론 출제예상 · 용어집")}`,
+    groupLabel: (g) => THEORY_LABEL[g.category] || g.category,
+    shareCols: [["DB", ["SQL/DB"]], ["SW공학", ["소프트웨어공학"]], ["네트워크", ["네트워크"]], ["보안", ["보안"]], ["OS", ["운영체제"]], ["패턴", ["디자인패턴"]], ["기타", ["기타"]]],
+    shareTotal: "이론 합계",
+    detailTitle: "핵심 암기",
+    terms: true,
   });
 }
 

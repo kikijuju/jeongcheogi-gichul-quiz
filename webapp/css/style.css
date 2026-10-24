@@ -1425,3 +1425,38 @@ body.no-pass-line .pass-line { display: none; }
 .ex-figure-scroll { overflow-x: auto; padding: 12px; }
 .ex-figure img { display: block; width: 100%; min-width: 460px; max-width: 680px; height: auto; margin: 0 auto; }
 .ex-figure figcaption { padding: 0 12px 10px; font-size: 12.5px; color: var(--text-muted); text-align: center; }
+
+/* ---------- 용어집 ---------- */
+
+.gl-toolbar {
+  position: sticky;
+  top: var(--topbar-h, 0px);
+  z-index: 4;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
+  padding: 10px 0;
+  margin-bottom: 12px;
+  background: var(--bg);
+}
+.gl-toolbar .gl-search { flex: 1 1 220px; min-width: 0; }
+.gl-toolbar .gl-hide { font-weight: 600; }
+.gl-toolbar .gl-hide[aria-pressed="true"] { background: var(--accent); color: var(--accent-text); border-color: var(--accent); }
+
+.gl-terms { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; }
+.gl-terms-title { padding: 8px 14px; font-size: 12.5px; font-weight: 600; color: var(--text-muted); background: var(--code-block-bg); }
+.gl-term { padding: 10px 14px; border-top: 1px solid var(--border); }
+.gl-top { display: flex; gap: 8px; align-items: baseline; flex-wrap: wrap; }
+.gl-name { font-weight: 700; font-size: 15px; }
+.gl-en { font-family: ui-monospace, Consolas, monospace; font-size: 12.5px; color: var(--accent); }
+.gl-rounds { margin-left: auto; display: flex; gap: 4px; flex-wrap: wrap; }
+.gl-rounds span { font-size: 11px; font-variant-numeric: tabular-nums; color: var(--text-muted); background: var(--chip-bg); border-radius: 4px; padding: 1px 6px; }
+.gl-rounds span.hot { background: var(--wrong-soft); color: var(--wrong-ink); font-weight: 600; }
+.gl-rounds span.new { background: transparent; border: 1px dashed var(--border); }
+.gl-def { margin: 4px 0 0; font-size: 14px; line-height: 1.65; }
+.gl-def strong { background: rgba(255, 214, 64, 0.45); padding: 0 2px; border-radius: 2px; }
+.gl-hiding .gl-def { filter: blur(6px); cursor: pointer; user-select: none; }
+.gl-hiding .gl-term.show .gl-def { filter: none; }
+@media (prefers-color-scheme: dark) {
+  .gl-def strong { background: rgba(255, 206, 64, 0.28); }
+}

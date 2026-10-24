@@ -30,7 +30,7 @@ jobs:
       # each copy points <base> one level up so assets and data resolve from the root
       - name: Tab pages
         run: |
-          for view in predict quiz wrong concepts notes stats; do
+          for view in predict glossary quiz wrong concepts notes stats; do
             mkdir -p "webapp/$view"
             sed 's|<base href="./" />|<base href="../" />|' webapp/index.html > "webapp/$view/index.html"
           done
