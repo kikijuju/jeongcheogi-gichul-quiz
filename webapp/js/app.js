@@ -1721,6 +1721,14 @@ function saveStudyDifficulty() {
   }
 }
 
+// last answer was wrong (the same rule the 오답노트 uses)
+function isWrongNow(q) {
+  const entry = state.progress[q.id];
+  return Boolean(entry && entry.lastResult === "wrong");
+}
+
+const studyWrongView = { predict: false, glossary: false };
+
 function scrollToId(id) {
   const target = document.getElementById(id);
   if (!target) return;
@@ -1744,8 +1752,12 @@ function renderStudyTab(spec) {
   const diffLabel = diffSet && diffSet.size ? ` (${DIFFICULTIES.filter((d) => diffSet.has(d)).join("·")}만)` : "";
   const groups = data.groups.map((g) => {
     const all = predictMembers(g);
-    return { ...g, all, members: all.filter(diffOk) };
+    const members = all.filter(diffOk);
+    return { ...g, all, members, wrong: members.filter(isWrongNow) };
   });
+  // 틀린 문제 모아보기: only the types/questions last answered wrong, with review cards
+  const wrongMode = Boolean(studyWrongView[spec.prefix]);
+  const wrongAll = groups.flatMap((g) => g.wrong);
   const recent = recentRoundKeys();
   const roundName = (key) => key.replace(/^20(\d\d)-(\d)$/, "$1년 $2회");
 
@@ -1780,6 +1792,13 @@ function renderStudyTab(spec) {
     <div class="note-actions">
       <button type="button" class="primary-btn predict-core"${core.length ? "" : " disabled"}>거의 확정·유력 유형 ${core.length}문제${diffLabel} 순서대로 풀기</button>
       <button type="button" class="secondary-btn predict-core-left${coreLeft.length && coreLeft.length < core.length ? "" : " hidden"}">못 맞힌 ${coreLeft.length}문제만</button>
+    </div>
+    <div class="predict-wrong${wrongMode ? " on" : ""}">
+      <span class="predict-wrong-label">${
+        wrongAll.length ? `❌ 틀린 문제 <b>${wrongAll.length}</b>개${diffLabel}` : "아직 틀린 문제가 없어요. 풀다가 틀리면 여기 유형별로 모여요."
+      }</span>
+      <button type="button" class="secondary-btn predict-wrong-view${wrongAll.length || wrongMode ? "" : " hidden"}" aria-pressed="${wrongMode}">${wrongMode ? "전체 보기로 돌아가기" : "틀린 문제 모아보기"}</button>
+      <button type="button" class="secondary-btn predict-wrong-start${wrongAll.length ? "" : " hidden"}">틀린 ${wrongAll.length}문제만 풀기</button>
     </div>`;
   if (diffSet) {
     const wrap = head.querySelector(".predict-diff .chip-group");
@@ -1802,6 +1821,13 @@ function renderStudyTab(spec) {
   }
   head.querySelector(".predict-core").addEventListener("click", () => startQuiz(core, { keepOrder: true }));
   head.querySelector(".predict-core-left").addEventListener("click", () => startQuiz(coreLeft, { keepOrder: true }));
+  head.querySelector(".predict-wrong-start").addEventListener("click", () => startQuiz(wrongAll, { keepOrder: true }));
+  head.querySelector(".predict-wrong-view").addEventListener("click", () => {
+    studyWrongView[spec.prefix] = !wrongMode;
+    spec.rerender();
+    const top = body.getBoundingClientRect().top + window.scrollY - document.querySelector(".topbar").offsetHeight - 12;
+    window.scrollTo(0, Math.max(0, top));
+  });
   body.appendChild(head);
 
   const toc = document.createElement("div");
@@ -1811,7 +1837,8 @@ function renderStudyTab(spec) {
     chip.type = "button";
     chip.className = "chip";
     chip.textContent = `${spec.groupLabel(g)} · ${g.title}`;
-    if (!g.members.length) chip.classList.add("hidden");
+    if (!g.members.length || (wrongMode && !g.wrong.length)) chip.classList.add("hidden");
+    if (wrongMode) chip.textContent += ` (${g.wrong.length})`;
     chip.addEventListener("click", () => scrollToId(`${spec.prefix}-${g.id}`));
     toc.appendChild(chip);
   });
@@ -1827,7 +1854,7 @@ function renderStudyTab(spec) {
     const card = document.createElement("div");
     card.className = "card note-section predict-group";
     card.id = `${spec.prefix}-${g.id}`;
-    if (!g.members.length) card.classList.add("hidden");
+    if (!g.members.length || (wrongMode && !g.wrong.length)) card.classList.add("hidden");
     card.innerHTML = `
       <div class="predict-title">
         <span class="predict-tier tier-${g.tier}">${PREDICT_TIER[g.tier] || ""}</span>
@@ -1845,11 +1872,13 @@ function renderStudyTab(spec) {
       <div class="note-actions">
         <button type="button" class="primary-btn">이 유형 ${g.members.length}문제${diffLabel} 풀기 (최신순)</button>
         <button type="button" class="secondary-btn${left.length && left.length < g.members.length ? "" : " hidden"}">못 맞힌 ${left.length}문제만</button>
-      </div>`;
+        <button type="button" class="secondary-btn predict-wrong-btn${g.wrong.length ? "" : " hidden"}">❌ 틀린 ${g.wrong.length}문제만</button>
+      </div>
+      ${wrongMode && g.wrong.length ? `<div class="note-examples-label predict-review-label">❌ 틀린 문제 ${g.wrong.length}개 — 다시 풀어 보고 정답 보기를 누르세요</div><div class="predict-review"></div>` : ""}`;
     enhanceCode(card, { category: g.lang || g.category });
 
     const qWrap = card.querySelector(".predict-qs");
-    g.members.forEach((q) => {
+    (wrongMode ? g.wrong : g.members).forEach((q) => {
       const entry = state.progress[q.id];
       const status = entry && entry.attempts > 0 ? (entry.lastResult === "correct" ? " is-correct" : " is-wrong") : "";
       const btn = document.createElement("button");
@@ -1861,9 +1890,17 @@ function renderStudyTab(spec) {
       btn.addEventListener("click", () => startQuiz([q], { keepOrder: true }));
       qWrap.appendChild(btn);
     });
-    const [allBtn, leftBtn] = card.querySelectorAll(".note-actions button");
+    const [allBtn, leftBtn, wrongBtn] = card.querySelectorAll(".note-actions button");
     allBtn.addEventListener("click", () => startQuiz(g.members, { keepOrder: true }));
     leftBtn.addEventListener("click", () => startQuiz(left, { keepOrder: true }));
+    wrongBtn.addEventListener("click", () => startQuiz(g.wrong, { keepOrder: true }));
+    const review = card.querySelector(".predict-review");
+    if (review) {
+      g.wrong.forEach((q) => {
+        const entry = state.progress[q.id];
+        review.appendChild(buildReviewCard(q, { badge: `❌ ${entry.attempts - entry.correct}번 틀림` }));
+      });
+    }
     body.appendChild(card);
   });
   if (spec.terms) applyGlossaryFilter(body);
@@ -1965,6 +2002,7 @@ function renderGlossary() {
     shareTotal: "이론 합계",
     detailTitle: "핵심 암기",
     terms: true,
+    rerender: renderGlossary,
   });
 }
 

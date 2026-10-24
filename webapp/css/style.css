@@ -1467,3 +1467,22 @@ body.no-pass-line .pass-line { display: none; }
 .predict-q-diff.diff-상 { color: var(--wrong-ink); }
 .predict-q-diff.diff-하 { color: var(--correct-ink); }
 .primary-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+/* 출제예상 · 용어집: 틀린 문제 모아보기 */
+.predict-wrong {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-top: 10px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  border: 1px solid var(--wrong-line);
+  background: var(--wrong-soft);
+}
+.predict-wrong-label { flex: 1 1 200px; font-size: 13.5px; color: var(--wrong-ink); }
+.predict-wrong .secondary-btn { font-weight: 600; }
+.predict-wrong .predict-wrong-view[aria-pressed="true"] { background: var(--wrong); color: #fff; border-color: var(--wrong); }
+.note-actions .predict-wrong-btn { color: var(--wrong-ink); }
+.predict-review-label { margin: 14px 0 10px; }
+.predict-review .review-card { margin-bottom: 12px; }
