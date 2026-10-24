@@ -1197,11 +1197,14 @@ function renderSummary() {
     </div>
     <div class="summary-actions">
       ${wrongCount > 0 ? `<button type="button" class="primary-btn summary-retry">❌ 틀린 ${wrongCount}문제 다시 풀기</button>` : ""}
+      ${done && !state.mock ? `<button type="button" class="secondary-btn summary-again">🔁 이 세트 섞어서 다시</button>` : ""}
       <button type="button" class="secondary-btn summary-home">홈으로</button>
     </div>
   `;
   const retry = card.querySelector(".summary-retry");
   if (retry) retry.addEventListener("click", () => startQuiz(state.queue.filter((q, idx) => state.results[idx] === "wrong")));
+  const again = card.querySelector(".summary-again");
+  if (again) again.addEventListener("click", () => startQuiz(shuffle(state.queue.slice()), { keepOrder: true }));
   card.querySelector(".summary-home").addEventListener("click", () => switchView("home"));
 }
 
@@ -1721,6 +1724,49 @@ function saveStudyDifficulty() {
   }
 }
 
+// 반복 세트: every question of some rounds/categories in one place, to loop
+// over until all of it is green
+function drillCard(drill) {
+  const qs = state.questions
+    .filter(drill.filter)
+    .sort((a, b) => b.year - a.year || b.round - a.round || a.number - b.number);
+  const tried = qs.filter((q) => state.progress[q.id] && state.progress[q.id].attempts > 0);
+  const right = qs.filter((q) => !notMastered(q));
+  const left = qs.filter(notMastered);
+  const wrong = qs.filter(isWrongNow);
+  const byCat = new Map();
+  qs.forEach((q) => byCat.set(q.category, (byCat.get(q.category) || 0) + 1));
+  const pct = qs.length ? Math.round((right.length / qs.length) * 100) : 0;
+
+  const card = document.createElement("div");
+  card.className = "card drill-card";
+  card.innerHTML = `
+    <h2>🔁 ${escapeText(drill.title)}</h2>
+    <p class="note-summary">${escapeText(drill.summary)}</p>
+    <p class="drill-cats">${Array.from(byCat.entries())
+      .sort((a, b) => b[1] - a[1])
+      .map(([cat, n]) => `${escapeText(cat)} ${n}`)
+      .join(" · ")}</p>
+    <div class="stat-bar-row drill-progress">
+      <span class="bar-label">맞힘</span>
+      <div class="stat-bar-track"><div class="stat-bar-fill" style="width:${pct}%"></div></div>
+      <span class="bar-count">${right.length}/${qs.length} (${pct}%) · 풀어봄 ${tried.length}</span>
+    </div>
+    <div class="note-actions">
+      <button type="button" class="primary-btn drill-shuffle">전체 ${qs.length}문제 섞어서 풀기</button>
+      <button type="button" class="secondary-btn drill-order">최신 회차 순서대로</button>
+    </div>
+    <div class="note-actions drill-more">
+      <button type="button" class="secondary-btn drill-left${left.length && left.length < qs.length ? "" : " hidden"}">못 맞힌 ${left.length}문제만</button>
+      <button type="button" class="secondary-btn drill-wrong${wrong.length ? "" : " hidden"}">❌ 틀린 ${wrong.length}문제만</button>
+    </div>`;
+  card.querySelector(".drill-shuffle").addEventListener("click", () => startQuiz(shuffle(qs.slice()), { keepOrder: true }));
+  card.querySelector(".drill-order").addEventListener("click", () => startQuiz(qs, { keepOrder: true }));
+  card.querySelector(".drill-left").addEventListener("click", () => startQuiz(shuffle(left.slice()), { keepOrder: true }));
+  card.querySelector(".drill-wrong").addEventListener("click", () => startQuiz(shuffle(wrong.slice()), { keepOrder: true }));
+  return card;
+}
+
 // last answer was wrong (the same rule the 오답노트 uses)
 function isWrongNow(q) {
   const entry = state.progress[q.id];
@@ -1760,6 +1806,8 @@ function renderStudyTab(spec) {
   const wrongAll = groups.flatMap((g) => g.wrong);
   const recent = recentRoundKeys();
   const roundName = (key) => key.replace(/^20(\d\d)-(\d)$/, "$1년 $2회");
+
+  if (spec.drill) body.appendChild(drillCard(spec.drill));
 
   // head: how big this area is lately, how to study, practise-all buttons
   const head = document.createElement("div");
@@ -2003,6 +2051,11 @@ function renderGlossary() {
     detailTitle: "핵심 암기",
     terms: true,
     rerender: renderGlossary,
+    drill: {
+      title: "2024~2026 이론·SQL 반복 세트",
+      summary: "C·Java·Python을 뺀 2024년 1회~2026년 2회의 개념·SQL 문제를 전부 모았어요. 섞어서 풀고, 끝나면 틀린 것만 다시 풀기를 반복해서 막대를 100%로 채우세요.",
+      filter: (q) => !["C", "Java", "Python"].includes(q.category) && q.year >= 2024 && q.year <= 2026,
+    },
   });
 }
 

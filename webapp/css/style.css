@@ -1486,3 +1486,12 @@ body.no-pass-line .pass-line { display: none; }
 .note-actions .predict-wrong-btn { color: var(--wrong-ink); }
 .predict-review-label { margin: 14px 0 10px; }
 .predict-review .review-card { margin-bottom: 12px; }
+
+/* 반복 세트 */
+.drill-card { border: 1.5px solid var(--accent); }
+.drill-card h2 { font-size: 18px; margin-bottom: 6px; }
+.drill-cats { margin: 0 0 10px; font-size: 13px; color: var(--text-muted); }
+.drill-progress { margin-bottom: 12px; }
+.drill-more { margin-top: 8px; }
+.drill-more .secondary-btn { flex: 1; font-weight: 600; }
+.drill-more .drill-wrong { color: var(--wrong-ink); }
