@@ -1,0 +1,136 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 322" role="img" aria-label="A RIGHT OUTER JOIN B 결과 4행 중 A.id가 NULL인 B의 id 3, 4 두 행만 남아 출력 2">
+<style>
+  text{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;fill:#1c1e21}
+  .m{fill:#666a70;font-size:12.5px}
+  .mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  .b{font-weight:700}
+  .acc{fill:#2f6feb}
+  .ok{fill:#1f7a4a}
+  .ng{fill:#b8403c}
+  .box{fill:#ffffff;stroke:#c9ced6;stroke-width:1.5}
+  .boxa{fill:#e8f0fe;stroke:#2f6feb;stroke-width:1.5}
+  .boxok{fill:#e4f6ec;stroke:#23935a;stroke-width:1.5}
+  .boxng{fill:#fdecec;stroke:#d64545;stroke-width:1.5}
+  .boxd{fill:#f0f1f3;stroke:#c9ced6;stroke-width:1.5}
+  .ln{stroke:#1c1e21;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+  .lna{stroke:#2f6feb;stroke-width:1.8;fill:none;marker-end:url(#arwA)}
+  .lnng{stroke:#d64545;stroke-width:1.6;fill:none;marker-end:url(#arwN)}
+  .plain{stroke:#c9ced6;stroke-width:1.5;fill:none}
+  .dash{stroke-dasharray:5 4}
+  .strike{stroke:#d64545;stroke-width:2}
+  .mk{fill:#1c1e21}.mka{fill:#2f6feb}.mkn{fill:#d64545}
+  @media (prefers-color-scheme: dark){
+    text{fill:#ecedee}
+    .m{fill:#9a9ea5}
+    .acc{fill:#5b8def}.ok{fill:#8edbad}.ng{fill:#f3a6a3}
+    .box{fill:#1f2227;stroke:#45494f}
+    .boxa{fill:#1b2a45;stroke:#5b8def}
+    .boxok{fill:#1d3428;stroke:#3ecb75}
+    .boxng{fill:#3f2427;stroke:#ef6b6b}
+    .boxd{fill:#2a2d33;stroke:#45494f}
+    .ln{stroke:#ecedee}.lna{stroke:#5b8def}.lnng{stroke:#ef6b6b}
+    .plain{stroke:#45494f}.strike{stroke:#ef6b6b}
+    .mk{fill:#ecedee}.mka{fill:#5b8def}.mkn{fill:#ef6b6b}
+  }
+</style>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mka" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mkn" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<text class="b" x="20" y="24" text-anchor="start">A</text>
+<rect class="boxd" x="20" y="32" width="50" height="26" rx="0"/>
+<text class="m b" x="45.0" y="50.0" text-anchor="middle">id</text>
+<rect class="boxd" x="70" y="32" width="50" height="26" rx="0"/>
+<text class="m b" x="95.0" y="50.0" text-anchor="middle">v</text>
+<rect class="box" x="20" y="58" width="50" height="26" rx="0"/>
+<text class="mono" x="45.0" y="76.0" text-anchor="middle">1</text>
+<rect class="box" x="70" y="58" width="50" height="26" rx="0"/>
+<text class="mono" x="95.0" y="76.0" text-anchor="middle">10</text>
+<rect class="box" x="20" y="84" width="50" height="26" rx="0"/>
+<text class="mono" x="45.0" y="102.0" text-anchor="middle">1</text>
+<rect class="box" x="70" y="84" width="50" height="26" rx="0"/>
+<text class="mono" x="95.0" y="102.0" text-anchor="middle">20</text>
+<rect class="boxd" x="20" y="110" width="50" height="26" rx="0"/>
+<text class="m mono" x="45.0" y="128.0" text-anchor="middle">2</text>
+<rect class="boxd" x="70" y="110" width="50" height="26" rx="0"/>
+<text class="m mono" x="95.0" y="128.0" text-anchor="middle">30</text>
+<line class="plain" x1="124" y1="123" x2="136" y2="123"/>
+<text class="ng" x="140" y="120" text-anchor="start" font-size="12.5">B에 짝 없음</text>
+<text class="ng" x="140" y="138" text-anchor="start" font-size="12.5">→ 왼쪽이라 탈락</text>
+<text class="b" x="20" y="184" text-anchor="start">B</text>
+<rect class="boxd" x="20" y="192" width="50" height="26" rx="0"/>
+<text class="m b" x="45.0" y="210.0" text-anchor="middle">id</text>
+<rect class="boxd" x="70" y="192" width="50" height="26" rx="0"/>
+<text class="m b" x="95.0" y="210.0" text-anchor="middle">w</text>
+<rect class="box" x="20" y="218" width="50" height="26" rx="0"/>
+<text class="mono" x="45.0" y="236.0" text-anchor="middle">1</text>
+<rect class="box" x="70" y="218" width="50" height="26" rx="0"/>
+<text class="mono" x="95.0" y="236.0" text-anchor="middle">100</text>
+<rect class="box" x="20" y="244" width="50" height="26" rx="0"/>
+<text class="mono" x="45.0" y="262.0" text-anchor="middle">3</text>
+<rect class="box" x="70" y="244" width="50" height="26" rx="0"/>
+<text class="mono" x="95.0" y="262.0" text-anchor="middle">300</text>
+<rect class="box" x="20" y="270" width="50" height="26" rx="0"/>
+<text class="mono" x="45.0" y="288.0" text-anchor="middle">4</text>
+<rect class="box" x="70" y="270" width="50" height="26" rx="0"/>
+<text class="mono" x="95.0" y="288.0" text-anchor="middle">400</text>
+<text class="b" x="260" y="24" text-anchor="start">① FROM A RIGHT OUTER JOIN B</text>
+<text class="m" x="260" y="44" text-anchor="start">B는 모두 유지, 짝 없으면 A 쪽 NULL</text>
+<rect class="boxd" x="260" y="56" width="56" height="28" rx="0"/>
+<text class="m b" x="288.0" y="75.0" text-anchor="middle">A.id</text>
+<rect class="boxd" x="316" y="56" width="56" height="28" rx="0"/>
+<text class="m b" x="344.0" y="75.0" text-anchor="middle">v</text>
+<rect class="boxd" x="372" y="56" width="56" height="28" rx="0"/>
+<text class="m b" x="400.0" y="75.0" text-anchor="middle">B.id</text>
+<rect class="boxd" x="428" y="56" width="56" height="28" rx="0"/>
+<text class="m b" x="456.0" y="75.0" text-anchor="middle">w</text>
+<rect class="boxd" x="484" y="56" width="92" height="28" rx="0"/>
+<text class="m b" x="530.0" y="75.0" text-anchor="middle">IS NULL?</text>
+<rect class="boxng" x="260" y="84" width="56" height="28" rx="0"/>
+<text class="mono" x="288.0" y="103.0" text-anchor="middle">1</text>
+<rect class="boxng" x="316" y="84" width="56" height="28" rx="0"/>
+<text class="mono" x="344.0" y="103.0" text-anchor="middle">10</text>
+<rect class="boxng" x="372" y="84" width="56" height="28" rx="0"/>
+<text class="mono" x="400.0" y="103.0" text-anchor="middle">1</text>
+<rect class="boxng" x="428" y="84" width="56" height="28" rx="0"/>
+<text class="mono" x="456.0" y="103.0" text-anchor="middle">100</text>
+<rect class="boxng" x="484" y="84" width="92" height="28" rx="0"/>
+<text class="ng b" x="530.0" y="103.0" text-anchor="middle">X</text>
+<rect class="boxng" x="260" y="112" width="56" height="28" rx="0"/>
+<text class="mono" x="288.0" y="131.0" text-anchor="middle">1</text>
+<rect class="boxng" x="316" y="112" width="56" height="28" rx="0"/>
+<text class="mono" x="344.0" y="131.0" text-anchor="middle">20</text>
+<rect class="boxng" x="372" y="112" width="56" height="28" rx="0"/>
+<text class="mono" x="400.0" y="131.0" text-anchor="middle">1</text>
+<rect class="boxng" x="428" y="112" width="56" height="28" rx="0"/>
+<text class="mono" x="456.0" y="131.0" text-anchor="middle">100</text>
+<rect class="boxng" x="484" y="112" width="92" height="28" rx="0"/>
+<text class="ng b" x="530.0" y="131.0" text-anchor="middle">X</text>
+<rect class="boxd" x="260" y="140" width="56" height="28" rx="0"/>
+<text class="m mono b" x="288.0" y="159.0" text-anchor="middle">NULL</text>
+<rect class="boxd" x="316" y="140" width="56" height="28" rx="0"/>
+<text class="m mono b" x="344.0" y="159.0" text-anchor="middle">NULL</text>
+<rect class="boxok" x="372" y="140" width="56" height="28" rx="0"/>
+<text class="mono" x="400.0" y="159.0" text-anchor="middle">3</text>
+<rect class="boxok" x="428" y="140" width="56" height="28" rx="0"/>
+<text class="mono" x="456.0" y="159.0" text-anchor="middle">300</text>
+<rect class="boxok" x="484" y="140" width="92" height="28" rx="0"/>
+<text class="ok b" x="530.0" y="159.0" text-anchor="middle">O</text>
+<rect class="boxd" x="260" y="168" width="56" height="28" rx="0"/>
+<text class="m mono b" x="288.0" y="187.0" text-anchor="middle">NULL</text>
+<rect class="boxd" x="316" y="168" width="56" height="28" rx="0"/>
+<text class="m mono b" x="344.0" y="187.0" text-anchor="middle">NULL</text>
+<rect class="boxok" x="372" y="168" width="56" height="28" rx="0"/>
+<text class="mono" x="400.0" y="187.0" text-anchor="middle">4</text>
+<rect class="boxok" x="428" y="168" width="56" height="28" rx="0"/>
+<text class="mono" x="456.0" y="187.0" text-anchor="middle">400</text>
+<rect class="boxok" x="484" y="168" width="92" height="28" rx="0"/>
+<text class="ok b" x="530.0" y="187.0" text-anchor="middle">O</text>
+<line class="strike" x1="256" y1="98.0" x2="580" y2="98.0"/>
+<line class="strike" x1="256" y1="126.0" x2="580" y2="126.0"/>
+<text class="b" x="260" y="222" text-anchor="start">② WHERE A.id IS NULL</text>
+<text class="m" x="260" y="242" text-anchor="start">→ B에만 있는 id 3, 4 두 행</text>
+<text class="b" x="260" y="274" text-anchor="start">③ COUNT(*) = 2</text>
+<text class="b acc" x="260" y="306" text-anchor="start">출력: 2</text>
+</svg>

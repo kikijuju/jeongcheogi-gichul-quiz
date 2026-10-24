@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 294" role="img" aria-label="AND를 먼저 묶어 행마다 판정하면 EMPNO 200 한 행만 남아 COUNT는 1">
+<style>
+  text{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;fill:#1c1e21}
+  .m{fill:#666a70;font-size:12.5px}
+  .mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  .b{font-weight:700}
+  .acc{fill:#2f6feb}
+  .ok{fill:#1f7a4a}
+  .ng{fill:#b8403c}
+  .box{fill:#ffffff;stroke:#c9ced6;stroke-width:1.5}
+  .boxa{fill:#e8f0fe;stroke:#2f6feb;stroke-width:1.5}
+  .boxok{fill:#e4f6ec;stroke:#23935a;stroke-width:1.5}
+  .boxng{fill:#fdecec;stroke:#d64545;stroke-width:1.5}
+  .boxd{fill:#f0f1f3;stroke:#c9ced6;stroke-width:1.5}
+  .ln{stroke:#1c1e21;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+  .lna{stroke:#2f6feb;stroke-width:1.8;fill:none;marker-end:url(#arwA)}
+  .lnng{stroke:#d64545;stroke-width:1.6;fill:none;marker-end:url(#arwN)}
+  .plain{stroke:#c9ced6;stroke-width:1.5;fill:none}
+  .dash{stroke-dasharray:5 4}
+  .strike{stroke:#d64545;stroke-width:2}
+  .mk{fill:#1c1e21}.mka{fill:#2f6feb}.mkn{fill:#d64545}
+  @media (prefers-color-scheme: dark){
+    text{fill:#ecedee}
+    .m{fill:#9a9ea5}
+    .acc{fill:#5b8def}.ok{fill:#8edbad}.ng{fill:#f3a6a3}
+    .box{fill:#1f2227;stroke:#45494f}
+    .boxa{fill:#1b2a45;stroke:#5b8def}
+    .boxok{fill:#1d3428;stroke:#3ecb75}
+    .boxng{fill:#3f2427;stroke:#ef6b6b}
+    .boxd{fill:#2a2d33;stroke:#45494f}
+    .ln{stroke:#ecedee}.lna{stroke:#5b8def}.lnng{stroke:#ef6b6b}
+    .plain{stroke:#45494f}.strike{stroke:#ef6b6b}
+    .mk{fill:#ecedee}.mka{fill:#5b8def}.mkn{fill:#ef6b6b}
+  }
+</style>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mka" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mkn" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<text class="b" x="20" y="24" text-anchor="start">① AND 먼저: (EMPNO &gt; 100 AND SAL &gt;= 3000) OR EMPNO = 200</text>
+<line class="plain" x1="164" y1="50" x2="414" y2="50"/>
+<line class="plain" x1="164" y1="50" x2="164" y2="56"/>
+<line class="plain" x1="414" y1="50" x2="414" y2="56"/>
+<text class="m acc" x="289.0" y="44" text-anchor="middle">괄호로 묶이는 부분</text>
+<rect class="boxd" x="22" y="60" width="70" height="26" rx="3"/>
+<text class="m b mono" x="57.0" y="78" text-anchor="middle">EMPNO</text>
+<rect class="boxd" x="92" y="60" width="70" height="26" rx="3"/>
+<text class="m b mono" x="127.0" y="78" text-anchor="middle">SAL</text>
+<rect class="boxd" x="162" y="60" width="94" height="26" rx="3"/>
+<text class="m b mono" x="209.0" y="78" text-anchor="middle">EMPNO&gt;100</text>
+<rect class="boxd" x="256" y="60" width="94" height="26" rx="3"/>
+<text class="m b mono" x="303.0" y="78" text-anchor="middle">SAL&gt;=3000</text>
+<rect class="boxd" x="350" y="60" width="66" height="26" rx="3"/>
+<text class="m b mono" x="383.0" y="78" text-anchor="middle">AND</text>
+<rect class="boxd" x="416" y="60" width="94" height="26" rx="3"/>
+<text class="m b mono" x="463.0" y="78" text-anchor="middle">EMPNO=200</text>
+<rect class="boxd" x="510" y="60" width="66" height="26" rx="3"/>
+<text class="m b mono" x="543.0" y="78" text-anchor="middle">OR</text>
+<rect class="boxng" x="22" y="86" width="70" height="28" rx="3"/>
+<text class="mono" x="57.0" y="105" text-anchor="middle">100</text>
+<rect class="boxng" x="92" y="86" width="70" height="28" rx="3"/>
+<text class="mono" x="127.0" y="105" text-anchor="middle">1000</text>
+<rect class="boxng" x="162" y="86" width="94" height="28" rx="3"/>
+<text class="ng" x="209.0" y="105" text-anchor="middle">거짓</text>
+<rect class="boxng" x="256" y="86" width="94" height="28" rx="3"/>
+<text class="ng" x="303.0" y="105" text-anchor="middle">거짓</text>
+<rect class="boxng" x="350" y="86" width="66" height="28" rx="3"/>
+<text class="ng" x="383.0" y="105" text-anchor="middle">거짓</text>
+<rect class="boxng" x="416" y="86" width="94" height="28" rx="3"/>
+<text class="ng" x="463.0" y="105" text-anchor="middle">거짓</text>
+<rect class="boxng" x="510" y="86" width="66" height="28" rx="3"/>
+<text class="ng" x="543.0" y="105" text-anchor="middle">거짓</text>
+<line class="strike" x1="18" y1="100.0" x2="580" y2="100.0"/>
+<rect class="boxok" x="22" y="114" width="70" height="28" rx="3"/>
+<text class="mono" x="57.0" y="133" text-anchor="middle">200</text>
+<rect class="boxok" x="92" y="114" width="70" height="28" rx="3"/>
+<text class="mono" x="127.0" y="133" text-anchor="middle">3000</text>
+<rect class="boxok" x="162" y="114" width="94" height="28" rx="3"/>
+<text class="ok b" x="209.0" y="133" text-anchor="middle">참</text>
+<rect class="boxok" x="256" y="114" width="94" height="28" rx="3"/>
+<text class="ok b" x="303.0" y="133" text-anchor="middle">참</text>
+<rect class="boxok" x="350" y="114" width="66" height="28" rx="3"/>
+<text class="ok b" x="383.0" y="133" text-anchor="middle">참</text>
+<rect class="boxok" x="416" y="114" width="94" height="28" rx="3"/>
+<text class="ok b" x="463.0" y="133" text-anchor="middle">참</text>
+<rect class="boxok" x="510" y="114" width="66" height="28" rx="3"/>
+<text class="ok b" x="543.0" y="133" text-anchor="middle">참</text>
+<rect class="boxng" x="22" y="142" width="70" height="28" rx="3"/>
+<text class="mono" x="57.0" y="161" text-anchor="middle">300</text>
+<rect class="boxng" x="92" y="142" width="70" height="28" rx="3"/>
+<text class="mono" x="127.0" y="161" text-anchor="middle">1500</text>
+<rect class="boxng" x="162" y="142" width="94" height="28" rx="3"/>
+<text class="ok b" x="209.0" y="161" text-anchor="middle">참</text>
+<rect class="boxng" x="256" y="142" width="94" height="28" rx="3"/>
+<text class="ng" x="303.0" y="161" text-anchor="middle">거짓</text>
+<rect class="boxng" x="350" y="142" width="66" height="28" rx="3"/>
+<text class="ng" x="383.0" y="161" text-anchor="middle">거짓</text>
+<rect class="boxng" x="416" y="142" width="94" height="28" rx="3"/>
+<text class="ng" x="463.0" y="161" text-anchor="middle">거짓</text>
+<rect class="boxng" x="510" y="142" width="66" height="28" rx="3"/>
+<text class="ng" x="543.0" y="161" text-anchor="middle">거짓</text>
+<line class="strike" x1="18" y1="156.0" x2="580" y2="156.0"/>
+<text class="m" x="300" y="196" text-anchor="middle">우선순위: NOT &gt; AND &gt; OR</text>
+<text class="b" x="20" y="236" text-anchor="start">② SELECT COUNT(*) — 남은 행: EMPNO 200 하나</text>
+<text class="b acc" x="300" y="276" text-anchor="middle">출력: 1</text>
+</svg>

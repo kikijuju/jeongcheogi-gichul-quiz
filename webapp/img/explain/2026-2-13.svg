@@ -1,0 +1,147 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 460" role="img" aria-label="상관 서브쿼리: A.x가 10이면 AVG가 NULL이라 제외, 20·30·40은 평균보다 커서 통과, 출력 3">
+<style>
+  text{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;fill:#1c1e21}
+  .m{fill:#666a70;font-size:12.5px}
+  .mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  .b{font-weight:700}
+  .acc{fill:#2f6feb}
+  .ok{fill:#1f7a4a}
+  .ng{fill:#b8403c}
+  .box{fill:#ffffff;stroke:#c9ced6;stroke-width:1.5}
+  .boxa{fill:#e8f0fe;stroke:#2f6feb;stroke-width:1.5}
+  .boxok{fill:#e4f6ec;stroke:#23935a;stroke-width:1.5}
+  .boxng{fill:#fdecec;stroke:#d64545;stroke-width:1.5}
+  .boxd{fill:#f0f1f3;stroke:#c9ced6;stroke-width:1.5}
+  .ln{stroke:#1c1e21;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+  .lna{stroke:#2f6feb;stroke-width:1.8;fill:none;marker-end:url(#arwA)}
+  .lnng{stroke:#d64545;stroke-width:1.6;fill:none;marker-end:url(#arwN)}
+  .plain{stroke:#c9ced6;stroke-width:1.5;fill:none}
+  .dash{stroke-dasharray:5 4}
+  .strike{stroke:#d64545;stroke-width:2}
+  .mk{fill:#1c1e21}.mka{fill:#2f6feb}.mkn{fill:#d64545}
+  @media (prefers-color-scheme: dark){
+    text{fill:#ecedee}
+    .m{fill:#9a9ea5}
+    .acc{fill:#5b8def}.ok{fill:#8edbad}.ng{fill:#f3a6a3}
+    .box{fill:#1f2227;stroke:#45494f}
+    .boxa{fill:#1b2a45;stroke:#5b8def}
+    .boxok{fill:#1d3428;stroke:#3ecb75}
+    .boxng{fill:#3f2427;stroke:#ef6b6b}
+    .boxd{fill:#2a2d33;stroke:#45494f}
+    .ln{stroke:#ecedee}.lna{stroke:#5b8def}.lnng{stroke:#ef6b6b}
+    .plain{stroke:#45494f}.strike{stroke:#ef6b6b}
+    .mk{fill:#ecedee}.mka{fill:#5b8def}.mkn{fill:#ef6b6b}
+  }
+</style>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mka" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mkn" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<text class="b" x="20" y="24" text-anchor="start">A</text>
+<text class="b" x="140" y="24" text-anchor="start">B</text>
+<rect class="boxd" x="20" y="32" width="46" height="24" rx="0"/>
+<text class="m b" x="43.0" y="49.0" text-anchor="middle">id</text>
+<rect class="boxd" x="66" y="32" width="46" height="24" rx="0"/>
+<text class="m b" x="89.0" y="49.0" text-anchor="middle">x</text>
+<rect class="box" x="20" y="56" width="46" height="24" rx="0"/>
+<text class="mono" x="43.0" y="73.0" text-anchor="middle">1</text>
+<rect class="box" x="66" y="56" width="46" height="24" rx="0"/>
+<text class="mono" x="89.0" y="73.0" text-anchor="middle">10</text>
+<rect class="box" x="20" y="80" width="46" height="24" rx="0"/>
+<text class="mono" x="43.0" y="97.0" text-anchor="middle">2</text>
+<rect class="box" x="66" y="80" width="46" height="24" rx="0"/>
+<text class="mono" x="89.0" y="97.0" text-anchor="middle">20</text>
+<rect class="box" x="20" y="104" width="46" height="24" rx="0"/>
+<text class="mono" x="43.0" y="121.0" text-anchor="middle">3</text>
+<rect class="box" x="66" y="104" width="46" height="24" rx="0"/>
+<text class="mono" x="89.0" y="121.0" text-anchor="middle">30</text>
+<rect class="box" x="20" y="128" width="46" height="24" rx="0"/>
+<text class="mono" x="43.0" y="145.0" text-anchor="middle">4</text>
+<rect class="box" x="66" y="128" width="46" height="24" rx="0"/>
+<text class="mono" x="89.0" y="145.0" text-anchor="middle">40</text>
+<rect class="boxd" x="140" y="32" width="46" height="24" rx="0"/>
+<text class="m b" x="163.0" y="49.0" text-anchor="middle">id</text>
+<rect class="boxd" x="186" y="32" width="46" height="24" rx="0"/>
+<text class="m b" x="209.0" y="49.0" text-anchor="middle">y</text>
+<rect class="box" x="140" y="56" width="46" height="24" rx="0"/>
+<text class="mono" x="163.0" y="73.0" text-anchor="middle">1</text>
+<rect class="box" x="186" y="56" width="46" height="24" rx="0"/>
+<text class="mono" x="209.0" y="73.0" text-anchor="middle">5</text>
+<rect class="box" x="140" y="80" width="46" height="24" rx="0"/>
+<text class="mono" x="163.0" y="97.0" text-anchor="middle">1</text>
+<rect class="box" x="186" y="80" width="46" height="24" rx="0"/>
+<text class="mono" x="209.0" y="97.0" text-anchor="middle">15</text>
+<rect class="box" x="140" y="104" width="46" height="24" rx="0"/>
+<text class="mono" x="163.0" y="121.0" text-anchor="middle">2</text>
+<rect class="box" x="186" y="104" width="46" height="24" rx="0"/>
+<text class="mono" x="209.0" y="121.0" text-anchor="middle">20</text>
+<rect class="box" x="140" y="128" width="46" height="24" rx="0"/>
+<text class="mono" x="163.0" y="145.0" text-anchor="middle">3</text>
+<rect class="box" x="186" y="128" width="46" height="24" rx="0"/>
+<text class="mono" x="209.0" y="145.0" text-anchor="middle">35</text>
+<rect class="boxd" x="140" y="152" width="46" height="24" rx="0"/>
+<text class="m mono" x="163.0" y="169.0" text-anchor="middle">5</text>
+<rect class="boxd" x="186" y="152" width="46" height="24" rx="0"/>
+<text class="m mono" x="209.0" y="169.0" text-anchor="middle">50</text>
+<text class="b" x="260" y="48" text-anchor="start">바깥 행(A.x)마다 서브쿼리를 다시 계산</text>
+<text class="m" x="260" y="76" text-anchor="start">① A2.x &lt; A.x 인 id 모으기</text>
+<text class="m" x="260" y="98" text-anchor="start">② 그 id를 가진 B.y의 평균 = AVG(y)</text>
+<text class="m" x="260" y="120" text-anchor="start">③ x &gt; AVG 인지 비교</text>
+<text class="m" x="260" y="168" text-anchor="start">B.id=5(50)는 A에 없어 한 번도 안 쓰임</text>
+<text class="b" x="20" y="210" text-anchor="start">④ 행마다 서브쿼리 → WHERE x &gt; AVG(y)</text>
+<rect class="boxd" x="20" y="222" width="60" height="28" rx="0"/>
+<text class="m b" x="50.0" y="241.0" text-anchor="middle">A.x</text>
+<rect class="boxd" x="80" y="222" width="130" height="28" rx="0"/>
+<text class="m b" x="145.0" y="241.0" text-anchor="middle">A2.x &lt; A.x 인 id</text>
+<rect class="boxd" x="210" y="222" width="130" height="28" rx="0"/>
+<text class="m b" x="275.0" y="241.0" text-anchor="middle">B.y</text>
+<rect class="boxd" x="340" y="222" width="90" height="28" rx="0"/>
+<text class="m b" x="385.0" y="241.0" text-anchor="middle">AVG(y)</text>
+<rect class="boxd" x="430" y="222" width="80" height="28" rx="0"/>
+<text class="m b" x="470.0" y="241.0" text-anchor="middle">x &gt; AVG</text>
+<rect class="boxng" x="20" y="250" width="60" height="28" rx="0"/>
+<text class="mono" x="50.0" y="269.0" text-anchor="middle">10</text>
+<rect class="boxng" x="80" y="250" width="130" height="28" rx="0"/>
+<text class="mono" x="145.0" y="269.0" text-anchor="middle">{ }</text>
+<rect class="boxng" x="210" y="250" width="130" height="28" rx="0"/>
+<text class="m" x="275.0" y="269.0" text-anchor="middle">없음</text>
+<rect class="boxd" x="340" y="250" width="90" height="28" rx="0"/>
+<text class="m mono b" x="385.0" y="269.0" text-anchor="middle">NULL</text>
+<rect class="boxng" x="430" y="250" width="80" height="28" rx="0"/>
+<text class="ng b" x="470.0" y="269.0" text-anchor="middle">X</text>
+<rect class="boxok" x="20" y="278" width="60" height="28" rx="0"/>
+<text class="mono" x="50.0" y="297.0" text-anchor="middle">20</text>
+<rect class="boxok" x="80" y="278" width="130" height="28" rx="0"/>
+<text class="mono" x="145.0" y="297.0" text-anchor="middle">{1}</text>
+<rect class="boxok" x="210" y="278" width="130" height="28" rx="0"/>
+<text class="mono" x="275.0" y="297.0" text-anchor="middle">5, 15</text>
+<rect class="boxok" x="340" y="278" width="90" height="28" rx="0"/>
+<text class="mono" x="385.0" y="297.0" text-anchor="middle">10</text>
+<rect class="boxok" x="430" y="278" width="80" height="28" rx="0"/>
+<text class="ok b" x="470.0" y="297.0" text-anchor="middle">O</text>
+<rect class="boxok" x="20" y="306" width="60" height="28" rx="0"/>
+<text class="mono" x="50.0" y="325.0" text-anchor="middle">30</text>
+<rect class="boxok" x="80" y="306" width="130" height="28" rx="0"/>
+<text class="mono" x="145.0" y="325.0" text-anchor="middle">{1, 2}</text>
+<rect class="boxok" x="210" y="306" width="130" height="28" rx="0"/>
+<text class="mono" x="275.0" y="325.0" text-anchor="middle">5, 15, 20</text>
+<rect class="boxok" x="340" y="306" width="90" height="28" rx="0"/>
+<text class="mono" x="385.0" y="325.0" text-anchor="middle">13.33</text>
+<rect class="boxok" x="430" y="306" width="80" height="28" rx="0"/>
+<text class="ok b" x="470.0" y="325.0" text-anchor="middle">O</text>
+<rect class="boxok" x="20" y="334" width="60" height="28" rx="0"/>
+<text class="mono" x="50.0" y="353.0" text-anchor="middle">40</text>
+<rect class="boxok" x="80" y="334" width="130" height="28" rx="0"/>
+<text class="mono" x="145.0" y="353.0" text-anchor="middle">{1, 2, 3}</text>
+<rect class="boxok" x="210" y="334" width="130" height="28" rx="0"/>
+<text class="mono" x="275.0" y="353.0" text-anchor="middle">5, 15, 20, 35</text>
+<rect class="boxok" x="340" y="334" width="90" height="28" rx="0"/>
+<text class="mono" x="385.0" y="353.0" text-anchor="middle">18.75</text>
+<rect class="boxok" x="430" y="334" width="80" height="28" rx="0"/>
+<text class="ok b" x="470.0" y="353.0" text-anchor="middle">O</text>
+<line class="strike" x1="16" y1="264.0" x2="514" y2="264.0"/>
+<text class="m" x="20" y="384" text-anchor="start">10 &gt; NULL → 알 수 없음(UNKNOWN) → 제외  (빈 집합 AVG는 0이 아님)</text>
+<text class="b" x="20" y="414" text-anchor="start">⑤ COUNT(*) = 남은 행 3개</text>
+<text class="b acc" x="20" y="444" text-anchor="start">출력: 3</text>
+</svg>
