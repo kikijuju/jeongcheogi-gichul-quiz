@@ -1376,3 +1376,46 @@ body.no-pass-line .pass-line { display: none; }
 .note-star-hint { margin: 8px 0 0; font-size: 12px; color: var(--text-muted); }
 .review-card .q-status { margin-left: auto; }
 .review-card .star-btn { margin-left: 4px; }
+
+/* ---------- 출제예상 ---------- */
+
+.predict-head h2 { font-size: 18px; margin-bottom: 6px; }
+.predict-share { font-variant-numeric: tabular-nums; }
+.predict-share td, .predict-share th { text-align: center; }
+.predict-guide { margin: 14px 0; }
+
+.predict-title { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin-bottom: 6px; }
+.predict-title h2 { margin: 0; }
+.predict-tier, .predict-lang {
+  font-size: 12px;
+  font-weight: 700;
+  border-radius: 999px;
+  padding: 2px 10px;
+  border: 1px solid var(--border);
+  background: var(--chip-bg);
+  color: var(--text-muted);
+}
+.predict-tier.tier-1 { background: var(--wrong-soft); color: var(--wrong-ink); border-color: var(--wrong-line); }
+.predict-tier.tier-2 { background: var(--chip-active-bg); color: var(--chip-active-text); border-color: var(--chip-active-bg); }
+.predict-meta { margin: 0 0 6px; font-size: 13px; color: var(--text-muted); }
+.predict-why { margin: 0 0 12px; font-size: 14px; line-height: 1.7; }
+
+.predict-detail { margin-bottom: 12px; border: 1px solid var(--border); border-radius: 8px; padding: 0 14px; }
+.predict-detail summary { cursor: pointer; padding: 10px 0; font-size: 14px; font-weight: 600; color: var(--accent); }
+.predict-detail .explain-body { padding-bottom: 14px; }
+
+.predict-qs { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.predict-q {
+  font: inherit;
+  font-size: 12.5px;
+  font-variant-numeric: tabular-nums;
+  padding: 4px 10px;
+  border-radius: 6px;
+  border: 1px solid var(--border);
+  background: var(--chip-bg);
+  color: var(--text);
+  cursor: pointer;
+}
+.predict-q:hover, .predict-q:focus-visible { border-color: var(--accent); outline: none; }
+.predict-q.is-correct { background: var(--correct-soft); color: var(--correct-ink); border-color: var(--correct-line); }
+.predict-q.is-wrong { background: var(--wrong-soft); color: var(--wrong-ink); border-color: var(--wrong-line); }

@@ -58,6 +58,11 @@ async function loadQuestions() {
   } catch (e) {
     state.lessons = [];
   }
+  try {
+    state.predictions = await (await fetch("data/predictions.json", { cache: "no-cache" })).json();
+  } catch (e) {
+    state.predictions = null;
+  }
   computeTopicFrequency();
 }
 
@@ -108,7 +113,7 @@ function byFrequency(a, b) {
 // writes a copy of index.html into each of those folders with <base href="../">,
 // and every copy freezes its base at the site root, so the relative pushState
 // URLs below and all asset paths resolve the same from any tab.
-const ROUTED_VIEWS = ["quiz", "wrong", "concepts", "notes", "stats"];
+const ROUTED_VIEWS = ["predict", "quiz", "wrong", "concepts", "notes", "stats"];
 
 function viewFromPath() {
   const segment = location.pathname.split("/").filter(Boolean).pop();
@@ -129,6 +134,7 @@ function switchView(view, { push = true } = {}) {
   if (view === "home") renderHome();
   if (view === "concepts") renderConcepts();
   if (view === "notes") renderNotes();
+  if (view === "predict") renderPredict();
   document.body.classList.toggle("quiz-active", view === "quiz");
   if (view === "quiz") document.querySelectorAll("#quiz-list .blank-input").forEach((f) => f.value && autoGrow(f));
 }
@@ -1648,6 +1654,137 @@ function renderNotes() {
         examples.forEach((q) => body.appendChild(buildReviewCard(q, { onStar: refreshStarred })));
       }
     });
+  });
+}
+
+// ---------- 출제예상 ----------
+
+// predictions.json groups the code questions (C/Java/Python) by the type we
+// expect next; a group is its topics plus hand-picked include/exclude ids.
+const PREDICT_TIER = { 1: "거의 확정", 2: "유력", 3: "대비" };
+const PREDICT_RECENT = 8; // rounds the "N회 출제" line looks back over
+const CODE_CATEGORIES = ["C", "Java", "Python"];
+
+function predictMembers(g) {
+  const include = new Set(g.include || []);
+  const exclude = new Set(g.exclude || []);
+  return state.questions
+    .filter((q) => !exclude.has(q.id) && (include.has(q.id) || (q.category === g.lang && (g.topics || []).includes(q.topic))))
+    .sort((a, b) => b.year - a.year || b.round - a.round || a.number - b.number);
+}
+
+function recentRoundKeys() {
+  return allRoundKeys().slice(0, PREDICT_RECENT).map(([key]) => key);
+}
+
+function notMastered(q) {
+  const entry = state.progress[q.id];
+  return !entry || entry.lastResult !== "correct";
+}
+
+function renderPredict() {
+  const body = document.getElementById("predict-body");
+  body.innerHTML = "";
+  const data = state.predictions;
+  if (!data || !data.groups) {
+    body.innerHTML = `<div class="card"><p class="empty-msg">출제예상 데이터를 불러오지 못했어요.</p></div>`;
+    return;
+  }
+  const groups = data.groups.map((g) => ({ ...g, members: predictMembers(g) }));
+  const recent = recentRoundKeys();
+  const roundName = (key) => key.replace(/^20(\d\d)-(\d)$/, "$1년 $2회");
+
+  // head: how big the code share is lately, how to study, practise-all buttons
+  const head = document.createElement("div");
+  head.className = "card predict-head";
+  const shareRows = recent
+    .slice()
+    .reverse()
+    .map((key) => {
+      const qs = state.questions.filter((q) => roundKey(q) === key);
+      const n = (cat) => qs.filter((q) => q.category === cat).length;
+      const code = CODE_CATEGORIES.reduce((sum, cat) => sum + n(cat), 0);
+      return `<tr><td>${roundName(key)}</td><td>${n("C")}</td><td>${n("Java")}</td><td>${n("Python")}</td><td><b>${code}</b> / ${qs.length}</td></tr>`;
+    })
+    .join("");
+  const core = groups.filter((g) => g.tier <= 2).flatMap((g) => g.members);
+  const coreLeft = core.filter(notMastered);
+  head.innerHTML = `
+    <h2>🎯 ${escapeText(data.target)} 코드 문제 출제예상</h2>
+    <p class="note-summary">${escapeText(data.basis)}</p>
+    <div class="ex-table-wrap"><table class="ex-table predict-share">
+      <thead><tr><th>회차</th><th>C</th><th>Java</th><th>Python</th><th>코드 합계</th></tr></thead>
+      <tbody>${shareRows}</tbody>
+    </table></div>
+    <div class="explain-body predict-guide">${renderExplanation(data.guide || "")}</div>
+    <div class="note-actions">
+      <button type="button" class="primary-btn predict-core">거의 확정·유력 유형 ${core.length}문제 순서대로 풀기</button>
+      <button type="button" class="secondary-btn predict-core-left${coreLeft.length && coreLeft.length < core.length ? "" : " hidden"}">못 맞힌 ${coreLeft.length}문제만</button>
+    </div>`;
+  head.querySelector(".predict-core").addEventListener("click", () => startQuiz(core, { keepOrder: true }));
+  head.querySelector(".predict-core-left").addEventListener("click", () => startQuiz(coreLeft, { keepOrder: true }));
+  body.appendChild(head);
+
+  const toc = document.createElement("div");
+  toc.className = "note-picker chip-group";
+  groups.forEach((g) => {
+    const chip = document.createElement("button");
+    chip.type = "button";
+    chip.className = "chip";
+    chip.textContent = `${g.lang} · ${g.title}`;
+    chip.addEventListener("click", () => {
+      const target = document.getElementById(`predict-${g.id}`);
+      const top = target.getBoundingClientRect().top + window.scrollY - document.querySelector(".topbar").offsetHeight - 12;
+      window.scrollTo({ top, behavior: "smooth" });
+    });
+    toc.appendChild(chip);
+  });
+  body.appendChild(toc);
+
+  groups.forEach((g) => {
+    const hits = recent.filter((key) => g.members.some((q) => roundKey(q) === key)).length;
+    const tried = g.members.filter((q) => state.progress[q.id] && state.progress[q.id].attempts > 0);
+    const right = g.members.filter((q) => !notMastered(q));
+    const left = g.members.filter(notMastered);
+
+    const card = document.createElement("div");
+    card.className = "card note-section predict-group";
+    card.id = `predict-${g.id}`;
+    card.innerHTML = `
+      <div class="predict-title">
+        <span class="predict-tier tier-${g.tier}">${PREDICT_TIER[g.tier] || ""}</span>
+        <span class="predict-lang">${escapeText(g.lang)}</span>
+        <h2>${escapeText(g.title)}</h2>
+      </div>
+      <p class="predict-meta">최근 ${recent.length}회 중 <b>${hits}회</b> 출제 · 기출 ${g.members.length}문제 · 맞힘 ${right.length} / 풀어봄 ${tried.length}</p>
+      <p class="predict-why">${escapeText(g.why)}</p>
+      <details class="predict-detail"${g.tier === 1 ? " open" : ""}>
+        <summary>핵심 정리</summary>
+        <div class="explain-body">${renderExplanation(g.body || "")}</div>
+      </details>
+      <div class="predict-qs" aria-label="이 유형의 기출 (초록 맞힘 · 빨강 틀림)"></div>
+      <div class="note-actions">
+        <button type="button" class="primary-btn">이 유형 ${g.members.length}문제 풀기 (최신순)</button>
+        <button type="button" class="secondary-btn${left.length && left.length < g.members.length ? "" : " hidden"}">못 맞힌 ${left.length}문제만</button>
+      </div>`;
+    enhanceCode(card, { category: g.lang });
+
+    const qWrap = card.querySelector(".predict-qs");
+    g.members.forEach((q) => {
+      const entry = state.progress[q.id];
+      const status = entry && entry.attempts > 0 ? (entry.lastResult === "correct" ? " is-correct" : " is-wrong") : "";
+      const btn = document.createElement("button");
+      btn.type = "button";
+      btn.className = "predict-q" + status;
+      btn.textContent = `${String(q.year).slice(2)}-${q.round}회 ${q.number}번`;
+      btn.title = `${roundLabel(q)} ${q.number}번 · ${q.topic || q.category}`;
+      btn.addEventListener("click", () => startQuiz([q], { keepOrder: true }));
+      qWrap.appendChild(btn);
+    });
+    const [allBtn, leftBtn] = card.querySelectorAll(".note-actions button");
+    allBtn.addEventListener("click", () => startQuiz(g.members, { keepOrder: true }));
+    leftBtn.addEventListener("click", () => startQuiz(left, { keepOrder: true }));
+    body.appendChild(card);
   });
 }
 
