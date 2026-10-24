@@ -1697,6 +1697,30 @@ function notMastered(q) {
   return !entry || entry.lastResult !== "correct";
 }
 
+// 난이도 filter per study tab, remembered per browser
+const DIFFICULTIES = ["하", "중", "상"];
+const STUDY_DIFF_KEY = "itq-study-difficulty-v1";
+const studyDifficulty = loadStudyDifficulty();
+
+function loadStudyDifficulty() {
+  let saved = {};
+  try {
+    saved = JSON.parse(localStorage.getItem(STUDY_DIFF_KEY)) || {};
+  } catch (e) {
+    saved = {};
+  }
+  const pick = (list) => new Set((Array.isArray(list) ? list : []).filter((d) => DIFFICULTIES.includes(d)));
+  return { predict: pick(saved.predict), glossary: pick(saved.glossary) };
+}
+
+function saveStudyDifficulty() {
+  try {
+    localStorage.setItem(STUDY_DIFF_KEY, JSON.stringify({ predict: [...studyDifficulty.predict], glossary: [...studyDifficulty.glossary] }));
+  } catch (e) {
+    /* ignore */
+  }
+}
+
 function scrollToId(id) {
   const target = document.getElementById(id);
   if (!target) return;
@@ -1713,7 +1737,15 @@ function renderStudyTab(spec) {
     body.innerHTML = `<div class="card"><p class="empty-msg">데이터를 불러오지 못했어요.</p></div>`;
     return;
   }
-  const groups = data.groups.map((g) => ({ ...g, members: predictMembers(g) }));
+  // an optional 난이도 filter narrows what each type offers to practise;
+  // "N회 출제" still counts every question of the type
+  const diffSet = spec.difficulty ? studyDifficulty[spec.prefix] : null;
+  const diffOk = (q) => !diffSet || diffSet.size === 0 || diffSet.has(q.difficulty);
+  const diffLabel = diffSet && diffSet.size ? ` (${DIFFICULTIES.filter((d) => diffSet.has(d)).join("·")}만)` : "";
+  const groups = data.groups.map((g) => {
+    const all = predictMembers(g);
+    return { ...g, all, members: all.filter(diffOk) };
+  });
   const recent = recentRoundKeys();
   const roundName = (key) => key.replace(/^20(\d\d)-(\d)$/, "$1년 $2회");
 
@@ -1740,10 +1772,34 @@ function renderStudyTab(spec) {
       <tbody>${shareRows}</tbody>
     </table></div>
     <div class="explain-body predict-guide">${renderExplanation(data.guide || "")}</div>
+    ${
+      diffSet
+        ? `<div class="filter-row predict-diff"><span class="filter-label">난이도</span><div class="chip-group"></div><span class="selected-count">${diffSet.size ? "고른 난이도 문제만 풀어요" : "아무것도 안 고르면 전체"}</span></div>`
+        : ""
+    }
     <div class="note-actions">
-      <button type="button" class="primary-btn predict-core">거의 확정·유력 유형 ${core.length}문제 순서대로 풀기</button>
+      <button type="button" class="primary-btn predict-core"${core.length ? "" : " disabled"}>거의 확정·유력 유형 ${core.length}문제${diffLabel} 순서대로 풀기</button>
       <button type="button" class="secondary-btn predict-core-left${coreLeft.length && coreLeft.length < core.length ? "" : " hidden"}">못 맞힌 ${coreLeft.length}문제만</button>
     </div>`;
+  if (diffSet) {
+    const wrap = head.querySelector(".predict-diff .chip-group");
+    const pool = groups.flatMap((g) => g.all);
+    DIFFICULTIES.forEach((d) => {
+      const chip = document.createElement("button");
+      chip.type = "button";
+      chip.className = "chip" + (diffSet.has(d) ? " active" : "");
+      chip.textContent = `${d} ${pool.filter((q) => q.difficulty === d).length}`;
+      chip.addEventListener("click", () => {
+        if (diffSet.has(d)) diffSet.delete(d);
+        else diffSet.add(d);
+        saveStudyDifficulty();
+        const y = window.scrollY;
+        spec.rerender();
+        window.scrollTo(0, y);
+      });
+      wrap.appendChild(chip);
+    });
+  }
   head.querySelector(".predict-core").addEventListener("click", () => startQuiz(core, { keepOrder: true }));
   head.querySelector(".predict-core-left").addEventListener("click", () => startQuiz(coreLeft, { keepOrder: true }));
   body.appendChild(head);
@@ -1755,6 +1811,7 @@ function renderStudyTab(spec) {
     chip.type = "button";
     chip.className = "chip";
     chip.textContent = `${spec.groupLabel(g)} · ${g.title}`;
+    if (!g.members.length) chip.classList.add("hidden");
     chip.addEventListener("click", () => scrollToId(`${spec.prefix}-${g.id}`));
     toc.appendChild(chip);
   });
@@ -1762,7 +1819,7 @@ function renderStudyTab(spec) {
   if (spec.terms) body.appendChild(glossaryToolbar(body));
 
   groups.forEach((g) => {
-    const hits = recent.filter((key) => g.members.some((q) => roundKey(q) === key)).length;
+    const hits = recent.filter((key) => g.all.some((q) => roundKey(q) === key)).length;
     const tried = g.members.filter((q) => state.progress[q.id] && state.progress[q.id].attempts > 0);
     const right = g.members.filter((q) => !notMastered(q));
     const left = g.members.filter(notMastered);
@@ -1770,6 +1827,7 @@ function renderStudyTab(spec) {
     const card = document.createElement("div");
     card.className = "card note-section predict-group";
     card.id = `${spec.prefix}-${g.id}`;
+    if (!g.members.length) card.classList.add("hidden");
     card.innerHTML = `
       <div class="predict-title">
         <span class="predict-tier tier-${g.tier}">${PREDICT_TIER[g.tier] || ""}</span>
@@ -1785,7 +1843,7 @@ function renderStudyTab(spec) {
       ${spec.terms && g.terms && g.terms.length ? glossaryTermsHtml(g.terms) : ""}
       <div class="predict-qs" aria-label="이 유형의 기출 (초록 맞힘 · 빨강 틀림)"></div>
       <div class="note-actions">
-        <button type="button" class="primary-btn">이 유형 ${g.members.length}문제 풀기 (최신순)</button>
+        <button type="button" class="primary-btn">이 유형 ${g.members.length}문제${diffLabel} 풀기 (최신순)</button>
         <button type="button" class="secondary-btn${left.length && left.length < g.members.length ? "" : " hidden"}">못 맞힌 ${left.length}문제만</button>
       </div>`;
     enhanceCode(card, { category: g.lang || g.category });
@@ -1798,6 +1856,7 @@ function renderStudyTab(spec) {
       btn.type = "button";
       btn.className = "predict-q" + status;
       btn.textContent = `${String(q.year).slice(2)}-${q.round}회 ${q.number}번`;
+      if (diffSet && q.difficulty) btn.insertAdjacentHTML("beforeend", ` <span class="predict-q-diff diff-${q.difficulty}">${q.difficulty}</span>`);
       btn.title = `${roundLabel(q)} ${q.number}번 · ${q.topic || q.category}`;
       btn.addEventListener("click", () => startQuiz([q], { keepOrder: true }));
       qWrap.appendChild(btn);
@@ -1820,6 +1879,8 @@ function renderPredict() {
     shareCols: [["C", ["C"]], ["Java", ["Java"]], ["Python", ["Python"]]],
     shareTotal: "코드 합계",
     detailTitle: "핵심 정리",
+    difficulty: true,
+    rerender: renderPredict,
   });
 }
 

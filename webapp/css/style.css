@@ -1460,3 +1460,10 @@ body.no-pass-line .pass-line { display: none; }
 @media (prefers-color-scheme: dark) {
   .gl-def strong { background: rgba(255, 206, 64, 0.28); }
 }
+
+/* 출제예상: 난이도 filter */
+.predict-diff { margin: 4px 0 12px; }
+.predict-q-diff { font-size: 11px; font-weight: 700; margin-left: 2px; opacity: 0.85; }
+.predict-q-diff.diff-상 { color: var(--wrong-ink); }
+.predict-q-diff.diff-하 { color: var(--correct-ink); }
+.primary-btn[disabled] { opacity: 0.5; cursor: not-allowed; }
