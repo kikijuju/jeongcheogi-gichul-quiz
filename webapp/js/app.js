@@ -1724,6 +1724,10 @@ function saveStudyDifficulty() {
   }
 }
 
+// 2026-2-8 already re-used 2024-2-12 (평균 대기 시간 6.5ms)
+const DRILL_ALREADY_REUSED = ["2024-2-12"];
+const DRILL_LONG_GAP_TOPICS = ["트랜잭션·회복·병행제어", "DCL·권한", "형상·버전관리", "UI·UX", "요구사항 분석", "프로세스·교착상태", "개발 방법론", "아키텍처·EAI·미들웨어"];
+
 // 반복 세트: every question of some rounds/categories in one place, to loop
 // over until all of it is green
 function drillCard(drill) {
@@ -1739,9 +1743,9 @@ function drillCard(drill) {
   const pct = qs.length ? Math.round((right.length / qs.length) * 100) : 0;
 
   const card = document.createElement("div");
-  card.className = "card drill-card";
+  card.className = `card drill-card${drill.variant ? ` drill-${drill.variant}` : ""}`;
   card.innerHTML = `
-    <h2>🔁 ${escapeText(drill.title)}</h2>
+    <h2>${drill.variant ? "" : "🔁 "}${escapeText(drill.title)}</h2>
     <p class="note-summary">${escapeText(drill.summary)}</p>
     <p class="drill-cats">${Array.from(byCat.entries())
       .sort((a, b) => b[1] - a[1])
@@ -1807,7 +1811,7 @@ function renderStudyTab(spec) {
   const recent = recentRoundKeys();
   const roundName = (key) => key.replace(/^20(\d\d)-(\d)$/, "$1년 $2회");
 
-  if (spec.drill) body.appendChild(drillCard(spec.drill));
+  (spec.drills || []).forEach((drill) => body.appendChild(drillCard(drill)));
 
   // head: how big this area is lately, how to study, practise-all buttons
   const head = document.createElement("div");
@@ -2051,11 +2055,31 @@ function renderGlossary() {
     detailTitle: "핵심 암기",
     terms: true,
     rerender: renderGlossary,
-    drill: {
-      title: "2024~2026 이론·SQL 반복 세트",
-      summary: "C·Java·Python을 뺀 2024년 1회~2026년 2회의 개념·SQL 문제를 전부 모았어요. 섞어서 풀고, 끝나면 틀린 것만 다시 풀기를 반복해서 막대를 100%로 채우세요.",
-      filter: (q) => !["C", "Java", "Python"].includes(q.category) && q.year >= 2024 && q.year <= 2026,
-    },
+    drills: [
+      {
+        title: "2024~2026 이론·SQL 반복 세트",
+        summary: "C·Java·Python을 뺀 2024년 1회~2026년 2회의 개념·SQL 문제를 전부 모았어요. 섞어서 풀고, 끝나면 틀린 것만 다시 풀기를 반복해서 막대를 100%로 채우세요.",
+        filter: (q) => !["C", "Java", "Python"].includes(q.category) && q.year >= 2024 && q.year <= 2026,
+      },
+      {
+        title: "🟠 재출제 후보 세트 (2024년 2·3회)",
+        summary:
+          "2026년 이론 26문제 중 12문제가 옛 기출을 다시 낸 문제였고, 26년 2회는 2024년 1회에서 4문제를 가져왔어요. 다음은 2024년 2·3회 차례일 가능성이 커서, 그 회차 이론 문제 중 아직 다시 안 나온 것을 모았어요. (추정이에요)",
+        filter: (q) =>
+          !["C", "Java", "Python"].includes(q.category) &&
+          q.year === 2024 &&
+          (q.round === 2 || q.round === 3) &&
+          !DRILL_ALREADY_REUSED.includes(q.id),
+        variant: "reuse",
+      },
+      {
+        title: "🟡 깜짝 출제 대비 세트",
+        summary:
+          "출제 범위에 있지만 4년 넘게 안 나온 주제(트랜잭션·회복, GRANT/REVOKE, 형상 관리, UI/UX, 요구사항, 교착 상태, 개발 방법론, EAI)의 기출이에요. 한 번씩만 훑어 두세요.",
+        filter: (q) => !["C", "Java", "Python"].includes(q.category) && DRILL_LONG_GAP_TOPICS.includes(q.topic),
+        variant: "gap",
+      },
+    ],
   });
 }
 

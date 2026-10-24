@@ -1495,3 +1495,6 @@ body.no-pass-line .pass-line { display: none; }
 .drill-more { margin-top: 8px; }
 .drill-more .secondary-btn { flex: 1; font-weight: 600; }
 .drill-more .drill-wrong { color: var(--wrong-ink); }
+.drill-card.drill-reuse { border-color: #d98a1f; }
+.drill-card.drill-gap { border-color: #c9a227; }
+.drill-card.drill-reuse h2, .drill-card.drill-gap h2 { font-size: 16px; }
