@@ -1,0 +1,62 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 318" role="img" aria-label="NullPointerException이 첫 catch에서 잡혀 1, 두 번째 catch는 건너뛰고 finally로 101">
+<style>
+  text{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;fill:#1c1e21}
+  .m{fill:#666a70;font-size:12.5px}
+  .mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  .b{font-weight:700}
+  .acc{fill:#2f6feb}
+  .ok{fill:#1f7a4a}
+  .ng{fill:#b8403c}
+  .box{fill:#ffffff;stroke:#c9ced6;stroke-width:1.5}
+  .boxa{fill:#e8f0fe;stroke:#2f6feb;stroke-width:1.5}
+  .boxok{fill:#e4f6ec;stroke:#23935a;stroke-width:1.5}
+  .boxng{fill:#fdecec;stroke:#d64545;stroke-width:1.5}
+  .boxd{fill:#f0f1f3;stroke:#c9ced6;stroke-width:1.5}
+  .ln{stroke:#1c1e21;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+  .lna{stroke:#2f6feb;stroke-width:1.8;fill:none;marker-end:url(#arwA)}
+  .lnng{stroke:#d64545;stroke-width:1.6;fill:none;marker-end:url(#arwN)}
+  .plain{stroke:#c9ced6;stroke-width:1.5;fill:none}
+  .dash{stroke-dasharray:5 4}
+  .strike{stroke:#d64545;stroke-width:2}
+  .mk{fill:#1c1e21}.mka{fill:#2f6feb}.mkn{fill:#d64545}
+  @media (prefers-color-scheme: dark){
+    text{fill:#ecedee}
+    .m{fill:#9a9ea5}
+    .acc{fill:#5b8def}.ok{fill:#8edbad}.ng{fill:#f3a6a3}
+    .box{fill:#1f2227;stroke:#45494f}
+    .boxa{fill:#1b2a45;stroke:#5b8def}
+    .boxok{fill:#1d3428;stroke:#3ecb75}
+    .boxng{fill:#3f2427;stroke:#ef6b6b}
+    .boxd{fill:#2a2d33;stroke:#45494f}
+    .ln{stroke:#ecedee}.lna{stroke:#5b8def}.lnng{stroke:#ef6b6b}
+    .plain{stroke:#45494f}.strike{stroke:#ef6b6b}
+    .mk{fill:#ecedee}.mka{fill:#5b8def}.mkn{fill:#ef6b6b}
+  }
+</style>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mka" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mkn" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<rect class="box" x="30" y="20" width="300" height="46" rx="6"/>
+<text class="mono" x="180" y="48" text-anchor="middle">try { func(); }</text>
+<line class="lnng" x1="150" y1="66" x2="150" y2="108"/>
+<text class="ng" x="162" y="92">NullPointerException 발생</text>
+<rect class="boxok" x="30" y="110" width="300" height="56" rx="6"/>
+<text class="mono" x="42" y="132">catch (NullPointerException e)</text>
+<text class="b mono ok" x="42" y="155">sum = 0 + 1 = 1</text>
+<line class="plain dash" x1="330" y1="138" x2="368" y2="138"/>
+<rect class="boxd" x="370" y="110" width="210" height="56" rx="6"/>
+<text class="mono m" x="382" y="132">catch (Exception e)</text>
+<text class="mono m" x="382" y="155">sum + 10</text>
+<line class="strike" x1="378" y1="151" x2="452" y2="151"/>
+<text class="ng" x="370" y="188">이미 잡힘 → 건너뜀</text>
+<line class="ln" x1="150" y1="166" x2="150" y2="204"/>
+<rect class="boxa" x="30" y="206" width="300" height="56" rx="6"/>
+<text class="mono" x="42" y="228">finally</text>
+<text class="m" x="112" y="228">항상 실행</text>
+<text class="b mono acc" x="42" y="251">sum = 1 + 100 = 101</text>
+<text class="m" x="370" y="228">catch는 위에서부터 하나만</text>
+<text class="m" x="370" y="251">finally는 예외와 무관</text>
+<text class="b acc" x="310" y="302" text-anchor="middle">출력: 101</text>
+</svg>

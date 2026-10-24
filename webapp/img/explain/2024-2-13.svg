@@ -1,0 +1,81 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 270" role="img" aria-label="포인터 배열 parr가 arr의 1행과 2행을 가리키고, 세 항 8, 9, 4를 더해 21 출력">
+<style>
+  text{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;fill:#1c1e21}
+  .m{fill:#666a70;font-size:12.5px}
+  .mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  .b{font-weight:700}
+  .acc{fill:#2f6feb}
+  .ok{fill:#1f7a4a}
+  .ng{fill:#b8403c}
+  .box{fill:#ffffff;stroke:#c9ced6;stroke-width:1.5}
+  .boxa{fill:#e8f0fe;stroke:#2f6feb;stroke-width:1.5}
+  .boxok{fill:#e4f6ec;stroke:#23935a;stroke-width:1.5}
+  .boxng{fill:#fdecec;stroke:#d64545;stroke-width:1.5}
+  .boxd{fill:#f0f1f3;stroke:#c9ced6;stroke-width:1.5}
+  .ln{stroke:#1c1e21;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+  .lna{stroke:#2f6feb;stroke-width:1.8;fill:none;marker-end:url(#arwA)}
+  .lnng{stroke:#d64545;stroke-width:1.6;fill:none;marker-end:url(#arwN)}
+  .plain{stroke:#c9ced6;stroke-width:1.5;fill:none}
+  .dash{stroke-dasharray:5 4}
+  .strike{stroke:#d64545;stroke-width:2}
+  .mk{fill:#1c1e21}.mka{fill:#2f6feb}.mkn{fill:#d64545}
+  @media (prefers-color-scheme: dark){
+    text{fill:#ecedee}
+    .m{fill:#9a9ea5}
+    .acc{fill:#5b8def}.ok{fill:#8edbad}.ng{fill:#f3a6a3}
+    .box{fill:#1f2227;stroke:#45494f}
+    .boxa{fill:#1b2a45;stroke:#5b8def}
+    .boxok{fill:#1d3428;stroke:#3ecb75}
+    .boxng{fill:#3f2427;stroke:#ef6b6b}
+    .boxd{fill:#2a2d33;stroke:#45494f}
+    .ln{stroke:#ecedee}.lna{stroke:#5b8def}.lnng{stroke:#ef6b6b}
+    .plain{stroke:#45494f}.strike{stroke:#ef6b6b}
+    .mk{fill:#ecedee}.mka{fill:#5b8def}.mkn{fill:#ef6b6b}
+  }
+</style>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mka" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mkn" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<text class="m mono" x="209" y="44" text-anchor="middle">[0]</text>
+<text class="m mono" x="265" y="44" text-anchor="middle">[1]</text>
+<text class="m mono" x="321" y="44" text-anchor="middle">[2]</text>
+<text class="mono m" x="152" y="77" text-anchor="middle">arr[0]</text>
+<rect class="boxd" x="184" y="52" width="50" height="40" rx="6"/>
+<text class="m mono" x="209" y="78" text-anchor="middle">1</text>
+<rect class="boxd" x="240" y="52" width="50" height="40" rx="6"/>
+<text class="m mono" x="265" y="78" text-anchor="middle">2</text>
+<rect class="boxd" x="296" y="52" width="50" height="40" rx="6"/>
+<text class="m mono" x="321" y="78" text-anchor="middle">3</text>
+<text class="mono" x="152" y="123" text-anchor="middle">arr[1]</text>
+<rect class="boxa" x="184" y="98" width="50" height="40" rx="6"/>
+<text class="b mono" x="209" y="124" text-anchor="middle">4</text>
+<text class="m acc" x="188" y="112" text-anchor="start">③</text>
+<rect class="box" x="240" y="98" width="50" height="40" rx="6"/>
+<text class="mono" x="265" y="124" text-anchor="middle">5</text>
+<rect class="box" x="296" y="98" width="50" height="40" rx="6"/>
+<text class="mono" x="321" y="124" text-anchor="middle">6</text>
+<text class="mono" x="152" y="169" text-anchor="middle">arr[2]</text>
+<rect class="box" x="184" y="144" width="50" height="40" rx="6"/>
+<text class="mono" x="209" y="170" text-anchor="middle">7</text>
+<rect class="boxa" x="240" y="144" width="50" height="40" rx="6"/>
+<text class="b mono" x="265" y="170" text-anchor="middle">8</text>
+<text class="m acc" x="244" y="158" text-anchor="start">①</text>
+<rect class="boxa" x="296" y="144" width="50" height="40" rx="6"/>
+<text class="b mono" x="321" y="170" text-anchor="middle">9</text>
+<text class="m acc" x="300" y="158" text-anchor="start">②</text>
+<text class="m" x="48" y="88" text-anchor="middle">포인터 배열</text>
+<rect class="box" x="10" y="100" width="76" height="36" rx="6"/>
+<text class="b mono" x="48" y="123" text-anchor="middle">parr[0]</text>
+<line class="lna" x1="86" y1="118" x2="120" y2="118"/>
+<rect class="box" x="10" y="146" width="76" height="36" rx="6"/>
+<text class="b mono" x="48" y="169" text-anchor="middle">parr[1]</text>
+<line class="lna" x1="86" y1="164" x2="120" y2="164"/>
+<text class="m ng" x="360" y="76" text-anchor="start">parr[0]은 arr[0]이 아니라 arr[1]</text>
+<text class="mono" x="360" y="123" text-anchor="start">③ **parr = arr[1][0] = 4</text>
+<text class="mono" x="360" y="160" text-anchor="start">① parr[1][1] = arr[2][1] = 8</text>
+<text class="mono" x="360" y="182" text-anchor="start">② *(parr[1]+2) = arr[2][2] = 9</text>
+<text class="m mono" x="310" y="226" text-anchor="middle">8 + 9 + 4</text>
+<text class="b acc" x="310" y="254" text-anchor="middle">출력: 21</text>
+</svg>

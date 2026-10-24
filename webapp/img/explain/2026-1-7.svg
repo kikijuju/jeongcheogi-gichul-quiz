@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 326" role="img" aria-label="컴파일 시점에 A 안의 f(Object)가 선택되고 실행 시점에 B의 오버라이딩 f(Object)가 실행되어 출력 2">
+<style>
+  text{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;fill:#1c1e21}
+  .m{fill:#666a70;font-size:12.5px}
+  .mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  .b{font-weight:700}
+  .acc{fill:#2f6feb}
+  .ok{fill:#1f7a4a}
+  .ng{fill:#b8403c}
+  .box{fill:#ffffff;stroke:#c9ced6;stroke-width:1.5}
+  .boxa{fill:#e8f0fe;stroke:#2f6feb;stroke-width:1.5}
+  .boxok{fill:#e4f6ec;stroke:#23935a;stroke-width:1.5}
+  .boxng{fill:#fdecec;stroke:#d64545;stroke-width:1.5}
+  .boxd{fill:#f0f1f3;stroke:#c9ced6;stroke-width:1.5}
+  .ln{stroke:#1c1e21;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+  .lna{stroke:#2f6feb;stroke-width:1.8;fill:none;marker-end:url(#arwA)}
+  .lnng{stroke:#d64545;stroke-width:1.6;fill:none;marker-end:url(#arwN)}
+  .plain{stroke:#c9ced6;stroke-width:1.5;fill:none}
+  .dash{stroke-dasharray:5 4}
+  .strike{stroke:#d64545;stroke-width:2}
+  .mk{fill:#1c1e21}.mka{fill:#2f6feb}.mkn{fill:#d64545}
+  @media (prefers-color-scheme: dark){
+    text{fill:#ecedee}
+    .m{fill:#9a9ea5}
+    .acc{fill:#5b8def}.ok{fill:#8edbad}.ng{fill:#f3a6a3}
+    .box{fill:#1f2227;stroke:#45494f}
+    .boxa{fill:#1b2a45;stroke:#5b8def}
+    .boxok{fill:#1d3428;stroke:#3ecb75}
+    .boxng{fill:#3f2427;stroke:#ef6b6b}
+    .boxd{fill:#2a2d33;stroke:#45494f}
+    .ln{stroke:#ecedee}.lna{stroke:#5b8def}.lnng{stroke:#ef6b6b}
+    .plain{stroke:#45494f}.strike{stroke:#ef6b6b}
+    .mk{fill:#ecedee}.mka{fill:#5b8def}.mkn{fill:#ef6b6b}
+  }
+</style>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mka" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mkn" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<rect class="box" x="20" y="14" width="580" height="38" rx="6"/>
+<text class="mono" x="310" y="38" text-anchor="middle">a.g()  →  A.g()  →  f("a")</text>
+<rect class="boxd" x="20" y="68" width="275" height="210" rx="8"/>
+<text class="b" x="34" y="92">① 컴파일 시점: 시그니처</text>
+<text class="m" x="34" y="114">호출 코드가 A 안 → A의 f만 후보</text>
+<rect class="boxok" x="36" y="130" width="243" height="40" rx="6"/>
+<text class="mono b" x="52" y="155">f(Object)</text>
+<text class="b ok" x="271" y="155" text-anchor="end">✓ 선택</text>
+<rect class="boxng" x="36" y="182" width="243" height="40" rx="6"/>
+<text class="mono" x="52" y="207">f(String)</text>
+<line class="strike" x1="48" y1="202" x2="128" y2="202"/>
+<text class="m" x="271" y="207" text-anchor="end">B에만 있음</text>
+<text class="b" x="34" y="258">→ f(Object)로 확정</text>
+<line class="lna" x1="297" y1="173" x2="323" y2="173"/>
+<rect class="boxd" x="325" y="68" width="275" height="210" rx="8"/>
+<text class="b" x="339" y="92">② 실행 시점: 오버라이딩</text>
+<text class="m" x="339" y="114">this = 실제 B 객체</text>
+<rect class="boxng" x="341" y="130" width="243" height="40" rx="6"/>
+<text class="mono" x="357" y="155">A.f(Object) → "1"</text>
+<line class="strike" x1="353" y1="150" x2="492" y2="150"/>
+<rect class="boxok" x="341" y="182" width="243" height="40" rx="6"/>
+<text class="mono b" x="357" y="207">B.f(Object) → "2"</text>
+<text class="b ok" x="576" y="207" text-anchor="end">✓</text>
+<text class="b" x="339" y="258">→ B.f(Object) 실행</text>
+<text class="b acc" x="310" y="310" text-anchor="middle">출력: 2</text>
+</svg>

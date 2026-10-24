@@ -650,6 +650,7 @@ function enhanceCode(container, q) {
 //   |a|b|                   table, first row is the header
 //   !함정 / !팁 / !암기 …     callouts
 //   !용어 이름: 설명          glossary, collected at the end
+//   !그림 id 캡션            diagram from img/explain/<id>.svg (themes itself via prefers-color-scheme)
 //   `code` and **bold** inline. Text is escaped first, so no raw HTML gets in.
 const CALLOUT_LABEL = { 함정: "⚠️ 함정", 팁: "💡 팁", 암기: "🧠 암기" };
 
@@ -665,7 +666,7 @@ function inlineMarkup(text) {
 
 function renderExplanation(source) {
   const lines = source.replace(/\r/g, "").split("\n");
-  const isSpecial = (t) => !t || /^(#개념|## |\d+\.\s|- |>|\||```|!(함정|팁|암기|용어)\s)/.test(t);
+  const isSpecial = (t) => !t || /^(#개념|## |\d+\.\s|- |>|\||```|!(함정|팁|암기|용어|그림)\s)/.test(t);
   let tags = [];
   const terms = [];
   let html = "";
@@ -714,6 +715,13 @@ function renderExplanation(source) {
       const space = t.indexOf(" ");
       const kind = t.slice(1, space);
       html += `<div class="ex-callout ex-${kind}"><b>${CALLOUT_LABEL[kind]}</b> ${inlineMarkup(t.slice(space + 1))}</div>`;
+      i++;
+    } else if (/^!그림 [\w-]+(\s|$)/.test(t)) {
+      const [, id, caption = ""] = t.match(/^!그림 ([\w-]+)\s*(.*)$/);
+      html +=
+        `<figure class="ex-figure"><div class="ex-figure-scroll"><img src="img/explain/${id}.svg" alt="${escapeText(caption || "해설 그림").replace(/"/g, "&quot;")}" loading="lazy" /></div>` +
+        (caption ? `<figcaption>${inlineMarkup(caption)}</figcaption>` : "") +
+        `</figure>`;
       i++;
     } else if (t.startsWith("!용어 ")) {
       terms.push(t.slice(4));

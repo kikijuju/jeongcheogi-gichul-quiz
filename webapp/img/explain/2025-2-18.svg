@@ -1,0 +1,86 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 600 296" role="img" aria-label="BEST를 한 글자씩 머리에 삽입해 T, S, E, B 순으로 연결되어 TSEB 출력">
+<style>
+  text{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;fill:#1c1e21}
+  .m{fill:#666a70;font-size:12.5px}
+  .mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  .b{font-weight:700}
+  .acc{fill:#2f6feb}
+  .ok{fill:#1f7a4a}
+  .ng{fill:#b8403c}
+  .box{fill:#ffffff;stroke:#c9ced6;stroke-width:1.5}
+  .boxa{fill:#e8f0fe;stroke:#2f6feb;stroke-width:1.5}
+  .boxok{fill:#e4f6ec;stroke:#23935a;stroke-width:1.5}
+  .boxng{fill:#fdecec;stroke:#d64545;stroke-width:1.5}
+  .boxd{fill:#f0f1f3;stroke:#c9ced6;stroke-width:1.5}
+  .ln{stroke:#1c1e21;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+  .lna{stroke:#2f6feb;stroke-width:1.8;fill:none;marker-end:url(#arwA)}
+  .lnng{stroke:#d64545;stroke-width:1.6;fill:none;marker-end:url(#arwN)}
+  .plain{stroke:#c9ced6;stroke-width:1.5;fill:none}
+  .dash{stroke-dasharray:5 4}
+  .strike{stroke:#d64545;stroke-width:2}
+  .mk{fill:#1c1e21}.mka{fill:#2f6feb}.mkn{fill:#d64545}
+  @media (prefers-color-scheme: dark){
+    text{fill:#ecedee}
+    .m{fill:#9a9ea5}
+    .acc{fill:#5b8def}.ok{fill:#8edbad}.ng{fill:#f3a6a3}
+    .box{fill:#1f2227;stroke:#45494f}
+    .boxa{fill:#1b2a45;stroke:#5b8def}
+    .boxok{fill:#1d3428;stroke:#3ecb75}
+    .boxng{fill:#3f2427;stroke:#ef6b6b}
+    .boxd{fill:#2a2d33;stroke:#45494f}
+    .ln{stroke:#ecedee}.lna{stroke:#5b8def}.lnng{stroke:#ef6b6b}
+    .plain{stroke:#45494f}.strike{stroke:#ef6b6b}
+    .mk{fill:#ecedee}.mka{fill:#5b8def}.mkn{fill:#ef6b6b}
+  }
+</style>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mka" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mkn" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<text class="b" x="20" y="30" text-anchor="start">① func("BEST"): *s++ 로 한 글자씩 읽음</text>
+<rect class="box" x="120" y="46" width="56" height="40" rx="6"/>
+<text class="b mono" x="148" y="72" text-anchor="middle">B</text>
+<text class="m" x="148" y="104" text-anchor="middle">①</text>
+<rect class="box" x="180" y="46" width="56" height="40" rx="6"/>
+<text class="b mono" x="208" y="72" text-anchor="middle">E</text>
+<text class="m" x="208" y="104" text-anchor="middle">②</text>
+<rect class="box" x="240" y="46" width="56" height="40" rx="6"/>
+<text class="b mono" x="268" y="72" text-anchor="middle">S</text>
+<text class="m" x="268" y="104" text-anchor="middle">③</text>
+<rect class="box" x="300" y="46" width="56" height="40" rx="6"/>
+<text class="b mono" x="328" y="72" text-anchor="middle">T</text>
+<text class="m" x="328" y="104" text-anchor="middle">④</text>
+<text class="b mono" x="70" y="72" text-anchor="middle">s</text>
+<line class="ln" x1="80" y1="67" x2="116" y2="67"/>
+<text class="m" x="370" y="104" text-anchor="start">읽은 순서</text>
+<text class="b" x="20" y="146" text-anchor="start">② 새 노드 n은 매번 h 앞에 붙음 (n-&gt;p = h; h = n;)</text>
+<text class="b mono" x="40" y="189" text-anchor="middle">h</text>
+<line class="ln" x1="52" y1="184" x2="78" y2="184"/>
+<rect class="boxa" x="80" y="164" width="64" height="40" rx="6"/>
+<line class="plain" x1="116" y1="164" x2="116" y2="204"/>
+<text class="b mono" x="98" y="189" text-anchor="middle">T</text>
+<text class="mono" x="130" y="189" text-anchor="middle">●</text>
+<line class="ln" x1="144" y1="184" x2="178" y2="184"/>
+<text class="m" x="112" y="224" text-anchor="middle">④ 삽입</text>
+<rect class="box" x="180" y="164" width="64" height="40" rx="6"/>
+<line class="plain" x1="216" y1="164" x2="216" y2="204"/>
+<text class="b mono" x="198" y="189" text-anchor="middle">S</text>
+<text class="mono" x="230" y="189" text-anchor="middle">●</text>
+<line class="ln" x1="244" y1="184" x2="278" y2="184"/>
+<text class="m" x="212" y="224" text-anchor="middle">③ 삽입</text>
+<rect class="box" x="280" y="164" width="64" height="40" rx="6"/>
+<line class="plain" x1="316" y1="164" x2="316" y2="204"/>
+<text class="b mono" x="298" y="189" text-anchor="middle">E</text>
+<text class="mono" x="330" y="189" text-anchor="middle">●</text>
+<line class="ln" x1="344" y1="184" x2="378" y2="184"/>
+<text class="m" x="312" y="224" text-anchor="middle">② 삽입</text>
+<rect class="box" x="380" y="164" width="64" height="40" rx="6"/>
+<line class="plain" x1="416" y1="164" x2="416" y2="204"/>
+<text class="b mono" x="398" y="189" text-anchor="middle">B</text>
+<text class="m mono" x="430" y="189" text-anchor="middle">∅</text>
+<text class="m" x="412" y="224" text-anchor="middle">① 삽입</text>
+<line class="lna" x1="80" y1="242" x2="440" y2="242"/>
+<text class="acc m" x="456" y="247" text-anchor="start">putchar 순서</text>
+<text class="b acc" x="20" y="282" text-anchor="start">출력: TSEB (입력의 역순)</text>
+</svg>

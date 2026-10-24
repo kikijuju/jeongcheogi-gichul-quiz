@@ -1,0 +1,75 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 620 368" role="img" aria-label="부모 생성자에서 total 2, Child.show로 6, 자식 생성자에서 18, 다시 Child.show로 54">
+<style>
+  text{font-family:-apple-system,"Segoe UI","Apple SD Gothic Neo","Malgun Gothic",sans-serif;font-size:14px;fill:#1c1e21}
+  .m{fill:#666a70;font-size:12.5px}
+  .mono{font-family:Consolas,"SFMono-Regular",Menlo,monospace}
+  .b{font-weight:700}
+  .acc{fill:#2f6feb}
+  .ok{fill:#1f7a4a}
+  .ng{fill:#b8403c}
+  .box{fill:#ffffff;stroke:#c9ced6;stroke-width:1.5}
+  .boxa{fill:#e8f0fe;stroke:#2f6feb;stroke-width:1.5}
+  .boxok{fill:#e4f6ec;stroke:#23935a;stroke-width:1.5}
+  .boxng{fill:#fdecec;stroke:#d64545;stroke-width:1.5}
+  .boxd{fill:#f0f1f3;stroke:#c9ced6;stroke-width:1.5}
+  .ln{stroke:#1c1e21;stroke-width:1.6;fill:none;marker-end:url(#arw)}
+  .lna{stroke:#2f6feb;stroke-width:1.8;fill:none;marker-end:url(#arwA)}
+  .lnng{stroke:#d64545;stroke-width:1.6;fill:none;marker-end:url(#arwN)}
+  .plain{stroke:#c9ced6;stroke-width:1.5;fill:none}
+  .dash{stroke-dasharray:5 4}
+  .strike{stroke:#d64545;stroke-width:2}
+  .mk{fill:#1c1e21}.mka{fill:#2f6feb}.mkn{fill:#d64545}
+  @media (prefers-color-scheme: dark){
+    text{fill:#ecedee}
+    .m{fill:#9a9ea5}
+    .acc{fill:#5b8def}.ok{fill:#8edbad}.ng{fill:#f3a6a3}
+    .box{fill:#1f2227;stroke:#45494f}
+    .boxa{fill:#1b2a45;stroke:#5b8def}
+    .boxok{fill:#1d3428;stroke:#3ecb75}
+    .boxng{fill:#3f2427;stroke:#ef6b6b}
+    .boxd{fill:#2a2d33;stroke:#45494f}
+    .ln{stroke:#ecedee}.lna{stroke:#5b8def}.lnng{stroke:#ef6b6b}
+    .plain{stroke:#45494f}.strike{stroke:#ef6b6b}
+    .mk{fill:#ecedee}.mka{fill:#5b8def}.mkn{fill:#ef6b6b}
+  }
+</style>
+<defs>
+  <marker id="arw" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mk" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mka" d="M0,0 L10,5 L0,10 z"/></marker>
+  <marker id="arwN" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path class="mkn" d="M0,0 L10,5 L0,10 z"/></marker>
+</defs>
+<text class="m" x="560" y="24" text-anchor="middle">total</text>
+<rect class="boxd" x="20" y="36" width="490" height="122" rx="8"/>
+<text class="b" x="34" y="58">① Parent() 생성자 먼저</text>
+<text class="mono" x="40" y="84">int v = 1</text>
+<text class="m" x="300" y="84">Parent.v = 1</text>
+<text class="m mono" x="560" y="84" text-anchor="middle">0</text>
+<text class="mono" x="40" y="110">total += (++v)</text>
+<text class="m" x="300" y="110">v → 2 후 +2</text>
+<rect class="boxa" x="530" y="94" width="60" height="21" rx="10"/>
+<text class="b mono acc" x="560" y="110" text-anchor="middle">2</text>
+<text class="mono" x="40" y="136">show() → Child.show()</text>
+<text class="m" x="300" y="136">+ total*2</text>
+<rect class="boxa" x="530" y="120" width="60" height="21" rx="10"/>
+<text class="b mono acc" x="560" y="136" text-anchor="middle">6</text>
+
+<line class="ln" x1="265" y1="158" x2="265" y2="170"/>
+<rect class="boxd" x="20" y="172" width="490" height="148" rx="8"/>
+<text class="b" x="34" y="194">② Child 필드 초기화 → Child() 본문</text>
+<text class="mono" x="40" y="220">int v = 10</text>
+<text class="m" x="300" y="220">Child.v = 10 (별개)</text>
+<text class="m mono" x="560" y="220" text-anchor="middle">6</text>
+<text class="mono" x="40" y="246">v += 2</text>
+<text class="m" x="300" y="246">Child.v = 12</text>
+<text class="m mono" x="560" y="246" text-anchor="middle">6</text>
+<text class="mono" x="40" y="272">total += v++</text>
+<text class="m" x="300" y="272">+12, 그 후 v = 13</text>
+<rect class="boxa" x="530" y="256" width="60" height="21" rx="10"/>
+<text class="b mono acc" x="560" y="272" text-anchor="middle">18</text>
+<text class="mono" x="40" y="298">show() → Child.show()</text>
+<text class="m" x="300" y="298">+ total*2</text>
+<rect class="boxa" x="530" y="282" width="60" height="21" rx="10"/>
+<text class="b mono acc" x="560" y="298" text-anchor="middle">54</text>
+
+<text class="b acc" x="310" y="352" text-anchor="middle">출력: 54</text>
+</svg>
